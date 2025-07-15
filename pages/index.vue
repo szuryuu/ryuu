@@ -10,12 +10,19 @@ useSeoMeta({
 </script>
 
 <template>
-  <main class="container mx-auto p-6">
-    <ContentRenderer
+  <main class="px-6 flex-1 items-end flex">
+    <!-- <ContentRenderer
       v-if="home"
       :value="home"
       class="prose prose-lg text-white"
     />
-    <div v-else class="text-red-500">Home not found</div>
+    <div v-else class="text-red-500">Home not found</div> -->
+
+    <div class="py-2">
+      <h5 class="pl-2 py-4 uppercase font-display text-xs">
+        full stack developer / cyber security / devops
+      </h5>
+      <h1 class="text-9xl font-display">Szuryu Ryujin</h1>
+    </div>
   </main>
 </template>

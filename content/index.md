@@ -1,8 +1,4 @@
 ---
-title: "Main"
+title: "Sz - Home"
 description: "Main page website"
 ---
-
-# Welcome
-
-i am szuryuu, a web developer.
