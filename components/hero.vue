@@ -16,13 +16,14 @@ const gradientClass = computed(() =>
     class="absolute top-0 right-0 bottom-0 -z-10 left-0 flex justify-center items-center"
     :class="gradientClass"
   >
-    <div class="flex items-start gap-0">
-      <div
-        class="upside dark:text-white text-2xl font-bold font-decoration flex-shrink-0"
-      >
+    <div class="flex items-start">
+      <div class="upside text-2xl font-bold font-decoration shrink-0">
         ポルトフォリオ
       </div>
-      <span class="font-display [writing-mode:vertical-lr]">(portofolio)</span>
+      <span
+        class="font-display [writing-mode:vertical-lr] text-xs uppercase px-1"
+        >portofolio</span
+      >
     </div>
   </div>
 </template>
