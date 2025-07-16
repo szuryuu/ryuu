@@ -9,3 +9,8 @@
   --font-display: "Marcellus", serif;
   --font-decoration: "Zen Old Mincho", serif;
 }
+
+.upside {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
