@@ -13,7 +13,7 @@ useSeoMeta({
 
 <template>
   <Hero />
-  <div class="px-6 items-end flex">
+  <div class="items-end flex w-full">
     <!-- <ContentRenderer
       v-if="home"
       :value="home"

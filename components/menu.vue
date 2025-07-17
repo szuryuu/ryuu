@@ -32,7 +32,11 @@ function closeMenu() {
 <template>
   <nav role="navigation" class="px-6">
     <ul class="w-full flex-1 flex flex-col justify-center items-center p-8">
-      <li v-for="item in navigationItems" :key="item.to" class="w-full">
+      <li
+        v-for="item in navigationItems"
+        :key="item.to"
+        class="w-full hover:pl-8 duration-300"
+      >
         <NuxtLink
           :to="item.to"
           class="flex items-center gap-8 p-4 rounded-lg transition-colors duration-200 hover:text-gray-400 w-full"
