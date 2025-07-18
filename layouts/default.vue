@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import Menu from "~/components/menu.vue";
+import Menu from "~/components/Menu.vue";
 
 const isOpen = ref(false);
 const isHovered = ref(false);

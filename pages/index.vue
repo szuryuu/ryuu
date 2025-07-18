@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Hero from "~/components/hero.vue";
+import Hero from "~/components/Hero.vue";
 
 const { data: home } = await useAsyncData(() =>
   queryCollection("content").path("/").first(),
