@@ -1,34 +1,57 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { gsap, ScrollTrigger } from "gsap/all";
 import ProjectList from "~/components/project/ProjectList.vue";
 
 gsap.registerPlugin(ScrollTrigger);
 
-onMounted(() => {
-  const panels = gsap.utils.toArray(".panel");
+const isScrolling = ref(false);
 
-  gsap.to(panels, {
-    xPercent: -(100 * (panels.length - 1)),
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".panel-container", // Container yang akan jadi trigger
-      start: "top top",
-      end: () => "+=" + 100 * panels.length + "%",
-      pin: ".panel-container", // Container yang akan di-pin
-      scrub: 0.5,
-      markers: true, // Hapus ini di production
+onMounted(() => {
+  ScrollTrigger.create({
+    trigger: "#project",
+    start: "left 90%",
+    end: "right 10%",
+    onEnter: () => {
+      isScrolling.value = true;
+    },
+    onLeave: () => {
+      isScrolling.value = false;
+    },
+    onEnterBack: () => {
+      isScrolling.value = true;
+    },
+    onLeaveBack: () => {
+      isScrolling.value = false;
     },
   });
+
+  gsap.fromTo(
+    "#title",
+    { opacity: 0, x: -200 },
+    { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
+  );
+
+  gsap.fromTo(
+    "#project",
+    { opacity: 0, x: -300 },
+    { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
+  );
+});
+
+onUnmounted(() => {
+  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 });
 </script>
 
 <template>
   <div
-    class="items-center justify-center w-full grid md:grid-cols-3 gap-4 panel-container"
+    class="items-center justify-center w-full grid gap-4 transition-all duration-500 ease-in-out overflow-auto"
+    :class="isScrolling ? 'md:grid-cols-5' : 'md:grid-cols-3'"
   >
     <div
-      class="flex justify-center items-center h-full md:col-span-1 col-span-full select-none panel"
+      id="title"
+      class="flex justify-center items-center h-full md:col-span-1 col-span-full select-none"
     >
       <div class="w-full md:px-12">
         <span>プロジェクト</span>
@@ -39,9 +62,13 @@ onMounted(() => {
       </div>
     </div>
     <div
-      class="flex justify-center items-center h-full md:col-span-2 col-span-full overflow-auto panel"
+      id="project"
+      class="flex justify-center items-center h-full col-span-full transition-all duration-500"
+      :class="isScrolling ? 'md:col-span-4' : 'md:col-span-2'"
     >
-      <ProjectList />
+      <div class="w-full">
+        <ProjectList />
+      </div>
     </div>
   </div>
 </template>

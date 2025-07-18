@@ -56,7 +56,7 @@ const projectList = {
 </script>
 
 <template>
-  <div class="flex gap-4 min-w-max">
+  <div class="flex space-x-12 min-w-max">
     <ProjectCard
       v-for="project in projectList.projects"
       :key="project.id"
