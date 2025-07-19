@@ -1,136 +1,63 @@
 <script setup lang="ts">
-import { onMounted, nextTick } from "vue";
-import { gsap, ScrollTrigger, ScrollToPlugin } from "gsap/all";
+import { onMounted, onUnmounted, nextTick } from "vue";
+import { gsap, ScrollTrigger } from "gsap/all";
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
+
+function initTriggers() {
+  // Set z-index
+  gsap.set(".panel", { zIndex: (i, target, targets) => targets.length - i });
+
+  // Create animation
+  gsap.to(".panel:not(:last-child)", {
+    yPercent: -100,
+    ease: "none",
+    stagger: 0.5,
+    scrollTrigger: {
+      trigger: "#panel-container",
+      start: "top top",
+      end: "+=300%",
+      scrub: true,
+      pin: true,
+      markers: true,
+    },
+  });
+}
 
 onMounted(async () => {
   await nextTick();
 
-  // Kill semua ScrollTrigger yang ada
-  ScrollTrigger.killAll();
+  setTimeout(() => {
+    initTriggers();
+    ScrollTrigger.refresh();
+  }, 100);
+});
 
-  const container = document.querySelector("#panel-container");
-  const panels = gsap.utils.toArray(".panel");
-
-  if (!container || panels.length === 0) return;
-
-  // Set initial state
-  gsap.set(panels, { xPercent: 0 });
-
-  // Buat animasi horizontal scroll
-  const horizontalScroll = gsap.to(panels, {
-    xPercent: -100 * (panels.length - 1),
-    ease: "none",
-    scrollTrigger: {
-      trigger: container,
-      pin: true,
-      scrub: 2, // Lebih lambat untuk testing
-      start: "top top",
-      end: () => "+=" + (container.offsetWidth - window.innerWidth),
-      invalidateOnRefresh: true,
-      anticipatePin: 1,
-      onUpdate: (self) => {
-        // Debug output
-        if (self.progress > 0.9) {
-          console.log("Mendekati akhir, progress:", self.progress);
-        }
-      },
-    },
-  });
-
-  // Anchor navigation
-  document.querySelectorAll(".anchor").forEach((anchor) => {
-    anchor.addEventListener("click", function (e) {
-      e.preventDefault();
-      const href = e.target.getAttribute("href");
-      if (!href) return;
-
-      const targetElem = document.querySelector(href);
-      if (!targetElem) return;
-
-      let scrollToY = targetElem.offsetTop;
-
-      // Jika target adalah panel, hitung posisi scroll yang tepat
-      if (targetElem.classList.contains("panel")) {
-        const panelIndex = panels.indexOf(targetElem);
-        const totalScroll =
-          horizontalScroll.scrollTrigger.end -
-          horizontalScroll.scrollTrigger.start;
-        const progress = panelIndex / (panels.length - 1);
-        scrollToY =
-          horizontalScroll.scrollTrigger.start + progress * totalScroll;
-      }
-
-      gsap.to(window, {
-        scrollTo: scrollToY,
-        duration: 1,
-        ease: "power2.inOut",
-      });
-    });
-  });
-
-  // Refresh setelah semua setup
-  ScrollTrigger.refresh();
+onUnmounted(() => {
+  ScrollTrigger.getAll().forEach((t: any) => t.kill());
 });
 </script>
 
 <template>
-  <div class="w-full">
-    <section class="anchor min-h-screen flex justify-center items-center">
-      anchor
+  <div id="panel-container" class="absolute top-0 left-0 w-full h-full">
+    <section class="panel bg-red-500">
+      <div class="text-6xl font-bold text-white">Panel 1</div>
     </section>
-    <section id="panels">
-      <div id="panel-container" class="flex h-screen overflow-hidden">
-        <div
-          id="panel-1"
-          class="flex justify-center items-center h-full select-none panel min-w-full"
-        >
-          <div class="w-full md:px-12">
-            <span>について</span>
-            <div class="flex gap-4">
-              <USeparator />
-              <span>About</span>
-            </div>
-          </div>
-        </div>
-        <div
-          id="panel-2"
-          class="flex justify-center items-center h-full select-none panel min-w-full"
-        >
-          <div class="w-full md:px-12">
-            <span>about</span>
-            <div class="flex gap-4">
-              <USeparator />
-              <span>About</span>
-            </div>
-          </div>
-        </div>
-        <div
-          id="panel-3"
-          class="flex justify-center items-center h-full select-none panel min-w-full"
-        >
-          <div class="w-full md:px-12">
-            <span>services</span>
-            <div class="flex gap-4">
-              <USeparator />
-              <span>Services</span>
-            </div>
-          </div>
-        </div>
-        <div
-          id="panel-4"
-          class="flex justify-center items-center h-full select-none panel min-w-full"
-        >
-          <div class="w-full md:px-12">
-            <span>about</span>
-            <div class="flex gap-4">
-              <USeparator />
-              <span>About</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section class="panel bg-yellow-400">
+      <div class="text-6xl font-bold text-white">Panel 2</div>
+    </section>
+    <section class="panel bg-yellow-400">
+      <div class="text-6xl font-bold text-white">Panel 3</div>
+    </section>
+    <section class="panel bg-yellow-400">
+      <div class="text-6xl font-bold text-white">Panel 3</div>
     </section>
   </div>
 </template>
+
+<style scoped>
+.panel {
+  position: absolute;
+  will-change: transform;
+}
+</style>

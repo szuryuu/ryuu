@@ -14,3 +14,13 @@
   writing-mode: vertical-rl;
   text-orientation: upright;
 }
+
+/* * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+} */

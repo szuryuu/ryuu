@@ -1,74 +1,81 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { gsap, ScrollTrigger } from "gsap/all";
 import ProjectList from "~/components/project/ProjectList.vue";
 
-gsap.registerPlugin(ScrollTrigger);
+const scroll_container = ref<HTMLElement | null>(null);
+const scroll_progress = ref(0);
 
-const isScrolling = ref(false);
+const scrollX = (e: WheelEvent) => {
+  e.preventDefault();
+  if (scroll_container.value) {
+    const sensitivity = 0.4;
+    let scrollAmount = 0;
+
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      scrollAmount = e.deltaX * sensitivity; // Trackpad horizontal scroll
+    } else {
+      scrollAmount = e.deltaY * sensitivity; // Mouse wheel/trackpad vertical scroll
+    }
+
+    scroll_container.value.scrollLeft += scrollAmount;
+  }
+};
+
+const calculateProgress = () => {
+  if (scroll_container.value) {
+    const scrollLeft = scroll_container.value.scrollLeft;
+    const scrollWidth = scroll_container.value.scrollWidth;
+    const progress = (scrollLeft / (scrollWidth - window.innerWidth)) * 100;
+    scroll_progress.value = progress;
+  }
+};
+
+const handleScroll = () => {
+  requestAnimationFrame(calculateProgress);
+};
 
 onMounted(() => {
-  ScrollTrigger.create({
-    trigger: "#project",
-    start: "left 90%",
-    end: "right 10%",
-    onEnter: () => {
-      isScrolling.value = true;
-    },
-    onLeave: () => {
-      isScrolling.value = false;
-    },
-    onEnterBack: () => {
-      isScrolling.value = true;
-    },
-    onLeaveBack: () => {
-      isScrolling.value = false;
-    },
-  });
-
-  gsap.fromTo(
-    "#title",
-    { opacity: 0, x: -200 },
-    { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
-  );
-
-  gsap.fromTo(
-    "#project",
-    { opacity: 0, x: -300 },
-    { opacity: 1, x: 0, duration: 1, ease: "power2.out" },
-  );
+  window.addEventListener("scroll", handleScroll);
 });
 
 onUnmounted(() => {
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
 <template>
-  <div
-    class="items-center justify-center w-full grid gap-4 transition-all duration-500 ease-in-out overflow-auto"
-    :class="isScrolling ? 'md:grid-cols-5' : 'md:grid-cols-3'"
-  >
+  <div class="flex flex-1 relative">
     <div
-      id="title"
-      class="flex justify-center items-center h-full md:col-span-1 col-span-full select-none"
+      ref="scroll_container"
+      class="items-center justify-center w-full grid gap-4 md:grid-cols-3 transition-all duration-500 overflow-auto"
+      @wheel="scrollX"
+      @scroll="handleScroll"
     >
-      <div class="w-full md:px-12">
-        <span>プロジェクト</span>
-        <div class="flex gap-4">
-          <USeparator />
-          <span>Project</span>
+      <div
+        id="title"
+        class="flex justify-center items-center h-full md:col-span-1 col-span-full select-none"
+        v-gsap.from="{ autoAlpha: 0, x: -200 }"
+      >
+        <div class="w-full md:px-12">
+          <span>プロジェクト</span>
+          <div class="flex gap-4">
+            <USeparator />
+            <span>Project</span>
+          </div>
+        </div>
+      </div>
+      <div
+        id="project"
+        class="flex justify-center items-center h-full md:col-span-2 col-span-full transition-all duration-500"
+      >
+        <div class="w-full">
+          <ProjectList />
         </div>
       </div>
     </div>
     <div
-      id="project"
-      class="flex justify-center items-center h-full col-span-full transition-all duration-500"
-      :class="isScrolling ? 'md:col-span-4' : 'md:col-span-2'"
-    >
-      <div class="w-full">
-        <ProjectList />
-      </div>
-    </div>
+      class="fixed bottom-0 left-0 h-0.5 bg-neutral-600 z-50 transition-all duration-150"
+      :style="{ width: `${scroll_progress}%` }"
+    />
   </div>
 </template>
