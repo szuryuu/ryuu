@@ -26,16 +26,16 @@ useSeoMeta({
     >
       <div class="md:col-span-2">
         <h5 class="pl-2 py-4 uppercase font-display text-xs">
-          full stack developer / cyber security / devops
+          full stack developer / cyber security
         </h5>
         <h1 class="text-8xl font-display">Szuryu Ryujin</h1>
       </div>
       <div
         class="text-xs overflow-hidden font-display md:col-span-1 md:block hidden text-right py-4"
       >
-        Full Stack Developer, Cyber Security Engineer, and DevOps Practitioner
-        focused on creating optimal software solutions that balance
-        functionality with user experience.
+        Full Stack Developer and Cyber Security Engineer dedicated to building
+        secure, high-performing software solutions with a strong emphasis on
+        functionality and reliability.
       </div>
     </div>
   </div>

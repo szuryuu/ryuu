@@ -14,7 +14,7 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
 
 <template>
   <div class="container mx-auto min-h-screen flex flex-col py-8">
-    <nav class="flex justify-between px-6">
+    <nav class="flex justify-between px-6 z-10">
       <h1 class="text-3xl font-display select-none">Szuryuu</h1>
       <UButton
         color="neutral"
