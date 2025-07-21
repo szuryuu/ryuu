@@ -1,21 +1,25 @@
 interface TimelineItem {
   title: string;
   description: string;
+  date: string;
 }
 
 export const useTimeline = () => {
   const timeline = ref<TimelineItem[]>([
     {
-      title: "2022",
-      description: "Started working as a Full Stack Developer",
+      title: "SIJA",
+      description: "Vocational school in software engineering",
+      date: "2022",
     },
     {
-      title: "2022",
-      description: "Graduated from University of XYZ",
+      title: "DBS Camp",
+      description: "Advanced web dev training",
+      date: "Jan 2025 – Apr 2025",
     },
     {
-      title: "2021",
-      description: "Started learning Cyber Security",
+      title: "Internship",
+      description: "Full Stack at Botika",
+      date: "Jul 2025 – Present",
     },
   ]);
 
