@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import { onMounted, nextTick, computed } from "vue";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { onMounted, nextTick, computed, ref } from "vue";
 import { useTimeline } from "~/composables/useTimeline";
-import ImageLayoutOne from "~/components/about/ImageLayoutOne.vue";
-import ImageLayoutTwo from "~/components/about/ImageLayoutTwo.vue";
-import ImageLayoutThree from "~/components/about/ImageLayoutThree.vue";
+import {
+  ImageLayoutOne,
+  ImageLayoutTwo,
+  ImageLayoutThree,
+} from "~/components/about";
 
 const { timeline } = useTimeline();
+const shouldAnimate = ref(false);
 
 const items = computed(() => {
   return timeline.value.map((item) => ({
@@ -16,6 +21,35 @@ const items = computed(() => {
 
 onMounted(async () => {
   await nextTick();
+
+  gsap.registerPlugin(ScrollTrigger);
+  console.log("gsap registered");
+
+  setTimeout(() => {
+    ScrollTrigger.create({
+      trigger: "#experience-section",
+      start: "top 80%",
+      end: "bottom 20%",
+      markers: true, // Tambahkan ini untuk debugging
+      onEnter: () => {
+        console.log("ScrollTrigger: enter");
+        shouldAnimate.value = true;
+      },
+      onLeave: () => {
+        console.log("ScrollTrigger: leave");
+      },
+      onEnterBack: () => {
+        console.log("ScrollTrigger: enter back");
+        shouldAnimate.value = true;
+      },
+      onLeaveBack: () => {
+        console.log("ScrollTrigger: leave back");
+      },
+    });
+
+    // Refresh ScrollTrigger setelah setup
+    ScrollTrigger.refresh();
+  }, 100);
 });
 </script>
 
@@ -24,6 +58,7 @@ onMounted(async () => {
     class="w-full min-h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth"
   >
     <section
+      id="intro-section"
       class="h-full snap-start snap-always flex items-center justify-center"
     >
       <div class="flex flex-col w-full items-center justify-center">
@@ -42,12 +77,13 @@ onMounted(async () => {
     </section>
 
     <section
+      id="experience-section"
       class="h-full snap-start snap-always flex items-center justify-center w-full"
     >
       <div class="grid grid-cols-2 gap-4 w-full">
         <div class="flex justify-center items-center px-12 relative">
           <!-- Layout 1 -->
-          <ImageLayoutOne />
+          <ImageLayoutOne :should-animate="shouldAnimate" />
           <!-- Layout 2 -->
           <ImageLayoutTwo class="hidden" />
           <!-- Layout 3 -->

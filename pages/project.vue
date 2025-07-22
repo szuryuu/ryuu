@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import gsap from "gsap";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import ProjectList from "~/components/project/ProjectList.vue";
 
 const scroll_container = ref<HTMLElement | null>(null);
@@ -34,8 +35,17 @@ const handleScroll = () => {
   requestAnimationFrame(calculateProgress);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick();
+
   window.addEventListener("scroll", handleScroll);
+
+  gsap.from("#title", {
+    autoAlpha: 0,
+    x: -200,
+    duration: 1,
+    ease: "power2.out",
+  });
 });
 
 onUnmounted(() => {
@@ -54,7 +64,6 @@ onUnmounted(() => {
       <div
         id="title"
         class="flex justify-center items-center h-full md:col-span-1 col-span-full select-none"
-        v-gsap.from="{ autoAlpha: 0, x: -200 }"
       >
         <div class="w-full md:px-12">
           <span>プロジェクト</span>
