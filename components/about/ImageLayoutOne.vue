@@ -62,8 +62,11 @@ onMounted(async () => {
   watch(
     () => props.shouldAnimate,
     (newValue) => {
-      if (newValue && animationTimeline) {
+      if (!animationTimeline) return;
+      if (newValue) {
         animationTimeline.play();
+      } else {
+        animationTimeline.reverse();
       }
     },
   );

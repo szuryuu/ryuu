@@ -30,11 +30,13 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
       </UButton>
     </nav>
 
-    <div class="container mx-auto flex flex-col pt-24">
-      <Menu v-if="isOpen" class="flex flex-1" @close="isOpen = false" />
-      <main v-if="!isOpen" class="flex-1 flex px-6">
-        <slot />
-      </main>
+    <div class="flex flex-col flex-1 pt-24">
+      <div class="container mx-auto flex flex-col flex-1">
+        <Menu v-if="isOpen" class="flex-1 flex" @close="isOpen = false" />
+        <main v-if="!isOpen" class="flex-1 flex px-6 overflow-hidden">
+          <slot />
+        </main>
+      </div>
     </div>
   </div>
 </template>
