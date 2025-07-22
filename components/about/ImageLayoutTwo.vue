@@ -24,50 +24,59 @@ const props = defineProps<{
   shouldAnimate: boolean;
 }>();
 
-let animationTimeline: gsap.core.Timeline;
+let inTimeline: gsap.core.Timeline;
+let outTimeline: gsap.core.Timeline;
 
 onMounted(async () => {
   await nextTick();
 
-  animationTimeline = gsap.timeline({ paused: true });
-
-  animationTimeline
+  inTimeline = gsap.timeline({ paused: true });
+  inTimeline
     .from("#image-0", {
       autoAlpha: 0,
-      x: -200,
+      x: -50,
       duration: 1,
       ease: "power2.out",
     })
     .from(
       "#image-1",
-      {
-        autoAlpha: 0,
-        y: -200,
-        duration: 1,
-        ease: "power2.out",
-      },
+      { autoAlpha: 0, y: -50, duration: 1, ease: "power2.out" },
       "-=0.5",
     )
     .from(
       "#image-2",
-      {
-        autoAlpha: 0,
-        y: 200,
-        duration: 1,
-        ease: "power2.out",
-      },
+      { autoAlpha: 0, y: 50, duration: 1, ease: "power2.out" },
       "-=0.5",
     );
 
-  watch(
-    () => props.shouldAnimate,
-    (newValue) => {
-      if (newValue && animationTimeline) {
-        animationTimeline.play();
-      }
-    },
-  );
+  outTimeline = gsap.timeline({ paused: true });
+  outTimeline
+    .to("#image-2", { autoAlpha: 0, y: 100, duration: 0.5, ease: "power2.in" })
+    .to(
+      "#image-1",
+      { autoAlpha: 0, y: -100, duration: 0.5, ease: "power2.in" },
+      "-=0.3",
+    )
+    .to(
+      "#image-0",
+      { autoAlpha: 0, x: 100, duration: 0.5, ease: "power2.in" },
+      "-=0.3",
+    );
 });
+
+watch(
+  () => props.shouldAnimate,
+  (val) => {
+    if (!inTimeline || !outTimeline) return;
+    if (val) {
+      outTimeline.pause(0);
+      inTimeline.restart();
+    } else {
+      inTimeline.pause(0);
+      outTimeline.restart();
+    }
+  },
+);
 </script>
 
 <template>

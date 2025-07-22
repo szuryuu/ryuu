@@ -69,10 +69,10 @@ watch(
   (val) => {
     if (!inTimeline || !outTimeline) return;
     if (val) {
-      outTimeline.pause(0); // reset out
+      outTimeline.pause(0);
       inTimeline.restart();
     } else {
-      inTimeline.pause(0); // reset in
+      inTimeline.pause(0);
       outTimeline.restart();
     }
   },

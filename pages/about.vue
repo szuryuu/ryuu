@@ -7,6 +7,7 @@ import {
   ImageLayoutOne,
   ImageLayoutTwo,
   ImageLayoutThree,
+  Intro,
 } from "~/components/about";
 
 const { timeline } = useTimeline();
@@ -18,7 +19,9 @@ const items = computed(() => {
   }));
 });
 
+const timelineValue = ref(0);
 const shouldAnimate = ref(false);
+const currentLayout = ref(1);
 
 onMounted(async () => {
   await nextTick();
@@ -63,6 +66,25 @@ onMounted(async () => {
     trigger: "#experience-section",
     start: "top 80%",
     end: "bottom 20%",
+    scrub: true,
+    onUpdate: (self) => {
+      const progress = self.progress;
+
+      if (progress < 0.333) {
+        currentLayout.value = 1;
+      } else if (progress < 0.666) {
+        currentLayout.value = 2;
+      } else {
+        currentLayout.value = 3;
+      }
+
+      console.log("Progress:", progress);
+      console.log("Current Layout:", currentLayout.value);
+      console.log("Timeline Value:", timelineValue.value);
+      console.log("Current Layout:", items.value.length);
+
+      timelineValue.value = Math.floor(currentLayout.value - 1);
+    },
     onEnter: () => {
       console.log("ScrollTrigger: enter");
       shouldAnimate.value = true;
@@ -95,19 +117,7 @@ onUnmounted(() => {
       id="intro-section"
       class="min-h-screen flex items-center justify-center panel"
     >
-      <div class="flex flex-col w-full items-center justify-center">
-        <div class="w-full md:px-12">
-          <span>プロジェクト</span>
-          <div class="flex gap-4">
-            <USeparator />
-            <span>Project</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex flex-col w-full items-center justify-center">
-        <div class="flex flex-col px-12">hallo</div>
-      </div>
+      <!-- <Intro /> -->
     </section>
 
     <section
@@ -117,16 +127,23 @@ onUnmounted(() => {
       <div class="grid grid-cols-2 gap-4 w-full">
         <div class="flex justify-center items-center px-12 relative">
           <!-- Layout 1 -->
-          <ImageLayoutOne :should-animate="shouldAnimate" />
+          <ImageLayoutOne
+            v-if="currentLayout === 1"
+            :should-animate="shouldAnimate"
+          />
           <!-- Layout 2 -->
-          <!-- <ImageLayoutTwo :should-animate="shouldAnimate" class="hidden" /> -->
+          <ImageLayoutTwo
+            v-else-if="currentLayout === 2"
+            :should-animate="shouldAnimate"
+          />
           <!-- Layout 3 -->
-          <ImageLayoutThree class="hidden" />
+          <ImageLayoutThree v-else :should-animate="shouldAnimate" />
         </div>
 
         <div class="flex justify-center items-center">
           <UTimeline
             :items="items"
+            :default-value="timelineValue"
             :ui="{
               item: 'even:flex-row-reverse even:-translate-x-[calc(100%-2rem)] even:text-right',
             }"
