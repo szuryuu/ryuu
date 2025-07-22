@@ -10,7 +10,6 @@ import {
 } from "~/components/about";
 
 const { timeline } = useTimeline();
-const shouldAnimate = ref(false);
 
 const items = computed(() => {
   return timeline.value.map((item) => ({
@@ -19,18 +18,51 @@ const items = computed(() => {
   }));
 });
 
+const shouldAnimate = ref(false);
+
 onMounted(async () => {
   await nextTick();
 
   gsap.registerPlugin(ScrollTrigger);
   console.log("gsap registered");
 
+  let panels = gsap.utils.toArray(".panel") as HTMLElement[];
+  let tops = panels.map((panel) =>
+    ScrollTrigger.create({ trigger: panel, start: "top top" }),
+  );
+
+  panels.forEach((panel, i) => {
+    ScrollTrigger.create({
+      trigger: panel,
+      start: () =>
+        panel.offsetHeight < window.innerHeight ? "top top" : "bottom bottom",
+      pin: true,
+      pinSpacing: false,
+    });
+  });
+
+  ScrollTrigger.create({
+    snap: {
+      snapTo: (progress, self) => {
+        if (!self) return 0;
+
+        let panelStarts = tops.map((st) => st.start),
+          snapScroll = gsap.utils.snap(panelStarts, self.scroll());
+        return gsap.utils.normalize(
+          0,
+          ScrollTrigger.maxScroll(window),
+          snapScroll,
+        );
+      },
+      duration: 0.5,
+    },
+  });
+
   setTimeout(() => {
     ScrollTrigger.create({
       trigger: "#experience-section",
       start: "top 80%",
       end: "bottom 20%",
-      markers: true, // Tambahkan ini untuk debugging
       onEnter: () => {
         console.log("ScrollTrigger: enter");
         shouldAnimate.value = true;
@@ -47,19 +79,16 @@ onMounted(async () => {
       },
     });
 
-    // Refresh ScrollTrigger setelah setup
     ScrollTrigger.refresh();
   }, 100);
 });
 </script>
 
 <template>
-  <div
-    class="w-full min-h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth"
-  >
+  <div class="w-full h-full overflow-y-scroll scroll-smooth">
     <section
       id="intro-section"
-      class="h-full snap-start snap-always flex items-center justify-center"
+      class="h-screen flex items-center justify-center panel"
     >
       <div class="flex flex-col w-full items-center justify-center">
         <div class="w-full md:px-12">
@@ -78,7 +107,7 @@ onMounted(async () => {
 
     <section
       id="experience-section"
-      class="h-full snap-start snap-always flex items-center justify-center w-full"
+      class="h-screen flex items-center justify-center w-full panel"
     >
       <div class="grid grid-cols-2 gap-4 w-full">
         <div class="flex justify-center items-center px-12 relative">
