@@ -1,16 +1,6 @@
 <!-- ~/components/about/ImageLayoutOne.vue -->
 <template>
-  <div
-    class="absolute w-52 h-60 mx-auto"
-    id="layout1"
-    v-gsap.whenVisible.from="{
-      opacity: 0,
-      y: 100,
-      stagger: 0.2,
-      ease: 'power2.out',
-      duration: 1,
-    }"
-  >
+  <div class="absolute w-52 h-60 mx-auto" id="layout1">
     <img
       v-for="(img, i) in images"
       :key="i"

@@ -8,10 +8,5 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  modules: [
-    "@nuxt/content",
-    "@nuxt/ui",
-    "nuxt-lucide-icons",
-    "v-gsap-nuxt",
-  ],
+  modules: ["@nuxt/content", "@nuxt/ui", "nuxt-lucide-icons"],
 });

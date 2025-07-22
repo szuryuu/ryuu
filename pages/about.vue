@@ -47,11 +47,7 @@ onMounted(async () => {
       <div class="grid grid-cols-2 gap-4 w-full">
         <div class="flex justify-center items-center px-12 relative">
           <!-- Layout 1 -->
-          <ImageLayoutOne
-            class="opacity-0"
-            v-gsap.whenVisible.to="{ opacity: 1, duration: 1 }"
-          />
-
+          <ImageLayoutOne />
           <!-- Layout 2 -->
           <ImageLayoutTwo class="hidden" />
           <!-- Layout 3 -->
