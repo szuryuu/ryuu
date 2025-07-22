@@ -13,8 +13,10 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
 </script>
 
 <template>
-  <div class="container mx-auto min-h-screen flex flex-col py-8">
-    <nav class="flex justify-between px-6 z-10">
+  <div class="min-h-screen flex flex-col">
+    <nav
+      class="fixed top-0 left-0 right-0 flex justify-between px-12 py-8 z-10"
+    >
       <h1 class="text-3xl font-display select-none">Szuryuu</h1>
       <UButton
         color="neutral"
@@ -28,10 +30,11 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
       </UButton>
     </nav>
 
-    <Menu v-if="isOpen" class="flex-1" @close="isOpen = false" />
-
-    <main v-if="!isOpen" class="flex-1 px-6">
-      <slot />
-    </main>
+    <div class="container mx-auto flex flex-col pt-24">
+      <Menu v-if="isOpen" class="flex flex-1" @close="isOpen = false" />
+      <main v-if="!isOpen" class="flex-1 flex px-6">
+        <slot />
+      </main>
+    </div>
   </div>
 </template>
