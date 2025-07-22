@@ -14,13 +14,6 @@ useSeoMeta({
 <template>
   <Hero />
   <div class="items-end flex">
-    <!-- <ContentRenderer
-      v-if="home"
-      :value="home"
-      class="prose prose-lg text-white"
-    />
-    <div v-else class="text-red-500">Home not found</div> -->
-
     <div
       class="py-2 justify-between items-end grid grid-cols-1 md:grid-cols-3 select-none"
     >

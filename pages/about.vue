@@ -27,7 +27,6 @@ onMounted(async () => {
   await nextTick();
 
   gsap.registerPlugin(ScrollTrigger);
-  console.log("gsap registered");
 
   let panels = gsap.utils.toArray(".panel") as HTMLElement[];
   let tops = panels.map((panel) =>
@@ -78,10 +77,8 @@ onMounted(async () => {
         currentLayout.value = 3;
       }
 
-      console.log("Progress:", progress);
       console.log("Current Layout:", currentLayout.value);
-      console.log("Timeline Value:", timelineValue.value);
-      console.log("Current Layout:", items.value.length);
+      console.log("Progress:", progress);
 
       timelineValue.value = Math.floor(currentLayout.value - 1);
     },
@@ -117,7 +114,7 @@ onUnmounted(() => {
       id="intro-section"
       class="min-h-screen flex items-center justify-center panel"
     >
-      <!-- <Intro /> -->
+      <Intro />
     </section>
 
     <section
@@ -128,16 +125,19 @@ onUnmounted(() => {
         <div class="flex justify-center items-center px-12 relative">
           <!-- Layout 1 -->
           <ImageLayoutOne
-            v-if="currentLayout === 1"
+            v-show="currentLayout === 1"
             :should-animate="shouldAnimate"
           />
           <!-- Layout 2 -->
           <ImageLayoutTwo
-            v-else-if="currentLayout === 2"
+            v-show="currentLayout === 2"
             :should-animate="shouldAnimate"
           />
           <!-- Layout 3 -->
-          <ImageLayoutThree v-else :should-animate="shouldAnimate" />
+          <ImageLayoutThree
+            v-show="currentLayout === 3"
+            :should-animate="shouldAnimate"
+          />
         </div>
 
         <div class="flex justify-center items-center">
