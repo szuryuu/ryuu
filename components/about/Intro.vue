@@ -50,10 +50,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="">
+  <div class="w-full bg-slate-400">
     <div
       id="intro-1"
-      class="flex flex-col w-full min-h-screen items-center justify-center panel"
+      class="flex flex-col w-full min-h-screen items-center justify-center panel bg-yellow-400"
     >
       <div class="w-full md:px-12">
         <span>プロジェクト</span>
