@@ -112,7 +112,7 @@ onUnmounted(() => {
   <div class="w-full flex-1">
     <section
       id="intro-section"
-      class="min-h-screen flex items-center justify-center panel"
+      class="flex min-h-screen items-center justify-center panel"
     >
       <Intro />
     </section>
