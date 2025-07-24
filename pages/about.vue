@@ -27,6 +27,7 @@ onMounted(async () => {
   await nextTick();
 
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
   let panels = gsap.utils.toArray(".panel") as HTMLElement[];
   let tops = panels.map((panel) =>
@@ -39,7 +40,7 @@ onMounted(async () => {
       start: "top top",
       end: () => `+=${panel.offsetHeight}`,
       pin: true,
-      pinSpacing: false,
+      pinSpacing: true,
       snap: 1,
     });
   });
@@ -63,8 +64,8 @@ onMounted(async () => {
 
   ScrollTrigger.create({
     trigger: "#experience-section",
-    start: "top 80%",
-    end: "bottom 20%",
+    start: "top top",
+    end: "bottom top",
     scrub: true,
     onUpdate: (self) => {
       const progress = self.progress;
@@ -100,6 +101,24 @@ onMounted(async () => {
     },
   });
 
+  ScrollTrigger.create({
+    trigger: "#intro-section",
+    start: "bottom center",
+    end: "bottom top",
+    scrub: true,
+    onUpdate: (self) => {
+      const introElement = document.querySelector("#intro-section");
+      const progress = self.progress;
+
+      if (introElement) {
+        gsap.set(introElement, {
+          opacity: 1 - progress * 0.3,
+          scale: 1 - progress * 0.05,
+        });
+      }
+    },
+  });
+
   ScrollTrigger.refresh();
 });
 
@@ -112,14 +131,14 @@ onUnmounted(() => {
   <div class="w-full flex-1">
     <section
       id="intro-section"
-      class="min-h-screen flex items-center justify-center w-full panel"
+      class="min-h-screen flex items-center justify-center w-full panel relative z-10"
     >
       <Intro />
     </section>
 
     <section
       id="experience-section"
-      class="min-h-screen flex items-center justify-center w-full panel"
+      class="min-h-screen flex items-center justify-center w-full panel relative z-20"
     >
       <div class="grid grid-cols-2 gap-4 w-full">
         <div class="flex justify-center items-center px-12 relative">
