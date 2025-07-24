@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, nextTick } from "vue";
+import { onMounted, onUnmounted, nextTick, ref, provide } from "vue";
 import { Experience, Intro, Skill } from "@/components/about";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+const shouldAnimated = ref(false);
+
+provide("shouldAnimate", shouldAnimated);
 
 onMounted(async () => {
   await nextTick();
@@ -21,6 +24,18 @@ onMounted(async () => {
       end: () => `+=${panel.offsetHeight}`,
       pin: true,
       pinSpacing: false,
+      onEnter: (self) => {
+        shouldAnimated.value = self.isActive;
+      },
+      onLeave: (self) => {
+        shouldAnimated.value = !self.isActive;
+      },
+      onEnterBack: (self) => {
+        shouldAnimated.value = self.isActive;
+      },
+      onLeaveBack: (self) => {
+        shouldAnimated.value = !self.isActive;
+      },
     });
   });
 

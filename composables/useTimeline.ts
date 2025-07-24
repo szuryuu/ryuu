@@ -8,18 +8,23 @@ export const useTimeline = () => {
   const timeline = ref<TimelineItem[]>([
     {
       title: "SIJA",
-      description: "Vocational school in software engineering",
+      description: "Started vocational school in Software Engineering",
       date: "2022",
     },
     {
       title: "DBS Camp",
-      description: "Advanced web dev training",
+      description: "Completed advanced web development training",
       date: "Jan 2025 – Apr 2025",
     },
     {
       title: "Internship",
-      description: "Full Stack at Botika",
-      date: "Jul 2025 – Present",
+      description: "Full Stack Developer Intern at Botika",
+      date: "Jul 2025 – Apr 2026",
+    },
+    {
+      title: "SIJA",
+      description: "Graduated from vocational school in Software Engineering",
+      date: "2026",
     },
   ]);
 

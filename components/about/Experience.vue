@@ -24,16 +24,18 @@ onUnmounted(() => {
 
 <template>
   <div class="flex w-full h-full justify-center items-center">
-    <div class="grid grid-cols-2 bg-yellow-300 w-full h-full">
-      <section>Hallo</section>
-      <section>Hallo</section>
-      <section class="col-span-full w-full">
+    <div class="grid grid-cols-2 w-full h-full">
+      <section class="flex items-end">
+        <h1 class="text-2xl">Experience</h1>
+      </section>
+      <section class="flex items-end">Hallo</section>
+      <section class="col-span-full w-full flex justify-center items-center">
         <UTimeline
           color="neutral"
           size="xs"
           orientation="horizontal"
           :items="items"
-          class="w-full"
+          class="w-full overflow-x-scroll"
         />
       </section>
     </div>
