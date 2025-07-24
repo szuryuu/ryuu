@@ -7,8 +7,7 @@ import {
   ImageLayoutOne,
   ImageLayoutTwo,
   ImageLayoutThree,
-  Intro1,
-  Intro2,
+  Intro,
 } from "~/components/about";
 
 const { timeline } = useTimeline();
@@ -113,10 +112,9 @@ onUnmounted(() => {
   <div class="w-full flex-1">
     <section
       id="intro-section"
-      class="relative min-h-screen snap-y snap-mandatory overflow-y-scroll flex items-center justify-center panel"
+      class="min-h-screen flex items-center justify-center w-full panel"
     >
-      <Intro1 />
-      <Intro2 />
+      <Intro />
     </section>
 
     <section

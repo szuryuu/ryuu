@@ -13,10 +13,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="">
+  <div class="flex w-full">
     <div
       id="intro-1"
-      class="flex flex-col w-full items-center justify-center panel bg-yellow-400"
+      class="flex flex-col w-full items-center justify-center panel"
     >
       <div class="w-full md:px-12">
         <span>プロジェクト</span>
