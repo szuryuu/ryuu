@@ -3,19 +3,23 @@ import { computed } from "vue";
 import { useMediaQuery } from "@vueuse/core";
 
 const isDesktop = useMediaQuery("(min-width: 768px)");
-
-const gradientClass = computed(() =>
-  isDesktop.value
-    ? "bg-[radial-gradient(circle_400px_at_50%_300px,#2E2E2E,transparent)]"
-    : "bg-[radial-gradient(circle_500px_at_50%_400px,#2E2E2E,transparent)]",
-);
 </script>
 
 <template>
   <div
     class="absolute top-0 right-0 bottom-0 -z-10 left-0 flex justify-center items-center"
-    :class="gradientClass"
   >
+    <div
+      class="absolute rounded-full opacity-50 -z-10"
+      :class="isDesktop ? 'w-[800px] h-[800px]' : 'w-[500px] h-[500px]'"
+      style="
+        background: radial-gradient(circle, #242424, transparent);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+    ></div>
+
     <div class="flex items-start">
       <div class="upside text-2xl font-bold font-decoration shrink-0">
         ポルトフォリオ
