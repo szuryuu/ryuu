@@ -1,6 +1,5 @@
-import ImageLayoutOne from "./ImageLayoutOne.vue";
-import ImageLayoutTwo from "./ImageLayoutTwo.vue";
-import ImageLayoutThree from "./ImageLayoutThree.vue";
+import Experience from "./Experience.vue";
 import Intro from "./Intro.vue";
+import Skill from "./Skill.vue";
 
-export { ImageLayoutOne, ImageLayoutTwo, ImageLayoutThree, Intro };
+export { Experience, Intro, Skill };
