@@ -16,7 +16,7 @@ onUnmounted(() => {
 <template>
   <div class="flex w-full justify-center items-center">
     <div class="grid grid-cols-2">
-      <div class="col-span-1 flex justify-center items-center">
+      <div class="col-span-full md:col-span-1 flex justify-center items-center">
         <div class="flex flex-col h-full justify-between gap-4 md:p-12">
           <div class="flex flex-col font-display">
             <h1
@@ -51,11 +51,11 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="col-span-1 flex justify-center items-center">
+      <div class="md:col-span-1 hidden md:flex justify-center items-center">
         <img
           src="https://picsum.photos/300/300"
           alt="Project Image"
-          class="h-96 w-96"
+          class="h-96 w-96 shadow-2xl rounded-lg"
         />
       </div>
     </div>
