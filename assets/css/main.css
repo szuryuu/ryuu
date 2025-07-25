@@ -8,6 +8,8 @@
 @theme {
   --font-display: "Marcellus", serif;
   --font-decoration: "Zen Old Mincho", serif;
+  --color-primary: #2e2e2e;
+  --color-secondary: #fffff;
 }
 
 .upside {

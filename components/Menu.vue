@@ -47,7 +47,7 @@ function closeMenu() {
             <span class="text-2xl font-decoration break-keep">{{
               item.japanese
             }}</span>
-            <USeparator :ui="{ border: 'border-white' }" />
+            <USeparator color="secondary" />
             <span class="uppercase text-xs font-display">{{ item.label }}</span>
           </div>
         </NuxtLink>
