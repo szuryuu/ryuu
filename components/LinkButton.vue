@@ -8,7 +8,7 @@ defineProps({
 <template>
   <NuxtLink
     :to="to"
-    class="border rounded-lg p-2 bg-primary border-[#383838] text-xs flex items-center hover:bg-white transform transition-all duration-400 transform-fill hover:text-black"
+    class="border rounded-lg p-2 bg-primary border-accent text-xs flex items-center hover:bg-white transform transition-all duration-400 transform-fill hover:text-black"
     :aria-label="ariaLabel"
   >
     <slot />

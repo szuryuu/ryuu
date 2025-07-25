@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <UCard variant="soft" class="bg-primary border-[#383838] border-2">
+  <UCard variant="soft" class="bg-primary border-accent border-2">
     <div class="flex gap-2">
       <div class="flex gap-6">
         <USeparator orientation="vertical" color="secondary" type="solid" />

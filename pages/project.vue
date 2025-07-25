@@ -29,10 +29,17 @@ const scrollX = (e: WheelEvent) => {
 
 const calculateProgress = () => {
   if (scroll_container.value) {
-    const scrollLeft = scroll_container.value.scrollLeft;
-    const scrollWidth = scroll_container.value.scrollWidth;
-    const progress = (scrollLeft / (scrollWidth - window.innerWidth)) * 100;
-    scroll_progress.value = progress;
+    const { scrollLeft, scrollWidth, clientWidth } = scroll_container.value;
+    const maxScroll = scrollWidth - clientWidth;
+
+    if (maxScroll > 0) {
+      scroll_progress.value = Math.min(
+        100,
+        Math.max(0, (scrollLeft / maxScroll) * 100),
+      );
+    } else {
+      scroll_progress.value = 0;
+    }
   }
 };
 
@@ -43,7 +50,9 @@ const handleScroll = () => {
 onMounted(async () => {
   await nextTick();
 
-  window.addEventListener("scroll", handleScroll);
+  if (scroll_container.value) {
+    scroll_container.value.addEventListener("scroll", handleScroll);
+  }
 
   gsap.from("#title", {
     autoAlpha: 0,
@@ -62,7 +71,7 @@ onUnmounted(() => {
   <div class="flex flex-1 relative">
     <div
       ref="scroll_container"
-      class="items-center justify-center w-full h-full transition-all duration-500 grid gap-4 md:grid-cols-3 overflow-auto"
+      class="items-center justify-center w-full h-full transition-all duration-500 grid gap-4 md:grid-cols-3 overflow-y-hidden"
       @wheel="scrollX"
       @scroll="handleScroll"
     >
@@ -93,6 +102,7 @@ onUnmounted(() => {
       <div
         id="project"
         class="flex justify-center items-center md:col-span-2 transition-all duration-500"
+        :class="isDesktop ? '' : 'overflow-x-scroll overflow-y-hidden'"
       >
         <div class="w-full">
           <ProjectList />
