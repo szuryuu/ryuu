@@ -13,11 +13,13 @@
   --color-accent: #505050;
 }
 
+/* Upside for Japanese Text */
 .upside {
   writing-mode: vertical-rl;
   text-orientation: upright;
 }
 
+/* Remove Scrollbar */
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -26,6 +28,36 @@
 *::-webkit-scrollbar {
   display: none;
   width: 0;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Background Color */
+body::before {
+  background: var(--color-primary); /* atau warna yang Anda gunakan */
+  z-index: -10;
+}
+
+/* Texture overlay */
+body::after {
+  background: url("/texture.png") repeat;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  z-index: 50;
+  inset: -6rem;
+}
+
+/* Animation texture */
+@media (prefers-reduced-motion: no-preference) {
+  body::after {
+    animation: glitch 2s infinite;
+  }
 }
 
 @keyframes glitch {

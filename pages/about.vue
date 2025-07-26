@@ -65,17 +65,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="w-full flex-1">
-    <section class="panel min-h-screen flex items-center justify-center w-full">
+  <div class="w-full flex-1 relative">
+    <section
+      class="panel min-h-screen flex items-center justify-center w-full px-2 md:px-0 overflow-y-hidden"
+    >
       <Intro />
     </section>
     <section class="panel min-h-screen flex items-center justify-center w-full">
       <div class="absolute inset-0 bg-primary -z-10"></div>
-      <Skill />
+      <Experience />
     </section>
     <section class="panel min-h-screen flex items-center justify-center w-full">
       <div class="absolute inset-0 bg-primary -z-10"></div>
-      <Experience />
+      <Skill />
     </section>
   </div>
 </template>
