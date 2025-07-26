@@ -57,7 +57,9 @@ onUnmounted(() => {
         <section
           class="flex flex-col items-center lg:items-start justify-center lg:justify-end text-center lg:text-left"
         >
-          <h2 class="font-decoration text-2xl md:text-3xl mb-2">経験</h2>
+          <h2 class="font-decoration text-2xl md:text-3xl mb-2 select-none">
+            経験
+          </h2>
           <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold">
             Experience
           </h1>
@@ -100,7 +102,9 @@ onUnmounted(() => {
       <!-- Timeline Section -->
       <section class="experience-timeline w-full">
         <div class="mb-6 text-center">
-          <h3 class="text-xl md:text-2xl font-display text-gray-300 mb-2">
+          <h3
+            class="text-xl md:text-2xl font-display text-gray-300 mb-2 select-none"
+          >
             My Journey
           </h3>
           <div

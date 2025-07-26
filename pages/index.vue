@@ -22,7 +22,11 @@ useSeoMeta({
           full stack developer / cyber security
         </h5>
         <h1 class="text-8xl font-display">
-          <span class="font-decoration">S. </span>Ilham Dzaky
+          <span
+            class="font-decoration bg-white text-black font-semibold px-2 leading-tight"
+            >S.</span
+          >
+          Ilham Dzaky
         </h1>
       </div>
       <div
