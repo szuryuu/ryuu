@@ -109,8 +109,10 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
+
+    <!-- Progress Bar -->
     <div
-      class="fixed bottom-0 left-0 h-0.5 bg-neutral-600 z-50 transition-all duration-150"
+      class="fixed bottom-0 left-0 h-1 bg-accent z-50 transition-all duration-150"
       :style="{ width: `${scroll_progress}%` }"
     />
   </div>

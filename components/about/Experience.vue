@@ -23,7 +23,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex w-full h-full justify-center items-center px-12">
+  <div class="flex w-full h-full justify-center items-center">
     <div class="grid grid-cols-2 w-full h-full">
       <section class="flex flex-col items-start justify-end col-span-1">
         <h2 class="font-decoration text-2xl">経験</h2>
