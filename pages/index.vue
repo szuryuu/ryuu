@@ -21,7 +21,9 @@ useSeoMeta({
         <h5 class="pl-2 py-4 uppercase font-display text-xs">
           full stack developer / cyber security
         </h5>
-        <h1 class="text-8xl font-display">Szuryu Ryujin</h1>
+        <h1 class="text-8xl font-display">
+          <span class="font-decoration">S. </span>Ilham Dzaky
+        </h1>
       </div>
       <div
         class="text-xs overflow-hidden font-display md:col-span-1 md:block hidden text-right py-4"

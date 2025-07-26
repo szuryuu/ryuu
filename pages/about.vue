@@ -70,14 +70,12 @@ onUnmounted(() => {
       <Intro />
     </section>
     <section class="panel min-h-screen flex items-center justify-center w-full">
-      <div class="bg-[#D2D2D1]">
-        <Skill />
-      </div>
+      <div class="absolute inset-0 bg-primary -z-10"></div>
+      <Skill />
     </section>
     <section class="panel min-h-screen flex items-center justify-center w-full">
-      <div class="bg-yellow-400">
-        <Experience />
-      </div>
+      <div class="absolute inset-0 bg-primary -z-10"></div>
+      <Experience />
     </section>
   </div>
 </template>

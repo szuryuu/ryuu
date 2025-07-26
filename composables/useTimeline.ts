@@ -17,15 +17,21 @@ export const useTimeline = () => {
       date: "Jan 2025 – Apr 2025",
     },
     {
-      title: "Internship",
-      description: "Full Stack Developer Intern at Botika",
-      date: "Jul 2025 – Apr 2026",
+      title: "MTCNA",
+      description:
+        "Obtained MikroTik Certified Network Associate certification",
+      date: "May 2025",
     },
     {
-      title: "SIJA",
-      description: "Graduated from vocational school in Software Engineering",
-      date: "2026",
+      title: "Internship",
+      description: "Full Stack Developer Intern at Botika",
+      date: "Jul 2025 – Present",
     },
+    // {
+    //   title: "SIJA",
+    //   description: "Graduated from vocational school in Software Engineering",
+    //   date: "2026",
+    // },
   ]);
 
   return { timeline };
