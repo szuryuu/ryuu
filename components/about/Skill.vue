@@ -5,7 +5,7 @@ import LinkButton from "@/components/LinkButton.vue";
 </script>
 
 <template>
-  <client-only>
+  <ClientOnly>
     <div class="h-auto z-20">
       <div class="grid grid-rows-3 gap-4">
         <div class="row-span-2 items-center flex h-full">
@@ -58,5 +58,5 @@ import LinkButton from "@/components/LinkButton.vue";
         </div>
       </div>
     </div>
-  </client-only>
+  </ClientOnly>
 </template>

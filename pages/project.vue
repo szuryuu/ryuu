@@ -69,51 +69,56 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-1 relative">
-    <div
-      ref="scroll_container"
-      class="items-center justify-center w-full h-full transition-all duration-500 grid gap-4 md:grid-cols-3 overflow-y-hidden"
-      @wheel="scrollX"
-      @scroll="handleScroll"
-    >
+    <ClientOnly>
       <div
-        id="title"
-        class="flex justify-center items-center md:col-span-1 select-none"
+        ref="scroll_container"
+        class="items-center justify-center w-full h-full transition-all duration-500 grid gap-4 md:grid-cols-3 overflow-y-hidden"
+        @wheel="scrollX"
+        @scroll="handleScroll"
       >
-        <div class="flex w-full md:px-12" :class="isDesktop ? 'flex-col' : ''">
-          <span
-            class="text-2xl font-bold font-decoration shrink-0"
-            :class="isDesktop ? '' : 'upside'"
-            >プロジェクト</span
+        <div
+          id="title"
+          class="flex justify-center items-center md:col-span-1 select-none"
+        >
+          <div
+            class="flex w-full md:px-12"
+            :class="isDesktop ? 'flex-col' : ''"
           >
-          <div class="flex gap-4" :class="isDesktop ? '' : 'flex-col'">
-            <USeparator
-              color="secondary"
-              :orientation="isDesktop ? 'horizontal' : 'vertical'"
-            />
             <span
-              class="font-display text-xs uppercase px-1"
-              :class="isDesktop ? '' : '[writing-mode:vertical-lr]'"
-              >Project</span
+              class="text-2xl font-bold font-decoration shrink-0"
+              :class="isDesktop ? '' : 'upside'"
+              >プロジェクト</span
             >
+            <div class="flex gap-4" :class="isDesktop ? '' : 'flex-col'">
+              <USeparator
+                color="secondary"
+                :orientation="isDesktop ? 'horizontal' : 'vertical'"
+              />
+              <span
+                class="font-display text-xs uppercase px-1"
+                :class="isDesktop ? '' : '[writing-mode:vertical-lr]'"
+                >Project</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="project"
+          class="flex justify-center items-center md:col-span-2 transition-all duration-500"
+          :class="isDesktop ? '' : 'overflow-x-scroll overflow-y-hidden'"
+        >
+          <div class="w-full">
+            <ProjectList />
           </div>
         </div>
       </div>
 
+      <!-- Progress Bar -->
       <div
-        id="project"
-        class="flex justify-center items-center md:col-span-2 transition-all duration-500"
-        :class="isDesktop ? '' : 'overflow-x-scroll overflow-y-hidden'"
-      >
-        <div class="w-full">
-          <ProjectList />
-        </div>
-      </div>
-    </div>
-
-    <!-- Progress Bar -->
-    <div
-      class="fixed bottom-0 left-0 h-1 bg-accent z-50 transition-all duration-150"
-      :style="{ width: `${scroll_progress}%` }"
-    />
+        class="fixed bottom-0 left-0 h-1 bg-accent z-50 transition-all duration-150"
+        :style="{ width: `${scroll_progress}%` }"
+      />
+    </ClientOnly>
   </div>
 </template>
