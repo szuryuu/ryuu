@@ -31,7 +31,7 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
       <UButton
         color="neutral"
         :variant="buttonVariant"
-        class="rounded-3xl font-display text-xs px-4 pt-2 md:py-2 flex justify-center items-center uppercase border-1 text-white hover:text-black duration-400 transition-all transform transform-fill bg-primary"
+        class="rounded-3xl font-display text-xs px-4 pt-2 md:py-2 flex justify-center items-center uppercase border-1 text-white hover:text-black duration-400 transition-all transform transform-fill bg-primary cursor-pointer"
         @click="handleClick"
         @mouseover="isHovered = true"
         @mouseleave="isHovered = false"

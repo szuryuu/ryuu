@@ -119,7 +119,7 @@ onUnmounted(() => {
             color="neutral"
             size="sm"
             orientation="horizontal"
-            :default-value="3"
+            :default-value="4"
             :items="items"
             class="w-full overflow-x-auto"
           />

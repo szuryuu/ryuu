@@ -6,6 +6,7 @@ defineProps<{
     name: string;
     type: string;
     year: string;
+    projectDetailUrl: string;
     liveDemoUrl: string;
     githubUrl: string;
   };
@@ -30,7 +31,12 @@ defineProps<{
     </div>
 
     <div class="flex justify-between items-center mt-8">
-      <div class="">{{ project.name }}</div>
+      <a
+        class="cursor-pointer"
+        :href="project.projectDetailUrl"
+        target="_blank"
+        >{{ project.name }}</a
+      >
       <div class="flex gap-1">
         <LinkButton :to="project.liveDemoUrl" aria-label="Open Live Demo">
           Live Demo

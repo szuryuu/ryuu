@@ -19,7 +19,7 @@ useSeoMeta({
     >
       <div class="md:col-span-2">
         <h5 class="pl-2 py-4 uppercase font-display text-xs">
-          full stack developer / cyber security
+          full stack developer / devops / cyber security
         </h5>
         <h1 class="text-8xl font-display">
           <span

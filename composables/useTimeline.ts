@@ -27,6 +27,11 @@ export const useTimeline = () => {
       description: "Full Stack Developer Intern at Botika",
       date: "Jul 2025 – Present",
     },
+    {
+      title: "Code Reviewer",
+      description: "Guiding new developers through code reviews at Dicoding",
+      date: "Sep 2025 - Present",
+    },
     // {
     //   title: "SIJA",
     //   description: "Graduated from vocational school in Software Engineering",
