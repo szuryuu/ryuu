@@ -74,8 +74,8 @@ onUnmounted(() => {
         slug: project.slug,
         image: project.image,
         projectDetailUrl: `/project/${project.slug}`,
-        liveDemoUrl: project.live || '#',
-        githubUrl: project.github || '#',
+        liveDemoUrl: project.live || '',
+        githubUrl: project.github || '',
       }"
       class="project-card"
     />

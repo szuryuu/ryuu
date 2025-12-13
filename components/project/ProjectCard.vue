@@ -9,8 +9,8 @@ defineProps<{
     slug: string;
     image?: string;
     projectDetailUrl: string;
-    liveDemoUrl: string;
-    githubUrl: string;
+    liveDemoUrl?: string;
+    githubUrl?: string;
   };
 }>();
 </script>
@@ -39,13 +39,21 @@ defineProps<{
         {{ project.name }}
       </NuxtLink>
       <div class="flex justify-between w-full gap-1">
-        <LinkButton :to="project.liveDemoUrl" aria-label="Open Live Demo">
+        <LinkButton
+          v-if="project.liveDemoUrl"
+          :to="project.liveDemoUrl"
+          aria-label="Open Live Demo"
+          class="flex gap-2 items-center justify-center"
+          :class="project.githubUrl ? '' : 'w-full'"
+        >
           Live Demo
         </LinkButton>
         <LinkButton
+          v-if="project.githubUrl"
           :to="project.githubUrl"
           aria-label="Open GitHub"
-          class="flex gap-2"
+          class="flex gap-2 items-center justify-center"
+          :class="project.liveDemoUrl ? '' : 'w-full'"
         >
           <LucideGithub :size="10" /> Repo
         </LinkButton>

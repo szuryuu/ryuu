@@ -1,14 +1,5 @@
 <script setup lang="ts">
 import Hero from "~/components/Hero.vue";
-
-const { data: home } = await useAsyncData(() =>
-  queryCollection("content").path("/").first(),
-);
-
-useSeoMeta({
-  title: home.value?.title,
-  description: home.value?.description,
-});
 </script>
 
 <template>
