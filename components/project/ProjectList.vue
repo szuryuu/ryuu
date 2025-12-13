@@ -3,67 +3,16 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { gsap } from "gsap";
 import ProjectCard from "./ProjectCard.vue";
 
+const { data: projects } = await useAsyncData("projects", () =>
+  queryCollection("content").path("project").order("title", "ASC").all(),
+);
+
+if (!projects.value || projects.value.length === 0) {
+  console.warn("No projects found. Add content to /content/project/");
+}
+
 const projectContainer = ref(null);
 let observer: IntersectionObserver | null = null;
-
-const projectList = {
-  projects: [
-    {
-      id: 1,
-      name: "Project 1",
-      type: "Team Project",
-      year: "2025",
-      projectDetailUrl: "#",
-      liveDemoUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      type: "Solo Project",
-      year: "2025",
-      projectDetailUrl: "#",
-      liveDemoUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 3,
-      name: "Project 3",
-      type: "Solo Project",
-      year: "2025",
-      projectDetailUrl: "#",
-      liveDemoUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 4,
-      name: "Project 4",
-      type: "Solo Project",
-      year: "2025",
-      projectDetailUrl: "#",
-      liveDemoUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 5,
-      name: "Project 5",
-      type: "Team Project",
-      year: "2025",
-      projectDetailUrl: "#",
-      liveDemoUrl: "#",
-      githubUrl: "#",
-    },
-    {
-      id: 6,
-      name: "Project 6",
-      type: "Team Project",
-      year: "2025",
-      projectDetailUrl: "#",
-      liveDemoUrl: "#",
-      githubUrl: "#",
-    },
-  ],
-};
 
 onMounted(() => {
   const cards = document.querySelectorAll(".project-card");
@@ -111,10 +60,23 @@ onUnmounted(() => {
 
 <template>
   <div ref="projectContainer" class="flex space-x-12 min-w-max">
+    <div v-if="!projects || projects.length === 0" class="text-center p-12">
+      <p class="text-gray-400">No projects yet. Time to build something.</p>
+    </div>
+
     <ProjectCard
-      v-for="project in projectList.projects"
+      v-for="project in projects"
       :key="project.id"
-      :project="project"
+      :project="{
+        name: project.title,
+        type: project.type,
+        year: project.year,
+        slug: project.slug,
+        image: project.image,
+        projectDetailUrl: `/project/${project.slug}`,
+        liveDemoUrl: project.live || '#',
+        githubUrl: project.github || '#',
+      }"
       class="project-card"
     />
   </div>

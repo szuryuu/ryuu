@@ -6,6 +6,8 @@ defineProps<{
     name: string;
     type: string;
     year: string;
+    slug: string;
+    image?: string;
     projectDetailUrl: string;
     liveDemoUrl: string;
     githubUrl: string;
@@ -31,12 +33,9 @@ defineProps<{
     </div>
 
     <div class="flex justify-between items-center mt-8">
-      <a
-        class="cursor-pointer"
-        :href="project.projectDetailUrl"
-        target="_blank"
-        >{{ project.name }}</a
-      >
+      <NuxtLink :to="`/project/${project.slug}`">
+        {{ project.name }}
+      </NuxtLink>
       <div class="flex gap-1">
         <LinkButton :to="project.liveDemoUrl" aria-label="Open Live Demo">
           Live Demo
