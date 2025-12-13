@@ -3,7 +3,7 @@ const route = useRoute();
 const { data: project } = await useAsyncData(
   `project-${route.params.slug}`,
   () =>
-    queryCollection("content").path(`/projects/${route.params.slug}`).first(),
+    queryCollection("content").path(`/project/${route.params.slug}`).first(),
 );
 
 if (!project.value) {
