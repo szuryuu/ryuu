@@ -4,7 +4,7 @@ slug: "dokku-nginx-path"
 type: "Team Project"
 year: "2024"
 description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"
-image: "https://picsum.photos/200"
+image: "/images/projects/dokku.png"
 tech: ["Vue 3", "Nuxt", "Laravel", "Redis", "PostgreSQL", "Midtrans", "WebSocket"]
 github: "https://github.com/yourusername/tokopedia-clone"
 # live: "https://demo-tokopedia.vercel.app"

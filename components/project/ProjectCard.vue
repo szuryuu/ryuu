@@ -21,7 +21,7 @@ defineProps<{
       <div class="flex gap-6">
         <USeparator orientation="vertical" color="secondary" type="solid" />
         <img
-          src="https://picsum.photos/200/300"
+          :src="project.image || 'https://picsum.photos/200/300'"
           alt="Project Image"
           class="w-40 h-45"
         />
