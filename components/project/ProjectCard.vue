@@ -26,22 +26,28 @@ defineProps<{
           class="w-40 h-45"
         />
       </div>
-      <div class="flex justify-between items-center [writing-mode:vertical-lr]">
+      <div
+        class="flex justify-between items-center h-45 [writing-mode:vertical-lr]"
+      >
         <span class="uppercase text-xs">{{ project.type }}</span>
         <span class="text-xs">{{ project.year }}</span>
       </div>
     </div>
 
-    <div class="flex justify-between items-center mt-8">
+    <div class="flex flex-col justify-between items-center mt-8 gap-4">
       <NuxtLink :to="`/project/${project.slug}`">
         {{ project.name }}
       </NuxtLink>
-      <div class="flex gap-1">
+      <div class="flex justify-between w-full gap-1">
         <LinkButton :to="project.liveDemoUrl" aria-label="Open Live Demo">
           Live Demo
         </LinkButton>
-        <LinkButton :to="project.githubUrl" aria-label="Open GitHub">
-          <LucideGithub :size="10" />
+        <LinkButton
+          :to="project.githubUrl"
+          aria-label="Open GitHub"
+          class="flex gap-2"
+        >
+          <LucideGithub :size="10" /> Repo
         </LinkButton>
       </div>
     </div>

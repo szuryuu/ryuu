@@ -1,6 +1,6 @@
 ---
-title: "Tokopedia Clone - Full-Stack Marketplace"
-slug: "tokopedia-clone"
+title: "MySQL Load Test"
+slug: "mysql-load-test"
 type: "Team Project"
 year: "2024"
 description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"

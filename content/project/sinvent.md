@@ -1,7 +1,7 @@
 ---
-title: "Tokopedia Clone"
-slug: "tokopedia-clone"
-type: "Team Project"
+title: "Sinvent"
+slug: "sinvent"
+type: "Solo Project"
 year: "2024"
 description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"
 image: "/projects/tokopedia-hero.jpg"
