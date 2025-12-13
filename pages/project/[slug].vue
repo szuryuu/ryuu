@@ -92,8 +92,8 @@ useSeoMeta({
       </div>
     </section>
 
-    <div class="prose prose-lg max-w-none">
-      <ContentRenderer :value="project" />
+    <div class="max-w-none text-white prose prose-lg prose-invert">
+      <ContentRenderer class="text-white" :value="project" />
     </div>
   </article>
 </template>

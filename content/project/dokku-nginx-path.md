@@ -16,11 +16,11 @@ duration: "3 months"
 # role: "Lead Full-Stack Developer"
 ---
 
-## 🎯 The Problem
+## The Problem
 
 Local SMEs in Yogyakarta struggled to compete with established marketplaces due to high commission fees (15-20%) and complex onboarding processes. They needed an affordable alternative that could handle their scale without enterprise-level costs.
 
-## 💡 My Solution
+## My Solution
 
 Built a custom multi-vendor marketplace inspired by Tokopedia's UX, optimized for Indonesian SMEs with:
 
@@ -29,7 +29,7 @@ Built a custom multi-vendor marketplace inspired by Tokopedia's UX, optimized fo
 - **Local payment methods** (Bank Transfer, QRIS, E-Wallet)
 - **Real-time inventory sync** across multiple vendor stores
 
-## 🛠️ Technical Deep Dive
+## Technical Deep Dive
 
 ### Architecture Decisions
 
