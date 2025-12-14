@@ -1,19 +1,19 @@
 ---
-title: "X-Forge"
+title: "X-Forge - Code Tool"
 slug: "x-forge"
 type: "Team Project"
-year: "2024"
-description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"
-image: "/projects/tokopedia-hero.jpg"
-tech: ["Vue 3", "Nuxt", "Laravel", "Redis", "PostgreSQL", "Midtrans", "WebSocket"]
-github: "https://github.com/yourusername/tokopedia-clone"
-live: "https://demo-tokopedia.vercel.app"
-featured: true
-order: 1
-status: "Completed"
-duration: "3 months"
-team_size: 4
-role: "Lead Full-Stack Developer"
+year: "2025"
+description: "A TypeScript-based CLI toolkit that simplifies ESLint and Prettier configuration, designed to automatically standardize code quality across various JavaScript/TypeScript projects."
+image: "/images/projects/typescript.png"
+tech: ["TypeScript", "Node.js", "Inquirer.js", "ESLint API"]
+github: "https://github.com/quasar-x1/x-forge"
+# live: ""
+featured: false
+order: 8
+status: "Ongoing"
+duration: "In Development"
+# team_size: 4
+# role: "Lead Full-Stack Developer"
 ---
 
 ## 🎯 The Problem

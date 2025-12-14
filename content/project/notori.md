@@ -1,54 +1,93 @@
 ---
-title: "Notori"
+title: "Notori - Notes App"
 slug: "notori"
-type: "Team Project"
-year: "2024"
-description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"
-image: "/projects/tokopedia-hero.jpg"
-tech: ["Vue 3", "Nuxt", "Laravel", "Redis", "PostgreSQL", "Midtrans", "WebSocket"]
-github: "https://github.com/yourusername/tokopedia-clone"
-live: "https://demo-tokopedia.vercel.app"
-featured: true
-order: 1
+type: "Solo Project"
+year: "2025"
+description: "A lightweight, modular note-taking application engineered with Native Web Components and Webpack to demonstrate framework-agnostic component architecture."
+image: "/images/projects/javascript.png"
+tech: ["JavaScript", "Webpack", "Anime.js"]
+github: "https://github.com/shfwnz/notori"
+live: "https://notori.vercel.app/"
+featured: false
+order: 6
 status: "Completed"
-duration: "3 months"
-team_size: 4
-role: "Lead Full-Stack Developer"
+duration: "2 months"
+# team_size: 4
+# role: "Lead Full-Stack Developer"
 ---
 
-## 🎯 The Problem
+## The Problem
 
-Local SMEs in Yogyakarta struggled to compete with established marketplaces due to high commission fees (15-20%) and complex onboarding processes. They needed an affordable alternative that could handle their scale without enterprise-level costs.
+Building complex user interfaces with "Vanilla" JavaScript often results in unmaintainable "spaghetti code" and global CSS conflicts. Developers need a way to encapsulate logic, templates, and styles strictly without the overhead of heavy frameworks like React or Vue for smaller applications.
 
-## 💡 My Solution
+## My Solution
 
-Built a custom multi-vendor marketplace inspired by Tokopedia's UX, optimized for Indonesian SMEs with:
+I developed **Notori**, a Single Page Application (SPA) that leverages the browser's native **Custom Elements API** and **Shadow DOM** to create truly encapsulated UI components.
 
-- **Zero commission** for first 100 transactions per vendor
-- **5-minute vendor onboarding** (vs industry average 2-3 days)
-- **Local payment methods** (Bank Transfer, QRIS, E-Wallet)
-- **Real-time inventory sync** across multiple vendor stores
+-   **Component-Based Architecture:** Broken down into reusable custom elements like `<notes-list>` and `<notes-item>`, ensuring style isolation and reusability.
+-   **Modern Tooling Pipeline:** Configured a custom **Webpack** environment from scratch to handle asset bundling, CSS extraction, and ES6+ transpilation via Babel.
+-   **Interactive UX:** Integrated **SweetAlert2** for modal dialogs and **Anime.js** for fluid micro-interactions, enhancing the native feel of the app.
+-   **Robust Data Layer:** Implemented a dedicated API service layer to handle asynchronous CRUD operations with the backend.
 
-## 🛠️ Technical Deep Dive
+## Technical Deep Dive
 
 ### Architecture Decisions
 
-**Why Nuxt over plain Vue?**
-- SSR for SEO (organic traffic = 60% of user acquisition)
-- Static generation for product pages (load time: 0.8s vs 2.3s SPA)
-- Built-in routing reduced boilerplate by ~40%
+**Why Web Components over React?**
+-   **Native Performance:** By using `HTMLElement` and `attachShadow({ mode: "open" })`, the app runs directly on browser standards with zero runtime overhead from a virtual DOM.
+-   **Scoped Styling:** Each component, such as the note list, injects its own `<style>` tag into its Shadow Root. This guarantees that CSS written for the list grid never leaks out to affect other parts of the application.
 
-**Why Redis for caching?**
-- Product catalog caching reduced DB queries by **73%**
-- Session management for 1000+ concurrent users
-- Real-time inventory updates via Pub/Sub pattern
-
-**Why PostgreSQL over MySQL?**
-- JSONB columns for flexible product attributes (electronics vs fashion have different specs)
-- Full-text search outperformed MySQL by **2.1x** in our benchmarks
-- Better handling of concurrent transactions (critical for inventory management)
+**Why Custom Webpack Config?**
+-   **Control:** Instead of using tools like CRA or Vite, I manually configured Webpack to understand the compilation process deeply—managing loaders for CSS, images, and Javascript modules explicitly.
 
 ### Key Features I Built
 
-#### 1. Real-Time Inventory Management
-```javascript
+#### 1. Encapsulated Grid Layout (Shadow DOM)
+I implemented a responsive grid system that adapts its column count based on attributes, isolated entirely within the Shadow DOM.
+
+```bash
+# javacript
+# src/script/components/notes-list.js
+class NotesList extends HTMLElement {
+  constructor() {
+    super();
+    # Create a shadow root for style isolation
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+  }
+
+  render() {
+    # Dynamic grid template based on 'column' property
+    this._style.textContent = `
+      .list {
+        display: grid;
+        grid-template-columns: ${"1fr ".repeat(this._column).trim()};
+        gap: ${this._gutter}px;
+      }
+    `;
+    # ...
+  }
+}
+customElements.define("notes-list", NotesList);
+```
+
+#### 2. Service Layer Pattern
+To keep the UI components clean, I separated all network logic into a dedicated service module. This module handles error parsing and JSON serialization for the external Notes API.
+
+```bash
+# javascript
+# src/script/data/notes-data-api.js
+const addNotes = async (note) => {
+  try {
+    const response = await fetch(`${baseUrl}/notes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(note),
+    });
+    # Centralized error handling
+    if (!response.ok) throw new Error(responseJson.message);
+    return responseJson.data;
+  } catch (error) {
+    console.error("Failed to add data:", error);
+  }
+};
+```

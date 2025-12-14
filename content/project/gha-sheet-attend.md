@@ -1,54 +1,72 @@
 ---
 title: "GHA Sheet Attendance"
 slug: "gha-sheet-attend"
-type: "Team Project"
-year: "2024"
-description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"
-image: "/projects/tokopedia-hero.jpg"
-tech: ["Vue 3", "Nuxt", "Laravel", "Redis", "PostgreSQL", "Midtrans", "WebSocket"]
-github: "https://github.com/yourusername/tokopedia-clone"
-live: "https://demo-tokopedia.vercel.app"
-featured: true
-order: 1
+type: "Solo Project"
+year: "2025"
+description: "A serverless attendance logging system that leverages GitHub Actions to automate daily reporting into Google Sheets with programmatic formatting and secure credential handling."
+image: "/images/projects/github-actions.png"
+tech: ["Go", "GitHub Actions", "Google Sheets API"]
+github: "https://github.com/szuryuu/gha-sheet-attend"
+# live: ""
+featured: false
+order: 3
 status: "Completed"
-duration: "3 months"
-team_size: 4
-role: "Lead Full-Stack Developer"
+duration: "2 weeks"
+# team_size: 4
+# role: "Lead Full-Stack Developer"
 ---
 
-## 🎯 The Problem
+## The Problem
 
-Local SMEs in Yogyakarta struggled to compete with established marketplaces due to high commission fees (15-20%) and complex onboarding processes. They needed an affordable alternative that could handle their scale without enterprise-level costs.
+Internships and remote work often require daily attendance logging or "logbooks." Doing this manually in a spreadsheet is repetitive, and maintaining consistent formatting (borders, alignment) across hundreds of rows becomes tedious. Forgetting to log a day can lead to administrative issues at the end of the month.
 
-## 💡 My Solution
+## My Solution
 
-Built a custom multi-vendor marketplace inspired by Tokopedia's UX, optimized for Indonesian SMEs with:
+I developed **GHA Sheet Attend**, a "set-and-forget" automation tool that turns a GitHub Actions workflow into a structured data entry interface.
 
-- **Zero commission** for first 100 transactions per vendor
-- **5-minute vendor onboarding** (vs industry average 2-3 days)
-- **Local payment methods** (Bank Transfer, QRIS, E-Wallet)
-- **Real-time inventory sync** across multiple vendor stores
+-   **Serverless Data Entry:** Users can log attendance via a simple form in the GitHub Actions tab (or let it run on autopilot via CRON).
+-   **Intelligent Formatting:** The script doesn't just dump text; it acts as a layout engine, automatically drawing borders and formatting cells for each new entry using the Google Sheets BatchUpdate API.
+-   **Smart Defaults:** Automatically detects weekends or "Libur" (Holiday) statuses to clear start/end times, preventing invalid data entry.
+-   **Secure Integration:** Uses Google Service Account authentication stored in GitHub Secrets, ensuring no credentials are ever exposed in the client-side code.
 
-## 🛠️ Technical Deep Dive
+## Technical Deep Dive
 
 ### Architecture Decisions
 
-**Why Nuxt over plain Vue?**
-- SSR for SEO (organic traffic = 60% of user acquisition)
-- Static generation for product pages (load time: 0.8s vs 2.3s SPA)
-- Built-in routing reduced boilerplate by ~40%
+**Why Go for a Scripting Task?**
+-   **Strict Typing for API Payloads:** The Google Sheets API has nested, complex JSON structures for formatting requests (like `UpdateBordersRequest`). Go's struct-based typing makes constructing these payloads significantly less error-prone than untyped languages like JavaScript/Python.
+-   **Execution Speed:** The compiled binary runs instantly on the CI runner, keeping billable action minutes to a minimum (usually under 30 seconds).
 
-**Why Redis for caching?**
-- Product catalog caching reduced DB queries by **73%**
-- Session management for 1000+ concurrent users
-- Real-time inventory updates via Pub/Sub pattern
-
-**Why PostgreSQL over MySQL?**
-- JSONB columns for flexible product attributes (electronics vs fashion have different specs)
-- Full-text search outperformed MySQL by **2.1x** in our benchmarks
-- Better handling of concurrent transactions (critical for inventory management)
+**Handling Timezones in CI/CD**
+-   GitHub Actions runners default to UTC. To ensure the "Today" date in the spreadsheet matches the user's local context (Indonesia), I implemented explicit timezone loading:
+    ```bash
+    # go
+    loc, _ := time.LoadLocation("Asia/Jakarta")
+    today := time.Now().In(loc)
+    ```
 
 ### Key Features I Built
 
-#### 1. Real-Time Inventory Management
-```javascript
+#### 1. Programmatic Layout Engine
+Instead of relying on the spreadsheet's conditional formatting (which can break), I engineered the bot to "draw" its own table borders after every write operation. It calculates the specific grid range of the newly added row and sends a batch update command.
+
+```bash
+# go
+# Calculate the exact range of the newly added row
+newRowNumber, _ := strconv.Atoi(matches[1])
+rowIndex := int64(newRowNumber - 1)
+
+$ Send a BatchUpdate request to draw solid borders
+UpdateBorders: &sheets.UpdateBordersRequest{
+    Range: &sheets.GridRange{
+        StartRowIndex: rowIndex,
+        EndRowIndex:   rowIndex + 1,
+        # ...
+    },
+    Top: &sheets.Border{Style: "SOLID"},
+    # ...
+}
+```
+
+#### 2. Dynamic Sequence Generation
+The system treats the spreadsheet as a database. Before writing, it performs a read operation (Values.Get) to find the last sequence number in Column A, casts it to an integer, and increments it. This ensures the numbering remains sequential (1, 2, 3...) even if rows are manually deleted or modified in between runs.

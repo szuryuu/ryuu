@@ -3,52 +3,80 @@ title: "Mikrotik Manager"
 slug: "mikro-manager"
 type: "Team Project"
 year: "2024"
-description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"
-image: "/projects/tokopedia-hero.jpg"
-tech: ["Vue 3", "Nuxt", "Laravel", "Redis", "PostgreSQL", "Midtrans", "WebSocket"]
-github: "https://github.com/yourusername/tokopedia-clone"
-live: "https://demo-tokopedia.vercel.app"
-featured: true
-order: 1
+description: "A Python-based CLI utility designed to automate common MikroTik RouterOS configuration tasks, featuring a modular architecture and a rich terminal interface."
+image: "/images/projects/mikrotik.png"
+tech: ["Python", "MikroTik", "Paramiko", "Streamlit", "SSH"]
+github: "https://github.com/szuryuu/mikro-manager"
+# live: ""
+featured: false
+order: 7
 status: "Completed"
-duration: "3 months"
-team_size: 4
-role: "Lead Full-Stack Developer"
+duration: "3 weeks"
+team_size: 3
+role: "Network and Backend Developer"
 ---
 
-## 🎯 The Problem
+## The Problem
 
-Local SMEs in Yogyakarta struggled to compete with established marketplaces due to high commission fees (15-20%) and complex onboarding processes. They needed an affordable alternative that could handle their scale without enterprise-level costs.
+Network administrators often spend hours manually configuring MikroTik routers via WinBox GUI for repetitive tasks like setting up IP addresses, configuring DHCP servers, or managing backups. This manual process is prone to clicks-errors and lacks the speed required for deploying multiple devices efficiently.
 
-## 💡 My Solution
+## My Solution
 
-Built a custom multi-vendor marketplace inspired by Tokopedia's UX, optimized for Indonesian SMEs with:
+I built **Mikro Manager**, a modular Command Line Interface (CLI) tool that interacts directly with the RouterOS API to automate network provisioning.
 
-- **Zero commission** for first 100 transactions per vendor
-- **5-minute vendor onboarding** (vs industry average 2-3 days)
-- **Local payment methods** (Bank Transfer, QRIS, E-Wallet)
-- **Real-time inventory sync** across multiple vendor stores
+-   **Interactive CLI:** Leveraged the `rich` library to create a beautiful, menu-driven terminal interface that is easy to navigate.
+-   **Task Automation:** implemented specific modules for critical tasks such as Backup Management, DHCP Setup, NAT Configuration, and IP Address management.
+-   **Secure Connection:** Uses environment variables (`.env`) to handle router credentials securely, separating configuration from code.
+-   **Modular Design:** Architected with a clear separation of concerns (Views pattern), making it easy to add new configuration modules without breaking the core application.
 
-## 🛠️ Technical Deep Dive
+## Technical Deep Dive
 
 ### Architecture Decisions
 
-**Why Nuxt over plain Vue?**
-- SSR for SEO (organic traffic = 60% of user acquisition)
-- Static generation for product pages (load time: 0.8s vs 2.3s SPA)
-- Built-in routing reduced boilerplate by ~40%
+**Why `routeros_api` wrapper?**
+-   **Abstraction:** Instead of writing raw socket commands, I used the `routeros_api` library to interact with MikroTik's resources in a Pythonic way (e.g., `api.get_resource('/ip/address')`). This ensures better error handling and cleaner code.
 
-**Why Redis for caching?**
-- Product catalog caching reduced DB queries by **73%**
-- Session management for 1000+ concurrent users
-- Real-time inventory updates via Pub/Sub pattern
-
-**Why PostgreSQL over MySQL?**
-- JSONB columns for flexible product attributes (electronics vs fashion have different specs)
-- Full-text search outperformed MySQL by **2.1x** in our benchmarks
-- Better handling of concurrent transactions (critical for inventory management)
+**Why `Rich` for the UI?**
+-   **User Experience:** CLI tools don't have to be ugly. I used `rich.console` and `rich.panel` to display formatted tables, success/error alerts, and banners. This makes the tool approachable for technicians who might not be developers.
 
 ### Key Features I Built
 
-#### 1. Real-Time Inventory Management
-```javascript
+#### 1. Modular Resource Interaction
+Each network function is encapsulated in its own view. For example, adding an IP address isn't just a script; it's a function that validates input and interacts with the specific RouterOS endpoint.
+
+```bash
+# python
+# views/ip_address.py
+def add_ip(api):
+    # ... input prompts ...
+    try:
+        list_ip = api.get_resource('/ip/address')
+        list_ip.add(address=addr, interface=interface)
+        console.print(Panel(f"Success: IP {addr} added to {interface}", style="green"))
+    except Exception as e:
+        console.print(f"[red]Error adding IP: {e}[/red]")
+```
+
+#### 2. Centralized Authentication & Menu Loop
+The main.py acts as the controller, managing the connection state and routing the user to the correct module based on their input.
+
+```bash
+# python
+# main.py
+def main():
+    connection = Connect()
+    api = connection.connect()
+    
+    while True:
+        # Display menu with Rich
+        console.print(Panel.fit("1. Add IP Address\n2. DHCP Setup\n...", title="Menu"))
+        
+        match choice:
+            case "1":
+                ip_address.add_ip(api)
+            case "2":
+                dhcp.setup_dhcp(api2. Centralized Authentication & Menu Loop
+                
+                The main.py acts as the controller, managing the connection state and routing the user to the correct module based on their input.)
+            # ... handles other modules
+```

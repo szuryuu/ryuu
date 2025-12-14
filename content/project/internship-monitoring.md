@@ -1,54 +1,84 @@
 ---
 title: "Internship Monitoring"
 slug: "internship-monitoring"
-type: "Team Project"
-year: "2024"
-description: "Multi-vendor marketplace handling 1000+ concurrent users with real-time inventory sync and payment gateway integration"
-image: "/projects/tokopedia-hero.jpg"
-tech: ["Vue 3", "Nuxt", "Laravel", "Redis", "PostgreSQL", "Midtrans", "WebSocket"]
-github: "https://github.com/yourusername/tokopedia-clone"
-live: "https://demo-tokopedia.vercel.app"
-featured: true
-order: 1
+type: "Exam Project"
+year: "2025"
+description: "A centralized platform for managing vocational school internships, featuring a robust Admin Dashboard built with Filament PHP and RESTful APIs for student mobile apps."
+image: "/images/projects/laravel.png"
+tech: ["Laravel 11", "Filament PHP", "MySQL", "Vue.js"]
+github: "https://github.com/szuryuu/internship-monitoring-laravel"
+# live: ""
+featured: false
+order: 9
 status: "Completed"
-duration: "3 months"
-team_size: 4
-role: "Lead Full-Stack Developer"
+duration: "2 months"
+# team_size: 1
+# role: "Backend Engineer"
 ---
 
-## 🎯 The Problem
+## The Problem
 
-Local SMEs in Yogyakarta struggled to compete with established marketplaces due to high commission fees (15-20%) and complex onboarding processes. They needed an affordable alternative that could handle their scale without enterprise-level costs.
+Vocational schools (SMK) and universities face logistical nightmares when managing hundreds of students scattered across different companies for internships (PKL). Tracking attendance, grading, and administrative approval manually via paper logbooks is inefficient and prone to data loss.
 
-## 💡 My Solution
+## My Solution
 
-Built a custom multi-vendor marketplace inspired by Tokopedia's UX, optimized for Indonesian SMEs with:
+I developed the **Internship Monitoring System**, a web-based solution that digitizes the entire internship lifecycle.
 
-- **Zero commission** for first 100 transactions per vendor
-- **5-minute vendor onboarding** (vs industry average 2-3 days)
-- **Local payment methods** (Bank Transfer, QRIS, E-Wallet)
-- **Real-time inventory sync** across multiple vendor stores
+-   **Rapid Admin Development:** Leveraged **Filament PHP** to build a feature-rich admin panel in record time, allowing teachers to manage Students, Industries, and Internship placements effortlessly.
+-   **API-Ready Architecture:** Unlike a traditional monolith, I exposed a comprehensive set of RESTful APIs (`app/Http/Controllers/Api`) to allow future integration with student mobile applications for logbook entry.
+-   **Automated State Management:** Implemented database triggers to handle complex status changes automatically, ensuring data consistency without heavy application-level logic.
+-   **Role-Based Access Control:** Utilized **Filament Shield** to manage granular permissions between Admins, Teachers, and Staff.
 
-## 🛠️ Technical Deep Dive
+## Technical Deep Dive
 
 ### Architecture Decisions
 
-**Why Nuxt over plain Vue?**
-- SSR for SEO (organic traffic = 60% of user acquisition)
-- Static generation for product pages (load time: 0.8s vs 2.3s SPA)
-- Built-in routing reduced boilerplate by ~40%
+**Why Filament PHP?**
+-   **TALL Stack Efficiency:** Filament is built on the TALL stack (Tailwind, Alpine, Laravel, Livewire). This allowed me to create reactive, modern UI components for the dashboard (like the *Internship Stats Overview* widget) without writing separate frontend code.
+-   **Resource Management:** Filament's "Resource" pattern (`app/Filament/Admin/Resources`) drastically reduced boilerplate for CRUD operations on models like `BusinessField`, `Industry`, and `Student`.
 
-**Why Redis for caching?**
-- Product catalog caching reduced DB queries by **73%**
-- Session management for 1000+ concurrent users
-- Real-time inventory updates via Pub/Sub pattern
-
-**Why PostgreSQL over MySQL?**
-- JSONB columns for flexible product attributes (electronics vs fashion have different specs)
-- Full-text search outperformed MySQL by **2.1x** in our benchmarks
-- Better handling of concurrent transactions (critical for inventory management)
+**Database-Level Logic (Triggers)**
+-   To ensure data integrity regardless of whether data is modified via the API or Admin Panel, I moved critical status logic to the database layer.
+-   I wrote a custom migration `2025_05_20_143053_internship_triggers` that installs SQL triggers. These triggers automatically update a student's status (e.g., from 'Active' to 'Interning') whenever a new internship record is created or completed.
 
 ### Key Features I Built
 
-#### 1. Real-Time Inventory Management
-```javascript
+#### 1. Hybrid Controller Architecture
+The system serves two masters: the web admin panel and mobile clients. I structured the backend to handle both gracefully.
+
+```bash
+# php
+# app/Http/Controllers/Api/InternshipController.php
+public function index(Request $request)
+{
+    # JSON response for Mobile Apps
+    return InternshipResource::collection(Internship::all());
+}
+
+# app/Filament/Admin/Resources/InternshipResource.php
+public static function form(Form $form): Form
+{
+    # Reactive Form UI for Admin Panel
+    return $form->schema([
+        Select::make('student_id')->relationship('student', 'name'),
+        # ...
+    ]);
+}
+```
+
+#### 2. Complex Relationship Management
+The system handles a web of relationships: Students belong to Departments, apply to Industries, and are supervised by Teachers. I modeled this using Laravel's Eloquent relationships and enforced constraints at the schema level to prevent orphaned records.
+
+```bash
+# php
+# app/Models/Internship.php
+public function industry()
+{
+    return $this->belongsTo(Industry::class);
+}
+
+public function teacher()
+{
+    return $this->belongsTo(Teacher::class);
+}
+```
