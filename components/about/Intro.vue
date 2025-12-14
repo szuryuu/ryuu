@@ -48,7 +48,7 @@ onUnmounted(() => {
 
       <div class="md:col-span-1 hidden md:flex justify-center items-center">
         <img
-          src="https://picsum.photos/300/300"
+          src="/assets/images/profile.jpeg"
           alt="Project Image"
           class="h-96 w-96 shadow-2xl rounded-lg"
         />
