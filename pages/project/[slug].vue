@@ -130,6 +130,7 @@ useSeoMeta({
               v-if="project.live"
               :to="project.live"
               aria-label="View Live Demo"
+              target="_blank"
               class="flex items-center gap-2"
             >
               <LucideExternalLink :size="14" />

@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import ProjectCard from "./ProjectCard.vue";
 
 const { data: projects } = await useAsyncData("projects", () =>
-  queryCollection("projects").order("title", "ASC").all(),
+  queryCollection("projects").order("order", "ASC").all(),
 );
 
 if (!projects.value || projects.value.length === 0) {

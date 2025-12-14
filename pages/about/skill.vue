@@ -74,12 +74,21 @@ const handleTabChange = (tabId: string) => {
         </h1>
       </header> -->
 
-      <div v-if="selectedTab === 'certificate'">
+      <div v-if="selectedTab === 'certificate'" class="flex">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CertificateCard
             v-for="cert in certificateArray"
             :certificate="cert"
           />
+        </div>
+        <div class="relative">
+          <div class="sticky top-0">
+            <div
+              class="font-display p-4 rounded-xl shadow [writing-mode:vertical-lr]"
+            >
+              Filter
+            </div>
+          </div>
         </div>
       </div>
       <div

@@ -9,7 +9,7 @@ tech: ["JavaScript", "Webpack", "Anime.js"]
 github: "https://github.com/shfwnz/notori"
 live: "https://notori.vercel.app/"
 featured: false
-order: 6
+order: 10
 status: "Completed"
 duration: "2 months"
 # team_size: 4
