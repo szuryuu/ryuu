@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
 import {
   fullStackSkills,
   devOpsSkills,
@@ -9,33 +8,11 @@ import {
 import { certificateArray } from "@/utils/certificates";
 import CertificateCard from "../CertificateCard.vue";
 
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-
 const skillIcons = [
   ...fullStackSkills,
   ...devOpsSkills,
   ...cyberSecuritySkills,
 ];
-
-gsap.registerPlugin(ScrollTrigger);
-
-onMounted(() => {
-  const textElements = gsap.utils.toArray<HTMLElement>(".text");
-
-  textElements.forEach((text) => {
-    gsap.to(text, {
-      backgroundSize: "100%",
-      ease: "none",
-      scrollTrigger: {
-        trigger: text,
-        start: "center 80%",
-        end: "center 20%",
-        scrub: true,
-      },
-    });
-  });
-});
 </script>
 
 <template>
@@ -45,7 +22,13 @@ onMounted(() => {
         <div class="row-span-2 items-center flex h-full w-full">
           <div class="w-full">
             <h1 class="text font-display uppercase">
-              Certifications<span>WOAH</span>
+              Certifications
+              <NuxtLink
+                to="/about/skill"
+                class="cursor-pointer text-reveal-overlay"
+              >
+                See More
+              </NuxtLink>
             </h1>
           </div>
           <div class="w-full">
@@ -58,7 +41,18 @@ onMounted(() => {
               />
             </Vue3Marquee> -->
 
-            Slider or Something
+            <!-- <UCarousel
+              v-slot="{ item }"
+              :items="certificateArray"
+              :ui="{
+                item: 'basis-full md:basis-1/2 lg:basis-1/3',
+                container: 'gap-4',
+              }"
+              class="rounded-lg overflow-hidden"
+              arrows
+            >
+              <CertificateCard :certificate="item" />
+            </UCarousel> -->
           </div>
         </div>
         <div class="row-span-1 flex items-center">
@@ -77,7 +71,7 @@ onMounted(() => {
   </ClientOnly>
 </template>
 
-<style>
+<style scoped>
 .text {
   font-size: 5vw;
   letter-spacing: -0.01em;
@@ -101,7 +95,7 @@ onMounted(() => {
   position: relative;
 }
 
-span {
+.text-reveal-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -117,7 +111,7 @@ span {
   justify-content: center;
 }
 
-.text:hover > span {
+.text:hover .text-reveal-overlay {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 </style>
