@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { certificateArray } from "@/utils/certificates";
 import LinkButton from "@/components/LinkButton.vue";
+
+defineProps<{
+  certificate: {
+    id: number;
+    Image: string;
+    title: string;
+    description: string;
+    skill: string;
+  };
+}>();
 </script>
 
 <template>
-  <UCard
-    v-for="certificate in certificateArray"
-    :key="certificate.id"
-    class="ml-4 w-72 bg-primary border-2 border-accent"
-  >
+  <UCard class="ml-4 w-72 bg-primary border-2 border-accent">
     <div class="flex flex-col gap-2">
       <img :src="certificate.Image" class="w-full h-40 object-cover" />
       <div>

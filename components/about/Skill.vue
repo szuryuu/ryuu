@@ -5,6 +5,7 @@ import {
   cyberSecuritySkills,
   skillUrl,
 } from "@/utils/skills";
+import { certificateArray } from "@/utils/certificates";
 import CertificateCard from "../CertificateCard.vue";
 
 const skillIcons = [
@@ -19,8 +20,11 @@ const skillIcons = [
     <div class="h-auto z-20">
       <div class="grid grid-rows-3 gap-4">
         <div class="row-span-2 items-center flex h-full">
-          <Vue3Marquee :pause-on-hover="true" :duration="7">
-            <CertificateCard />
+          <Vue3Marquee :pause-on-hover="true" :duration="10">
+            <CertificateCard
+              v-for="cert in certificateArray"
+              :certificate="cert"
+            />
           </Vue3Marquee>
         </div>
         <div class="row-span-1 flex items-center">

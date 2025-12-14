@@ -7,6 +7,7 @@ import {
   skillUrl,
 } from "@/utils/skills";
 import CertificateCard from "@/components/CertificateCard.vue";
+import { certificateArray } from "@/utils/certificates";
 
 const selectedTab = ref("certificate");
 
@@ -75,7 +76,10 @@ const handleTabChange = (tabId: string) => {
 
       <div v-if="selectedTab === 'certificate'">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <CertificateCard />
+          <CertificateCard
+            v-for="cert in certificateArray"
+            :certificate="cert"
+          />
         </div>
       </div>
       <div
