@@ -1,6 +1,17 @@
 <script setup lang="ts">
-import { skillIcons, skillUrl } from "@/utils/skills";
+import {
+  fullStackSkills,
+  devOpsSkills,
+  cyberSecuritySkills,
+  skillUrl,
+} from "@/utils/skills";
 import CertificateCard from "../CertificateCard.vue";
+
+const skillIcons = [
+  ...fullStackSkills,
+  ...devOpsSkills,
+  ...cyberSecuritySkills,
+];
 </script>
 
 <template>
