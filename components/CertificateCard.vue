@@ -15,7 +15,14 @@ defineProps<{
 <template>
   <UCard class="ml-4 w-72 bg-primary border-2 border-accent">
     <div class="flex flex-col gap-2">
-      <img :src="certificate.Image" class="w-full h-40 object-cover" />
+      <NuxtImg
+        :src="certificate.Image"
+        class="w-full h-40 object-cover"
+        width="400"
+        height="400"
+        format="webp"
+        loading="lazy"
+      />
       <div>
         <h1 class="text-lg font-display font-semibold">
           {{ certificate.title }}

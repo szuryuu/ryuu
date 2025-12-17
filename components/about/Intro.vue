@@ -47,10 +47,14 @@ onUnmounted(() => {
       </div>
 
       <div class="md:col-span-1 hidden md:flex justify-center items-center">
-        <img
-          src="/assets/images/profile.jpeg"
-          alt="Project Image"
-          class="h-96 w-96 shadow-2xl rounded-lg"
+        <NuxtImg
+          src="/images/profile.jpeg"
+          alt="Me"
+          class="w-96 h-96 shadow-2xl rounded-lg"
+          height="400"
+          width="400"
+          format="webp"
+          preload
         />
       </div>
     </div>

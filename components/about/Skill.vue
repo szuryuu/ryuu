@@ -6,7 +6,6 @@ import {
   skillUrl,
 } from "@/utils/skills";
 import { certificateArray } from "@/utils/certificates";
-import CertificateCard from "../CertificateCard.vue";
 
 const skillIcons = [
   ...fullStackSkills,
@@ -15,7 +14,6 @@ const skillIcons = [
 ];
 
 const images = certificateArray.map((c) => c.Image);
-const doubledImages = [...images, ...images];
 </script>
 
 <template>
@@ -38,12 +36,16 @@ const doubledImages = [...images, ...images];
             class="w-full overflow-hidden relative rounded-2xl bg-transparent"
           >
             <Vue3Marquee :duration="14" :clone="true">
-              <img
+              <NuxtImg
                 v-for="(image, index) in images"
                 :key="index"
                 :src="image"
                 class="h-40 mx-1 shrink-0 rounded-2xl cursor-none"
                 alt="certificate"
+                height="160"
+                width="160"
+                format="webp"
+                loading="lazy"
               />
             </Vue3Marquee>
             <div
