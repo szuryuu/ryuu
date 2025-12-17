@@ -23,11 +23,16 @@ useSeoMeta({
   <article v-if="project" class="w-full min-h-screen relative">
     <header class="relative flex mb-10 gap-8">
       <div class="absolute inset-0 -z-10">
-        <img
+        <NuxtImg
           v-if="project.image"
           :src="project.image"
           :alt="project.title"
           class="hero-image w-full h-full object-cover opacity-30"
+          width="1920"
+          height="1080"
+          size="100vw"
+          format="webp"
+          preload
         />
         <div
           class="absolute inset-0 bg-gradient-to-t from-primary via-primary/90 to-transparent"

@@ -64,6 +64,9 @@ const images = certificateArray.map((c) => c.Image);
                 :src="`${skillUrl}?i=${skill}`"
                 :alt="skill"
                 class="h-20 mx-1"
+                height="80"
+                width="80"
+                loading="eager"
               />
             </Vue3Marquee>
             <div

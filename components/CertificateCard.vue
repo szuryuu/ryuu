@@ -18,8 +18,8 @@ defineProps<{
       <NuxtImg
         :src="certificate.Image"
         class="w-full h-40 object-cover"
-        width="400"
-        height="400"
+        width="288"
+        height="160"
         format="webp"
         loading="lazy"
       />

@@ -20,10 +20,13 @@ defineProps<{
     <div class="flex gap-2">
       <div class="flex gap-6">
         <USeparator orientation="vertical" color="secondary" type="solid" />
-        <img
-          :src="project.image || 'https://picsum.photos/200/300'"
+        <NuxtImg
+          :src="project.image"
           alt="Project Image"
           class="w-40 h-45"
+          height="180"
+          width="180"
+          loading="lazy"
         />
       </div>
       <div
