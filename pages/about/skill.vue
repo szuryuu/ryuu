@@ -10,6 +10,8 @@ import CertificateCard from "@/components/CertificateCard.vue";
 import { certificateArray } from "@/utils/certificates";
 
 const selectedTab = ref("certificate");
+const filterItems = ref(["All", "FullStack", "DevOps", "CyberSec"]);
+const selectedFilter = ref("All");
 
 const tabs = [
   { id: "certificate", label: "Certificate" },
@@ -79,6 +81,11 @@ const handleTabChange = (tabId: string) => {
           <CertificateCard
             v-for="cert in certificateArray"
             :certificate="cert"
+            :class="
+              selectedFilter === 'All' || selectedFilter === cert.skill
+                ? ''
+                : 'hidden'
+            "
           />
         </div>
         <div class="relative">
@@ -86,7 +93,12 @@ const handleTabChange = (tabId: string) => {
             <div
               class="font-display p-4 rounded-xl shadow [writing-mode:vertical-lr]"
             >
-              Filter
+              <URadioGroup
+                v-model="selectedFilter"
+                :items="filterItems"
+                orientation="horizontal"
+                color="neutral"
+              />
             </div>
           </div>
         </div>
