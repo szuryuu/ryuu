@@ -13,13 +13,16 @@ const skillIcons = [
   ...devOpsSkills,
   ...cyberSecuritySkills,
 ];
+
+const images = certificateArray.map((c) => c.Image);
+const doubledImages = [...images, ...images];
 </script>
 
 <template>
   <ClientOnly>
-    <div class="h-auto z-20">
+    <div class="h-full z-20 flex items-center">
       <div class="grid grid-rows-3 gap-4">
-        <div class="row-span-2 items-center flex h-full w-full">
+        <div class="row-span-2 items-center flex h-full w-full gap-4">
           <div class="w-full">
             <h1 class="text font-display uppercase">
               Certifications
@@ -31,40 +34,51 @@ const skillIcons = [
               </NuxtLink>
             </h1>
           </div>
-          <div class="w-full">
-            <!-- <Vue3Marquee :pause-on-hover="true" :duration="25">
-              <CertificateCard
-                v-for="(cert, index) in certificateArray"
+          <div
+            class="w-full overflow-hidden relative rounded-2xl bg-transparent"
+          >
+            <Vue3Marquee :duration="14" :clone="true">
+              <img
+                v-for="(image, index) in images"
                 :key="index"
-                :certificate="cert"
-                class="mx-4"
+                :src="image"
+                class="h-40 mx-1 shrink-0 rounded-2xl cursor-none"
+                alt="certificate"
               />
-            </Vue3Marquee> -->
-
-            <!-- <UCarousel
-              v-slot="{ item }"
-              :items="certificateArray"
-              :ui="{
-                item: 'basis-full md:basis-1/2 lg:basis-1/3',
-                container: 'gap-4',
-              }"
-              class="rounded-lg overflow-hidden"
-              arrows
-            >
-              <CertificateCard :certificate="item" />
-            </UCarousel> -->
+            </Vue3Marquee>
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10"
+            ></div>
           </div>
         </div>
-        <div class="row-span-1 flex items-center">
-          <Vue3Marquee :duration="20" :direction="'reverse'" :clone="true">
-            <img
-              v-for="(skill, index) in skillIcons"
-              :key="index"
-              :src="`${skillUrl}?i=${skill}`"
-              :alt="skill"
-              class="w-18 h-18 mx-1"
-            />
-          </Vue3Marquee>
+        <div class="row-span-1 flex items-center gap-8">
+          <div
+            class="w-full overflow-hidden relative rounded-2xl bg-transparent"
+          >
+            <Vue3Marquee :duration="20" :direction="'reverse'" :clone="true">
+              <img
+                v-for="(skill, index) in skillIcons"
+                :key="index"
+                :src="`${skillUrl}?i=${skill}`"
+                :alt="skill"
+                class="h-20 mx-1"
+              />
+            </Vue3Marquee>
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10"
+            ></div>
+          </div>
+          <div class="w-full">
+            <h1 class="text items-end text-end font-display uppercase">
+              tech stack
+              <NuxtLink
+                to="/about/skill"
+                class="cursor-pointer text-reveal-overlay"
+              >
+                See More
+              </NuxtLink>
+            </h1>
+          </div>
         </div>
       </div>
     </div>
@@ -72,6 +86,7 @@ const skillIcons = [
 </template>
 
 <style scoped>
+/* Text */
 .text {
   font-size: 5vw;
   letter-spacing: -0.01em;
@@ -90,7 +105,6 @@ const skillIcons = [
 
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
   position: relative;
 }
