@@ -54,13 +54,13 @@ body::after {
 }
 
 /* Animation texture */
-@media (prefers-reduced-motion: no-preference) {
+/*@media (prefers-reduced-motion: no-preference) {
   body::after {
     animation: glitch 2s infinite;
   }
-}
+}*/
 
-@keyframes glitch {
+/*@keyframes glitch {
   0% {
     transform: translate(0);
     opacity: 0.08;
@@ -88,4 +88,4 @@ body::after {
 }
 .animate-glitch {
   animation: glitch 3s infinite;
-}
+}*/

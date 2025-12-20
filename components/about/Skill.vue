@@ -51,11 +51,11 @@ const images = certificateArray.map((c) => c.Image);
               />
             </Vue3Marquee>
             <div
-              class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10"
+              class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10 md:block hidden"
             ></div>
           </div>
         </div>
-        <div class="row-span-1 flex items-center gap-8">
+        <div class="row-span-1 flex flex-col md:flex-row items-center gap-8">
           <div
             class="w-full overflow-hidden relative rounded-2xl bg-transparent"
           >
@@ -72,7 +72,7 @@ const images = certificateArray.map((c) => c.Image);
               />
             </Vue3Marquee>
             <div
-              class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10"
+              class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10 md:block hidden"
             ></div>
           </div>
           <div class="w-full">

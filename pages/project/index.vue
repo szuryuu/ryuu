@@ -51,8 +51,15 @@ const checkScrollMode = () => {
   useNativeScroll.value = window.innerWidth < 768;
 };
 
+// pages/project/index.vue - Replace your onMounted
 onMounted(async () => {
   await nextTick();
+
+  // FORCE scroll to start - this is what you're missing
+  if (scroll_container.value) {
+    scroll_container.value.scrollLeft = 0;
+  }
+
   checkScrollMode();
 
   window.addEventListener("resize", checkScrollMode);
@@ -61,6 +68,7 @@ onMounted(async () => {
     scroll_container.value.addEventListener("scroll", handleScroll);
   }
 
+  // Run animations AFTER scroll is reset
   gsap.from("#title", {
     autoAlpha: 0,
     x: -200,
@@ -79,7 +87,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="flex flex-col md:flex-row flex-1 relative max-w-7xl w-full mx-auto min-h-screen items-center justify-center"
+    class="flex flex-col lg:flex-row flex-1 relative max-w-7xl w-full mx-auto min-h-screen items-center justify-center"
   >
     <ClientOnly>
       <!-- Title -->
@@ -87,7 +95,7 @@ onUnmounted(() => {
         id="title"
         class="flex justify-center items-end md:items-center select-none w-full h-full"
       >
-        <div class="flex w-full md:px-12">
+        <div class="flex w-full lg:px-12">
           <span
             class="text-2xl font-bold font-decoration shrink-0 [writing-mode:vertical-rl]"
             >プロジェクト</span
@@ -103,15 +111,12 @@ onUnmounted(() => {
       </div>
       <div
         ref="scroll_container"
-        class="flex items-center justify-center w-full h-full transition-all duration-500 overflow-y-hidden min-w-5xl"
+        class="flex items-center w-full h-full transition-all duration-500 overflow-y-hidden lg:min-w-5xl"
         :class="useNativeScroll ? 'overflow-x-auto' : 'overflow-x-hidden'"
         @wheel="scrollX"
         @scroll="handleScroll"
       >
-        <div
-          id="project"
-          class="flex justify-center items-center transition-all duration-500"
-        >
+        <div id="project" class="flex tems-center transition-all duration-500">
           <div class="w-full">
             <ProjectList />
           </div>
