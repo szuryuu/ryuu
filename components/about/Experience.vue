@@ -47,8 +47,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex w-full h-full justify-center items-center px-4 md:px-12">
-    <div class="w-full max-w-6xl">
+  <div class="flex w-full h-full justify-center items-center max-w-7xl mx-auto">
+    <div class="w-full">
       <!-- Header Section -->
       <div
         class="experience-header grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16 text-white"
@@ -68,7 +68,7 @@ onUnmounted(() => {
 
         <!-- Quote -->
         <section
-          class="experience-quote flex items-center justify-center lg:items-end lg:justify-center"
+          class="experience-quote flex items-center justify-center lg:items-end lg:justify-end"
         >
           <div class="text-center lg:text-right max-w-sm">
             <blockquote class="relative">

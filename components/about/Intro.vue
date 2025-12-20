@@ -14,7 +14,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex w-full justify-center items-center max-w-6xl">
+  <div class="flex w-full justify-center items-center max-w-7xl">
     <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-12">
       <div class="col-span-full md:col-span-1 flex justify-center items-center">
         <div class="flex flex-col h-full justify-center gap-4">
