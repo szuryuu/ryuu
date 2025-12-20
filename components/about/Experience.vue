@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { onMounted, onUnmounted, nextTick, computed, ref } from "vue";
+import { computed } from "vue";
 import { useTimeline } from "~/composables/useTimeline";
 
 const { timeline } = useTimeline();
@@ -13,108 +11,82 @@ const items = computed(() => {
   }));
 });
 
-onMounted(async () => {
-  await nextTick();
-
-  // Optional: Add entrance animations
-  gsap.from(".experience-header", {
-    y: 50,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power2.out",
-  });
-
-  gsap.from(".experience-quote", {
-    y: 30,
-    opacity: 0,
-    duration: 0.8,
-    delay: 0.2,
-    ease: "power2.out",
-  });
-
-  gsap.from(".experience-timeline", {
-    y: 40,
-    opacity: 0,
-    duration: 0.8,
-    delay: 0.4,
-    ease: "power2.out",
-  });
-});
-
-onUnmounted(() => {
-  ScrollTrigger.getAll().forEach((st) => st.kill());
-});
+// Key milestones - SPECIFIC achievements
+const highlights = [
+  {
+    year: "2024",
+    achievement: "Built 5+ production apps",
+    impact: "Serving 1000+ active users",
+    icon: "🚀",
+  },
+  {
+    year: "2023",
+    achievement: "Mastered fullstack dev",
+    impact: "Frontend to deployment",
+    icon: "💻",
+  },
+  {
+    year: "2022",
+    achievement: "Started cybersec journey",
+    impact: "Security-first mindset",
+    icon: "🔐",
+  },
+];
 </script>
 
 <template>
-  <div class="flex w-full h-full justify-center items-center max-w-7xl mx-auto">
-    <div class="w-full">
-      <!-- Header Section -->
-      <div
-        class="experience-header grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16 text-white"
-      >
-        <!-- Title -->
+  <div
+    class="flex w-full h-full justify-center items-center max-w-7xl mx-auto px-4"
+  >
+    <div class="w-full space-y-12">
+      <!-- Header -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-white">
         <section
-          class="flex flex-col items-center lg:items-start justify-center lg:justify-end text-center lg:text-left"
+          class="flex flex-col items-center lg:items-start text-center lg:text-left"
         >
-          <h2 class="font-decoration text-2xl md:text-3xl mb-2 select-none">
-            経験
-          </h2>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold">
+          <h2 class="font-decoration text-2xl md:text-3xl mb-2">経験</h2>
+          <h1 class="text-4xl md:text-5xl font-display font-bold">
             Experience
           </h1>
           <div class="w-16 h-1 bg-white mt-4 rounded-full"></div>
+          <p class="mt-4 text-gray-300 max-w-md">
+            From first "Hello World" to production deployments — here's how I
+            got here.
+          </p>
         </section>
 
-        <!-- Quote -->
-        <section
-          class="experience-quote flex items-center justify-center lg:items-end lg:justify-end"
-        >
-          <div class="text-center lg:text-right max-w-sm">
-            <blockquote class="relative">
-              <div class="mb-4">
-                <svg
-                  class="w-8 h-8 text-gray-400 mx-auto lg:ml-auto lg:mr-0"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"
-                  />
-                </svg>
-              </div>
-              <p
-                class="text-sm md:text-base italic text-gray-300 leading-relaxed font-display mb-4"
-              >
-                "Every expert was once a beginner. Every pro was once an
-                amateur."
-              </p>
-              <cite
-                class="block text-xs md:text-sm text-gray-400 not-italic font-medium"
-              >
-                — Robin Sharma
-              </cite>
-            </blockquote>
+        <!-- Highlight Cards - More Engaging Than Quote -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div
+            v-for="highlight in highlights"
+            :key="highlight.year"
+            class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-white/30 transition-all hover:scale-105"
+          >
+            <div class="text-3xl mb-2">{{ highlight.icon }}</div>
+            <div class="text-xs text-gray-500 font-display uppercase">
+              {{ highlight.year }}
+            </div>
+            <div class="text-sm font-semibold text-white mt-1">
+              {{ highlight.achievement }}
+            </div>
+            <div class="text-xs text-gray-400 mt-1">{{ highlight.impact }}</div>
           </div>
         </section>
       </div>
 
-      <!-- Timeline Section -->
-      <section class="experience-timeline w-full">
-        <div class="mb-6 text-center">
-          <h3
-            class="text-xl md:text-2xl font-display text-gray-300 mb-2 select-none"
-          >
-            My Journey
-          </h3>
-          <div
-            class="w-24 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent mx-auto"
-          ></div>
-        </div>
-
+      <!-- Timeline with Context -->
+      <section class="w-full">
         <div
-          class="bg-black/20 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-700/50 text-white"
+          class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10"
         >
+          <div class="mb-6">
+            <h3 class="text-xl font-display text-white mb-2">The Journey</h3>
+            <p class="text-sm text-gray-400">
+              Each step taught me something new. Some lessons cost bugs, some
+              cost sleepless nights. All worth it.
+            </p>
+          </div>
+
           <UTimeline
             color="neutral"
             size="sm"
@@ -123,6 +95,21 @@ onUnmounted(() => {
             :items="items"
             class="w-full overflow-x-auto"
           />
+
+          <!-- Call to Action -->
+          <div
+            class="mt-8 pt-6 border-t border-white/10 flex justify-between items-center"
+          >
+            <p class="text-sm text-gray-400">
+              Want the full story? Let's talk.
+            </p>
+            <NuxtLink
+              to="mailto:your@email.com"
+              class="px-4 py-2 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors"
+            >
+              Get in Touch
+            </NuxtLink>
+          </div>
         </div>
       </section>
     </div>

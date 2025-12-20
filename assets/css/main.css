@@ -23,6 +23,7 @@
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  /*background-color: var(--color-primary);*/
 }
 
 *::-webkit-scrollbar {
