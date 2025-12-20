@@ -67,7 +67,7 @@ onUnmounted(() => {
 <template>
   <div class="w-full flex-1 relative">
     <section
-      class="panel min-h-screen flex items-center justify-center w-full px-2 md:px-0 overflow-y-hidden"
+      class="panel min-h-screen flex items-center justify-center w-full overflow-y-hidden"
     >
       <Intro />
     </section>

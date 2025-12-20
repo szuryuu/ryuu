@@ -9,10 +9,12 @@ import Hero from "~/components/Hero.vue";
       class="py-2 justify-between items-end grid grid-cols-1 md:grid-cols-3 select-none"
     >
       <div class="md:col-span-2">
-        <h5 class="pl-2 py-4 uppercase font-display text-xs">
+        <h5 class="py-4 uppercase font-display text-xs text-white">
           full stack developer / devops / cyber security
         </h5>
-        <h1 class="text-8xl font-display">
+
+        <!-- Name -->
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-display text-white">
           <span
             class="font-decoration bg-white text-black font-semibold px-2 leading-tight"
             >S.</span

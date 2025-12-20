@@ -23,38 +23,48 @@ onMounted(() => {
     y: 100,
   });
 
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const index = Array.from(cards).indexOf(entry.target as Element);
-
-        if (entry.isIntersecting) {
-          // Animate in
-          gsap.to(entry.target, {
-            autoAlpha: 1,
-            x: 0,
-            y: 0,
-            duration: 0.6,
-            delay: index * 0.1,
-            ease: "power2.out",
-          });
-        }
-      });
-    },
-    {
-      threshold: 0.2, // Trigger area
-      rootMargin: "0px", // Margin trigger area
-    },
-  );
-
-  // Observe all cards
-  cards.forEach((card) => {
-    observer?.observe(card);
+  gsap.to(cards, {
+    autoAlpha: 1,
+    x: 0,
+    y: 0,
+    duration: 0.6,
+    stagger: 0.1, // Delay antar cards
+    ease: "power2.out",
   });
 });
 
+// observer = new IntersectionObserver(
+//   (entries) => {
+//     entries.forEach((entry) => {
+//       const index = Array.from(cards).indexOf(entry.target as Element);
+
+//       if (entry.isIntersecting) {
+//         // Animate in
+//         gsap.to(entry.target, {
+//           autoAlpha: 1,
+//           x: 0,
+//           y: 0,
+//           duration: 0.6,
+//           delay: index * 0.1,
+//           ease: "power2.out",
+//         });
+//       }
+//     });
+//   },
+//   {
+//     threshold: 0.2, // Trigger area
+//     rootMargin: "0px", // Margin trigger area
+//   },
+// );
+
+// Observe all cards
+//   cards.forEach((card) => {
+//     observer?.observe(card);
+//   });
+// });
+
 onUnmounted(() => {
-  observer?.disconnect();
+  // observer?.disconnect();
 });
 </script>
 

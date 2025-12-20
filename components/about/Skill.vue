@@ -18,11 +18,13 @@ const images = certificateArray.map((c) => c.Image);
 
 <template>
   <ClientOnly>
-    <div class="h-full z-20 flex items-center">
+    <div class="h-full z-20 flex items-center max-w-6xl w-full">
       <div class="grid grid-rows-3 gap-4">
-        <div class="row-span-2 items-center flex h-full w-full gap-4">
+        <div
+          class="row-span-2 items-center flex flex-col md:flex-row h-full w-full gap-4"
+        >
           <div class="w-full">
-            <h1 class="text font-display uppercase">
+            <h1 class="text font-display text-primary uppercase">
               Certifications
               <NuxtLink
                 to="/about/skill"

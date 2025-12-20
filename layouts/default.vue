@@ -27,11 +27,11 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
     <nav
       class="fixed top-0 left-0 right-0 flex justify-between px-6 md:px-12 py-8 z-10"
     >
-      <h1 class="text-3xl font-display select-none">Sz</h1>
+      <h1 class="text-3xl font-display select-none text-white">Sz</h1>
       <UButton
         color="neutral"
         :variant="buttonVariant"
-        class="rounded-3xl font-display text-xs px-4 pt-2 md:py-2 flex justify-center items-center uppercase border-1 text-white hover:text-black duration-400 transition-all transform transform-fill bg-primary cursor-pointer"
+        class="rounded-3xl font-display text-xs px-4 pt-2 md:py-2 flex justify-center items-center uppercase border-1 text-white hover:text-black duration-400 transition-all transform transform-fill bg-primary hover:bg-white cursor-pointer"
         @click="handleClick"
         @mouseover="isHovered = true"
         @mouseleave="isHovered = false"
@@ -42,12 +42,10 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
     </nav>
 
     <div class="flex flex-col flex-1">
-      <div class="container mx-auto flex flex-col flex-1">
-        <Menu v-if="isOpen" class="flex-1 flex" @close="isOpen = false" />
-        <main v-if="!isOpen" class="flex-1 flex px-6 overflow-hidden">
-          <slot />
-        </main>
-      </div>
+      <Menu v-if="isOpen" class="flex-1 flex" @close="isOpen = false" />
+      <main v-if="!isOpen" class="flex-1 flex px-6 md:px-12 overflow-hidden">
+        <slot />
+      </main>
     </div>
   </div>
 </template>

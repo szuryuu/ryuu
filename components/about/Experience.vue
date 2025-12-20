@@ -51,7 +51,7 @@ onUnmounted(() => {
     <div class="w-full max-w-6xl">
       <!-- Header Section -->
       <div
-        class="experience-header grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16"
+        class="experience-header grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16 text-white"
       >
         <!-- Title -->
         <section
@@ -113,7 +113,7 @@ onUnmounted(() => {
         </div>
 
         <div
-          class="bg-black/20 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-700/50"
+          class="bg-black/20 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-gray-700/50 text-white"
         >
           <UTimeline
             color="neutral"

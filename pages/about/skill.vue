@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import {
   fullStackSkills,
   devOpsSkills,
@@ -18,15 +18,27 @@ const tabs = [
   { id: "tech-stack", label: "Tech Stack" },
 ];
 
+onMounted(() => {
+  const saved = localStorage.getItem("selectedTab");
+  if (saved) {
+    selectedTab.value = saved;
+  }
+});
+
 const handleTabChange = (tabId: string) => {
   selectedTab.value = tabId;
+  localStorage.setItem("selectedTab", tabId);
 };
 </script>
 
 <template>
-  <div class="flex w-full min-h-screen max-w-7xl mx-auto">
-    <section class="w-24 flex-shrink-0 flex justify-center items-center">
-      <div class="fixed top-1/2 -translate-y-1/2 flex justify-start gap-4">
+  <div class="flex w-full min-h-screen max-w-7xl mx-auto mt-4">
+    <section
+      class="w-16 md:w-24 flex-shrink-0 flex justify-center items-center"
+    >
+      <div
+        class="fixed top-1/2 -translate-y-1/2 flex flex-col md:flex-row justify-start gap-4"
+      >
         <button
           class="cursor-pointer flex items-start transition-opacity duration-300"
           :class="
@@ -37,7 +49,7 @@ const handleTabChange = (tabId: string) => {
           @click="handleTabChange('certificate')"
         >
           <span
-            class="[writing-mode:vertical-lr] text-4xl font-decoration shrink-0 pt-5"
+            class="[writing-mode:vertical-lr] text-2xl md:text-4xl font-decoration shrink-0 pt-5"
             >証明書</span
           >
           <span
@@ -55,7 +67,7 @@ const handleTabChange = (tabId: string) => {
           @click="handleTabChange('tech-stack')"
         >
           <span
-            class="[writing-mode:vertical-lr] text-4xl font-decoration shrink-0 pt-5"
+            class="[writing-mode:vertical-lr] text-2xl md:text-4xl font-decoration shrink-0 pt-5"
             >技術スキル</span
           >
           <span
@@ -66,7 +78,7 @@ const handleTabChange = (tabId: string) => {
       </div>
     </section>
     <section
-      class="flex flex-col pb-20 pt-32 items-center max-w-5xl w-full mx-auto h-screen overflow-y-auto"
+      class="flex flex-col pb-20 pt-32 items-center max-w-5xl w-full mx-auto h-full overflow-y-auto"
     >
       <!-- <header
         class="sticky top-0 z-10 w-full text-center py-4 mb-8 bg-gray-500/50 backdrop-blur-md transition-transform duration-300 ease-in-out"
@@ -105,7 +117,7 @@ const handleTabChange = (tabId: string) => {
       </div>
       <div
         v-else-if="selectedTab === 'tech-stack'"
-        class="h-full flex flex-col items-start justify-center"
+        class="h-full flex flex-col items-start justify-center pl-4 md:pl-0"
       >
         <!-- Full Stack Development -->
         <div class="space-y-4 mb-6 w-full">
@@ -131,6 +143,7 @@ const handleTabChange = (tabId: string) => {
                 :src="`${skillUrl}?i=${skill}`"
                 :alt="skill"
                 class="w-full h-auto transition-transform duration-300 group-hover:scale-110"
+                loading="eager"
               />
               <span
                 class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
@@ -165,6 +178,7 @@ const handleTabChange = (tabId: string) => {
                 :src="`${skillUrl}?i=${skill}`"
                 :alt="skill"
                 class="w-full h-auto transition-transform duration-300 group-hover:scale-110"
+                loading="eager"
               />
               <span
                 class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
@@ -197,6 +211,7 @@ const handleTabChange = (tabId: string) => {
                 :src="`${skillUrl}?i=${skill}`"
                 :alt="skill"
                 class="w-full h-auto transition-transform duration-300 group-hover:scale-110"
+                loading="eager"
               />
               <span
                 class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
