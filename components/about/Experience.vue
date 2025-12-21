@@ -21,14 +21,14 @@ const highlights = [
   },
   {
     year: "2023",
-    achievement: "Mastered fullstack dev",
-    impact: "Frontend to deployment",
+    achievement: "30+ Certifications",
+    impact: "Expanded knowledge base",
     icon: "💻",
   },
   {
     year: "2022",
-    achievement: "Started cybersec journey",
-    impact: "Security-first mindset",
+    achievement: "2+ Years of Professional Experience",
+    impact: "Developed a strong portfolio",
     icon: "🔐",
   },
 ];
@@ -60,16 +60,20 @@ const highlights = [
           <div
             v-for="highlight in highlights"
             :key="highlight.year"
-            class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-white/30 transition-all hover:scale-105"
+            class="relative bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-white/30 transition-all group cursor-pointer"
           >
             <div class="text-3xl mb-2">{{ highlight.icon }}</div>
-            <div class="text-xs text-gray-500 font-display uppercase">
-              {{ highlight.year }}
-            </div>
             <div class="text-sm font-semibold text-white mt-1">
               {{ highlight.achievement }}
             </div>
             <div class="text-xs text-gray-400 mt-1">{{ highlight.impact }}</div>
+
+            <!-- View More Overlay -->
+            <div
+              class="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <span class="text-white font-semibold">View More</span>
+            </div>
           </div>
         </section>
       </div>
