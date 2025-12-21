@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useTimeline } from "~/composables/useTimeline";
+import { certificateArray } from "@/utils/certificates";
 
 const { timeline } = useTimeline();
+const certificates = certificateArray;
 
 const items = computed(() => {
   return timeline.value.map((item) => ({
@@ -21,7 +23,7 @@ const highlights = [
   },
   {
     year: "2023",
-    achievement: "30+ Certifications",
+    achievement: `${certificates.length} Certifications`,
     impact: "Expanded knowledge base",
     icon: "💻",
   },
