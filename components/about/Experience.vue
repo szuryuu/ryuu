@@ -6,6 +6,10 @@ import { certificateArray } from "@/utils/certificates";
 const { timeline } = useTimeline();
 const certificates = certificateArray;
 
+const { data: projects } = await useAsyncData("projects-count", () =>
+  queryCollection("projects").all(),
+);
+
 const items = computed(() => {
   return timeline.value.map((item) => ({
     ...item,
@@ -16,22 +20,25 @@ const items = computed(() => {
 // Key milestones - SPECIFIC achievements
 const highlights = [
   {
-    year: "2024",
-    achievement: "Built 5+ production apps",
-    impact: "Serving 1000+ active users",
-    icon: "🚀",
+    id: 1,
+    achievement: `${projects.value?.length ?? 0}+ Projects Shipped`,
+    impact:
+      "End-to-end builds, from raw ideas to production systems people actually use.",
+    link: "/project",
   },
   {
-    year: "2023",
-    achievement: `${certificates.length} Certifications`,
-    impact: "Expanded knowledge base",
-    icon: "💻",
+    id: 2,
+    achievement: `${certificates.length}+ Professional Certifications`,
+    impact:
+      "Covering full-stack, DevOps, and security, not just surface-level skills.",
+    link: "/about/skill",
   },
   {
-    year: "2022",
-    achievement: "2+ Years of Professional Experience",
-    impact: "Developed a strong portfolio",
-    icon: "🔐",
+    id: 3,
+    achievement: "2+ Years Experience",
+    impact:
+      "Growing from intern to reviewer by shipping under real production pressure.",
+    link: "/about#experience",
   },
 ];
 </script>
@@ -58,25 +65,64 @@ const highlights = [
         </section>
 
         <!-- Highlight Cards - More Engaging Than Quote -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <NuxtLink
             v-for="highlight in highlights"
-            :key="highlight.year"
-            class="relative bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-white/30 transition-all group cursor-pointer"
+            :key="highlight.id"
+            :to="highlight.link"
+            class="relative group cursor-pointer"
           >
-            <div class="text-3xl mb-2">{{ highlight.icon }}</div>
-            <div class="text-sm font-semibold text-white mt-1">
-              {{ highlight.achievement }}
-            </div>
-            <div class="text-xs text-gray-400 mt-1">{{ highlight.impact }}</div>
-
-            <!-- View More Overlay -->
+            <!-- Main Card -->
             <div
-              class="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              class="relative bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-white/5 overflow-hidden"
             >
-              <span class="text-white font-semibold">View More</span>
+              <!-- Gradient Background Effect -->
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary opacity-0 group-hover:opacity-90 transition-opacity duration-500 z-10"
+              ></div>
+
+              <!-- Content (blur on hover) -->
+              <div
+                class="relative z-0 transition-all duration-500 group-hover:blur-sm"
+              >
+                <!-- Achievement -->
+                <h3
+                  class="text-lg font-display font-semibold text-white mb-2 leading-tight"
+                >
+                  {{ highlight.achievement }}
+                </h3>
+
+                <!-- Impact -->
+                <p class="text-xs text-gray-400 leading-relaxed">
+                  {{ highlight.impact }}
+                </p>
+              </div>
+
+              <!-- Overlay Text (not blurred, appears on hover) -->
+              <div
+                class="absolute inset-0 flex flex-col items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0"
+              >
+                <span
+                  class="text-white font-display font-semibold text-lg mb-2"
+                >
+                  View Details
+                </span>
+                <svg
+                  class="w-6 h-6 text-white transform transition-transform duration-500 group-hover:translate-y-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
+          </NuxtLink>
         </section>
       </div>
 

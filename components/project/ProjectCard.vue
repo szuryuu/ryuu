@@ -16,9 +16,12 @@ defineProps<{
 </script>
 
 <template>
-  <UCard variant="soft" class="bg-primary border-accent border-2">
+  <UCard
+    variant="soft"
+    class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-white/5 overflow-hidden"
+  >
     <div class="flex gap-2">
-      <div class="flex gap-6">
+      <div class="flex gap-3">
         <USeparator orientation="vertical" color="secondary" type="solid" />
         <NuxtImg
           :src="project.image"
@@ -48,6 +51,7 @@ defineProps<{
           aria-label="Open Live Demo"
           class="flex gap-2 items-center justify-center"
           :class="project.githubUrl ? '' : 'w-full'"
+          target="_blank"
         >
           Live Demo
         </LinkButton>
@@ -57,6 +61,7 @@ defineProps<{
           aria-label="Open GitHub"
           class="flex gap-2 items-center justify-center"
           :class="project.liveDemoUrl ? '' : 'w-full'"
+          target="_blank"
         >
           <LucideGithub :size="10" /> Repo
         </LinkButton>

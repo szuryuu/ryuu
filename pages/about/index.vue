@@ -7,7 +7,10 @@ import { Experience, Intro, Skill } from "@/components/about";
     <section class="min-h-screen flex items-center justify-center py-20">
       <Intro />
     </section>
-    <section class="min-h-screen flex items-center justify-center py-20">
+    <section
+      id="experience"
+      class="min-h-screen flex items-center justify-center py-20"
+    >
       <Experience />
     </section>
     <section class="min-h-screen flex items-center justify-center py-20">
