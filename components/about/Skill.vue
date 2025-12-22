@@ -18,165 +18,213 @@ const images = certificateArray.map((c) => c.Image);
 
 <template>
   <div class="h-full z-20 flex items-center max-w-7xl w-full px-4">
-    <div class="grid grid-rows-3 gap-4 w-full">
-      <!-- Certifications Row -->
-      <div
-        class="row-span-2 items-center flex flex-col md:flex-row h-full w-full gap-4"
+    <div class="w-full space-y-24">
+      <!-- CERTIFICATIONS SECTION -->
+      <section
+        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
       >
-        <div class="w-full md:w-auto">
-          <h2 class="text font-display text-primary uppercase">
-            Certifications
+        <!-- Left -->
+        <div class="lg:col-span-5 space-y-6">
+          <!-- Number indicator -->
+          <div class="flex items-center gap-4">
+            <span class="text-6xl font-display text-white/10 font-bold"
+              >01</span
+            >
+            <div class="h-px flex-1 bg-white/10"></div>
+          </div>
+
+          <!-- Reveal -->
+          <h2 class="text-reveal font-display uppercase group cursor-pointer">
+            <span class="text-gradient-base">Certifi-<br />cations</span>
+            <span class="text-reveal-overlay">Certifi<br />cations</span>
+          </h2>
+
+          <!-- Meta info -->
+          <div class="space-y-2 pl-1">
+            <p class="font-decoration text-white/30">証明書</p>
+            <p
+              class="text-xs text-white/40 max-w-xs font-display leading-relaxed"
+            >
+              Professional credentials spanning full-stack development, DevOps
+              automation, and security engineering.
+            </p>
+
+            <!-- CTA -->
             <NuxtLink
               to="/about/skill"
-              class="cursor-pointer text-reveal-overlay"
+              class="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-white hover:text-white/60 transition-colors duration-300 font-display pt-4 group/link"
               aria-label="View all certifications"
             >
-              See More
+              <span
+                class="border-b border-white group-hover/link:border-white/60"
+                >View All</span
+              >
+              <svg
+                class="w-3 h-3 group-hover/link:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
             </NuxtLink>
-          </h2>
+          </div>
         </div>
 
-        <!-- Mobile: Simple Grid -->
-        <div class="md:hidden w-full grid grid-cols-3 gap-2">
-          <NuxtImg
-            v-for="(image, index) in images.slice(0, 6)"
-            :key="index"
-            :src="image"
-            class="w-full aspect-square object-cover rounded-lg"
-            alt="certificate"
-            width="120"
-            height="120"
-            format="webp"
-            loading="lazy"
-          />
-        </div>
-
-        <!-- Desktop: Marquee -->
-        <div
-          class="hidden md:block w-full overflow-hidden relative rounded-2xl bg-transparent"
-        >
-          <Vue3Marquee :duration="14" :clone="true" :pause-on-hover="true">
+        <!-- Right -->
+        <div class="lg:col-span-7 relative">
+          <div
+            class="grid grid-cols-3 pl-4 gap-4 border-l-2 border-white/20 lg:border-r-2 lg:border-l-0 lg:pr-4"
+          >
             <NuxtImg
-              v-for="(image, index) in images"
+              v-for="(image, index) in images.slice(0, 6)"
               :key="index"
               :src="image"
-              class="h-40 mx-1 shrink-0 rounded-2xl"
+              class="w-full h-auto rounded-2xl border-white/10 md:w-56"
               alt="certificate"
-              height="160"
-              width="160"
+              width="60"
+              height="60"
               format="webp"
               loading="lazy"
             />
-          </Vue3Marquee>
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10 pointer-events-none"
-          ></div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Tech Stack Row -->
-      <div
-        class="row-span-1 flex flex-col md:flex-row items-center gap-4 md:gap-8"
+      <!-- TECH STACK SECTION -->
+      <section
+        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
       >
-        <!-- Mobile: Simple Grid -->
-        <div class="md:hidden w-full grid grid-cols-6 gap-2">
-          <img
-            v-for="(skill, index) in skillIcons.slice(0, 12)"
-            :key="index"
-            :src="`${skillUrl}?i=${skill}`"
-            :alt="skill"
-            class="w-full h-auto"
-            width="60"
-            height="60"
-            loading="lazy"
-          />
-        </div>
-
-        <!-- Desktop: Marquee -->
-        <div
-          class="hidden md:block w-full overflow-hidden relative rounded-2xl bg-transparent"
-        >
-          <Vue3Marquee
-            :duration="20"
-            direction="reverse"
-            :clone="true"
-            :pause-on-hover="true"
-          >
+        <!-- Left -->
+        <div class="lg:col-span-7 lg:order-2 relative">
+          <div class="grid grid-cols-6 gap-2 border-r-2 border-white/20 pr-4">
             <img
-              v-for="(skill, index) in skillIcons"
+              v-for="(skill, index) in skillIcons.slice(0, 12)"
               :key="index"
               :src="`${skillUrl}?i=${skill}`"
               :alt="skill"
-              class="h-20 mx-1"
-              width="80"
-              height="80"
+              class="w-full h-auto opacity-80"
+              width="56"
+              height="56"
               loading="lazy"
             />
-          </Vue3Marquee>
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-primary from-0% via-transparent via-50% to-primary to-100% z-10 pointer-events-none"
-          ></div>
+          </div>
         </div>
 
-        <div class="w-full md:w-auto">
+        <!-- Right -->
+        <div class="lg:col-span-5 lg:order-1 space-y-6 lg:text-right">
+          <!-- Number indicator -->
+          <div class="flex lg:flex-row-reverse items-center gap-4">
+            <span class="text-6xl font-display text-white/10 font-bold"
+              >02</span
+            >
+            <div class="h-px flex-1 bg-white/10"></div>
+          </div>
+
+          <!-- Reveal -->
           <h2
-            class="text items-end text-center md:text-end font-display uppercase"
+            class="text-reveal font-display uppercase group cursor-pointer lg:text-right"
           >
-            tech stack
+            <span class="text-gradient-base">Tech<br />Stack</span>
+            <span class="text-reveal-overlay">Tech<br />Stack</span>
+          </h2>
+
+          <!-- Meta info -->
+          <div class="space-y-2 pr-1 lg:flex lg:flex-col lg:items-end">
+            <p class="font-decoration text-white/30">技術スタック</p>
+            <p
+              class="text-xs text-white/40 max-w-xs font-display leading-relaxed lg:text-right"
+            >
+              Battle-tested tools and frameworks proven in production
+              environments under real load.
+            </p>
+
+            <!-- CTA -->
             <NuxtLink
               to="/about/skill"
-              class="cursor-pointer text-reveal-overlay"
+              class="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-white hover:text-white/60 transition-colors duration-300 font-display pt-4 group/link"
               aria-label="View all tech stack"
             >
-              See More
+              <span
+                class="border-b border-white group-hover/link:border-white/60"
+                >Explore</span
+              >
+              <svg
+                class="w-3 h-3 group-hover/link:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
             </NuxtLink>
-          </h2>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </template>
 
 <style scoped>
-.text {
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  letter-spacing: -0.01em;
-  line-height: 100%;
-  margin: 0;
-  width: 100%;
-  color: rgb(182, 182, 182, 0.2);
-  background: linear-gradient(to right, #b6b6b6, #b6b6b6) no-repeat;
+.text-reveal {
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 0;
+}
+
+.text-gradient-base {
+  display: block;
+  color: rgba(182, 182, 182, 0.08);
+  background: linear-gradient(to right, #b6b6b6 0%, #b6b6b6 0%) no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
   background-size: 0%;
-  transition: background-size cubic-bezier(0.1, 0.5, 0.5, 1) 0.5s;
-  border-bottom: 1px solid #2f2b28;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
+  transition: background-size cubic-bezier(0.1, 0.5, 0.5, 1) 0.8s;
+}
+
+.text-reveal:hover .text-gradient-base {
+  background-size: 100%;
 }
 
 .text-reveal-overlay {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: white;
-  color: #505050;
+  background: #ffffff;
+  color: #0a0a0a;
   clip-path: polygon(0 50%, 100% 50%, 100% 50%, 0 50%);
   transform-origin: center;
-  transition: all cubic-bezier(0.1, 0.5, 0.5, 1) 0.4s;
+  transition: all cubic-bezier(0.1, 0.5, 0.5, 1) 0.65s;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  justify-content: inherit;
+  font-weight: 900;
 }
 
-.text:hover .text-reveal-overlay {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+.text-reveal:hover .text-reveal-overlay {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
-/* Prevent pointer events on gradient overlay */
-.pointer-events-none {
-  pointer-events: none;
+@media (max-width: 768px) {
+  .text-reveal {
+    font-size: clamp(2.5rem, 12vw, 5rem);
+    line-height: 0.9;
+  }
 }
 </style>
