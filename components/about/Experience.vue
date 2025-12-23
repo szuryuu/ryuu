@@ -1,3 +1,4 @@
+<!-- Experience.vue - Text Reveal Style -->
 <script setup lang="ts">
 import { computed } from "vue";
 import { useTimeline } from "~/composables/useTimeline";
@@ -17,27 +18,24 @@ const items = computed(() => {
   }));
 });
 
-// Key milestones - SPECIFIC achievements
-const highlights = [
+// Stats - make these specific
+const stats = [
   {
-    id: 1,
-    achievement: `${projects.value?.length ?? 0}+ Projects Shipped`,
-    impact:
-      "End-to-end builds, from raw ideas to production systems people actually use.",
+    number: `${projects.value?.length ?? 0}+`,
+    label: "Projects",
+    sublabel: "Shipped to Production",
     link: "/project",
   },
   {
-    id: 2,
-    achievement: `${certificates.length}+ Professional Certifications`,
-    impact:
-      "Covering full-stack, DevOps, and security, not just surface-level skills.",
+    number: `${certificates.length}+`,
+    label: "Certifications",
+    sublabel: "Full-Stack & Security",
     link: "/about/skill",
   },
   {
-    id: 3,
-    achievement: "2+ Years Experience",
-    impact:
-      "Growing from intern to reviewer by shipping under real production pressure.",
+    number: "2+",
+    label: "Years",
+    sublabel: "Building & Learning",
     link: "/about#experience",
   },
 ];
@@ -48,67 +46,98 @@ const highlights = [
     class="flex w-full h-full justify-center items-center max-w-7xl mx-auto px-4"
   >
     <div class="w-full space-y-12">
-      <!-- Header -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 text-white">
-        <section
-          class="flex flex-col items-center lg:items-start text-center lg:text-left"
-        >
-          <h2 class="font-decoration text-2xl md:text-3xl mb-2">経験</h2>
-          <h1 class="text-4xl md:text-5xl font-display font-bold">
-            Experience
-          </h1>
-          <div class="w-16 h-1 bg-white mt-4 rounded-full"></div>
-          <p class="mt-4 text-gray-300 max-w-md">
-            From first "Hello World" to production deployments — here's how I
-            got here.
-          </p>
-        </section>
-
-        <!-- Highlight Cards - More Engaging Than Quote -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <NuxtLink
-            v-for="highlight in highlights"
-            :key="highlight.id"
-            :to="highlight.link"
-            class="relative group cursor-pointer"
-          >
-            <!-- Main Card -->
-            <div
-              class="relative bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-white/5 overflow-hidden"
+      <!-- HEADER SECTION -->
+      <section
+        class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+      >
+        <!-- Left: Title -->
+        <div class="space-y-6">
+          <div class="flex items-center gap-4">
+            <span class="text-6xl font-display text-white/10 font-bold"
+              >01</span
             >
-              <!-- Gradient Background Effect -->
-              <div
-                class="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary opacity-0 group-hover:opacity-90 transition-opacity duration-500 z-10"
-              ></div>
+            <div class="h-px flex-1 bg-white/10"></div>
+          </div>
 
-              <!-- Content (blur on hover) -->
-              <div
-                class="relative z-0 transition-all duration-500 group-hover:blur-sm"
-              >
-                <!-- Achievement -->
-                <h3
-                  class="text-lg font-display font-semibold text-white mb-2 leading-tight"
-                >
-                  {{ highlight.achievement }}
-                </h3>
+          <h2 class="text-reveal font-display uppercase group cursor-pointer">
+            <span class="text-gradient-base">Experi-<br />ence</span>
+            <span class="text-reveal-overlay">Experi<br />ence</span>
+          </h2>
 
-                <!-- Impact -->
-                <p class="text-xs text-gray-400 leading-relaxed">
-                  {{ highlight.impact }}
-                </p>
+          <div class="space-y-2 pl-1">
+            <p class="font-decoration text-white/30">経験</p>
+            <p
+              class="text-xs text-white/40 max-w-xs font-display leading-relaxed"
+            >
+              From first "Hello World" to production deployments. Each step
+              taught something new.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Journey subtitle -->
+        <div class="space-y-6 lg:text-right">
+          <div class="flex lg:flex-row-reverse items-center gap-4">
+            <span class="text-6xl font-display text-white/10 font-bold"
+              >02</span
+            >
+            <div class="h-px flex-1 bg-white/10"></div>
+          </div>
+
+          <h2
+            class="text-reveal font-display uppercase group cursor-pointer lg:text-right"
+          >
+            <span class="text-gradient-base">The<br />Journey</span>
+            <span class="text-reveal-overlay">The<br />Journey</span>
+          </h2>
+
+          <div class="space-y-2 pr-1 lg:flex lg:flex-col lg:items-end">
+            <p class="font-decoration text-white/30">旅</p>
+            <p
+              class="text-xs text-white/40 max-w-xs font-display leading-relaxed lg:text-right"
+            >
+              Some lessons cost bugs. Some cost sleepless nights. All worth it.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS GRID -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <NuxtLink
+          v-for="(stat, index) in stats"
+          :key="index"
+          :to="stat.link"
+          class="group relative overflow-hidden"
+        >
+          <div
+            class="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 transition-all duration-500"
+          >
+            <!-- Number indicator -->
+            <div
+              class="absolute top-4 right-4 text-4xl font-display text-white/5 font-bold"
+            >
+              {{ String(index + 1).padStart(2, "0") }}
+            </div>
+
+            <!-- Content -->
+            <div class="relative z-10">
+              <div class="text-5xl font-display font-bold text-white mb-2">
+                {{ stat.number }}
+              </div>
+              <div class="text-lg font-display text-white/80">
+                {{ stat.label }}
+              </div>
+              <div class="text-xs text-white/40 mt-1 font-display">
+                {{ stat.sublabel }}
               </div>
 
-              <!-- Overlay Text (not blurred, appears on hover) -->
+              <!-- Arrow indicator on hover -->
               <div
-                class="absolute inset-0 flex flex-col items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0"
+                class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >
-                <span
-                  class="text-white font-display font-semibold text-lg mb-2"
-                >
-                  View Details
-                </span>
                 <svg
-                  class="w-6 h-6 text-white transform transition-transform duration-500 group-hover:translate-y-1"
+                  class="w-5 h-5 text-white group-hover:translate-x-1 transition-transform"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -117,25 +146,35 @@ const highlights = [
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M19 9l-7 7-7-7"
+                    d="M9 5l7 7-7 7"
                   />
                 </svg>
               </div>
             </div>
-          </NuxtLink>
-        </section>
-      </div>
+          </div>
+        </NuxtLink>
+      </section>
 
-      <!-- Timeline with Context -->
+      <!-- TIMELINE SECTION -->
       <section class="w-full">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="h-px flex-1 bg-white/10"></div>
+          <span
+            class="text-xs uppercase tracking-wider text-white/30 font-display"
+            >Timeline</span
+          >
+        </div>
+
         <div
           class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10"
         >
-          <div class="mb-6">
-            <h3 class="text-xl font-display text-white mb-2">The Journey</h3>
-            <p class="text-sm text-gray-400">
-              Each step taught me something new. Some lessons cost bugs, some
-              cost sleepless nights. All worth it.
+          <div class="mb-8">
+            <h3 class="text-2xl font-display font-bold text-white mb-2">
+              Career Path
+            </h3>
+            <p class="text-sm text-white/40 font-display">
+              Each milestone represents growth, learning, and shipping code that
+              matters.
             </p>
           </div>
 
@@ -148,19 +187,63 @@ const highlights = [
             class="w-full overflow-x-auto"
           />
 
-          <!-- Call to Action -->
-          <div
-            class="mt-8 pt-6 border-t border-white/10 flex justify-between items-center"
-          >
-            <p class="text-sm text-gray-400">
-              Want the full story? Let's talk.
-            </p>
-            <NuxtLink
-              to="mailto:your@email.com"
-              class="px-4 py-2 bg-white text-black rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors"
+          <!-- Footer CTA -->
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <div
+              class="flex flex-col md:flex-row md:justify-between md:items-center gap-4"
             >
-              Get in Touch
-            </NuxtLink>
+              <div>
+                <p class="text-sm text-white/60 font-display mb-1">
+                  Want the full story?
+                </p>
+                <p class="text-xs text-white/40 font-display">
+                  Let's talk about what we can build together.
+                </p>
+              </div>
+
+              <div class="flex gap-3">
+                <NuxtLink
+                  to="mailto:your@email.com"
+                  class="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg text-sm font-display font-semibold hover:bg-white/90 transition-colors"
+                >
+                  Get in Touch
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </NuxtLink>
+
+                <NuxtLink
+                  to="/cv.pdf"
+                  target="_blank"
+                  class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white rounded-lg text-sm font-display hover:bg-white/10 transition-colors"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  Download CV
+                </NuxtLink>
+              </div>
+            </div>
           </div>
         </div>
       </section>
