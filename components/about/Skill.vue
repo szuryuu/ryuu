@@ -1,30 +1,14 @@
-<script setup lang="ts">
-import {
-  fullStackSkills,
-  devOpsSkills,
-  cyberSecuritySkills,
-  skillUrl,
-} from "@/utils/skills";
-import { certificateArray } from "@/utils/certificates";
-
-const skillIcons = [
-  ...fullStackSkills,
-  ...devOpsSkills,
-  ...cyberSecuritySkills,
-];
-
-const images = certificateArray.map((c) => c.Image);
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="h-full z-20 flex items-center max-w-7xl w-full px-4">
     <div class="w-full space-y-24">
       <!-- CERTIFICATIONS SECTION -->
       <section
-        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
       >
         <!-- Left -->
-        <div class="lg:col-span-5 space-y-6">
+        <div class="space-y-6">
           <!-- Number indicator -->
           <div class="flex items-center gap-4">
             <span class="text-6xl font-display text-white/10 font-bold"
@@ -76,48 +60,7 @@ const images = certificateArray.map((c) => c.Image);
           </div>
         </div>
 
-        <!-- Right -->
-        <div class="lg:col-span-7 relative">
-          <div
-            class="grid grid-cols-3 pl-4 gap-4 border-l-2 border-white/20 lg:border-r-2 lg:border-l-0 lg:pr-4"
-          >
-            <NuxtImg
-              v-for="(image, index) in images.slice(0, 6)"
-              :key="index"
-              :src="image"
-              class="w-full h-auto rounded-2xl border-white/10 md:w-56"
-              alt="certificate"
-              width="60"
-              height="60"
-              format="webp"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- TECH STACK SECTION -->
-      <section
-        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
-      >
-        <!-- Left -->
-        <div class="lg:col-span-7 lg:order-2 relative">
-          <div class="grid grid-cols-6 gap-2 border-r-2 border-white/20 pr-4">
-            <img
-              v-for="(skill, index) in skillIcons.slice(0, 12)"
-              :key="index"
-              :src="`${skillUrl}?i=${skill}`"
-              :alt="skill"
-              class="w-full h-auto opacity-80"
-              width="56"
-              height="56"
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        <!-- Right -->
-        <div class="lg:col-span-5 lg:order-1 space-y-6 lg:text-right">
+        <div class="space-y-6 lg:text-right">
           <!-- Number indicator -->
           <div class="flex lg:flex-row-reverse items-center gap-4">
             <span class="text-6xl font-display text-white/10 font-bold"

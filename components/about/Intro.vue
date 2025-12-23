@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import LinkButton from "~/components/LinkButton.vue";
-// import GitHubCalendar from "@/components/GithubCalendar.vue";
-
 // Real contact info - UPDATE THESE
 const contact = {
   email: "shafwan@yourdomain.com", // CHANGE THIS
@@ -53,14 +49,8 @@ const contact = {
           </p>
         </div>
 
-        <!-- Stats - Visual proof without animation -->
+        <!-- GitHub Activity -->
         <div class="w-full bg-primary">
-          <!-- <img
-            src="https://ghchart.rshah.org/szuryuu"
-            alt="GitHub contributions"
-            class="bg-primary"
-          /> -->
-
           <div
             class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
           >
@@ -75,6 +65,7 @@ const contact = {
             <img
               src="https://ghchart.rshah.org/29903b/szuryuu"
               alt="GitHub contributions"
+              loading="eager"
             />
           </div>
         </div>
