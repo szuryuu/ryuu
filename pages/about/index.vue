@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Experience, Intro, Skill } from "@/components/about";
+import Circle from "~/components/Circle.vue";
 </script>
 
 <template>
@@ -25,7 +26,7 @@ import { Experience, Intro, Skill } from "@/components/about";
             <span
               class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
             ></span>
-            01. Introduction
+            Introduction
           </a>
           <a
             href="#journey"
@@ -34,7 +35,7 @@ import { Experience, Intro, Skill } from "@/components/about";
             <span
               class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
             ></span>
-            02. Journey
+            Journey
           </a>
           <a
             href="#skill"
@@ -43,13 +44,15 @@ import { Experience, Intro, Skill } from "@/components/about";
             <span
               class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
             ></span>
-            03. Skill
+            Skill
           </a>
         </nav>
       </div>
     </aside>
 
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
+      <Circle class="fixed" />
+
       <section id="intro" class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"

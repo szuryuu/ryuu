@@ -15,4 +15,12 @@ export default defineNuxtConfig({
     "v-gsap-nuxt",
     "@nuxt/image",
   ],
+  icon: {
+    customCollections: [
+      {
+        prefix: "custom",
+        dir: "./assets/images/icons",
+      },
+    ],
+  },
 });
