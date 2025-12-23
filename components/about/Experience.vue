@@ -36,7 +36,7 @@ const stats = [
     number: "2+",
     label: "Years",
     sublabel: "Building & Learning",
-    link: "/about#experience",
+    link: "/about#journey",
   },
 ];
 </script>
@@ -47,21 +47,18 @@ const stats = [
   >
     <div class="w-full space-y-12">
       <!-- HEADER SECTION -->
-      <section
-        class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
-      >
-        <!-- Left: Title -->
+      <section class="grid grid-cols-1 gap-8 lg:gap-12 items-center">
         <div class="space-y-6">
           <div class="flex items-center gap-4">
-            <span class="text-6xl font-display text-white/10 font-bold"
-              >01</span
-            >
             <div class="h-px flex-1 bg-white/10"></div>
+            <span class="text-6xl font-display text-white/10 font-bold"
+              >00</span
+            >
           </div>
 
           <h2 class="text-reveal font-display uppercase group cursor-pointer">
-            <span class="text-gradient-base">Experi-<br />ence</span>
-            <span class="text-reveal-overlay">Experi<br />ence</span>
+            <span class="text-gradient-base">The<br />Journey</span>
+            <span class="text-reveal-overlay">The<br />Journey</span>
           </h2>
 
           <div class="space-y-2 pl-1">
@@ -71,32 +68,6 @@ const stats = [
             >
               From first "Hello World" to production deployments. Each step
               taught something new.
-            </p>
-          </div>
-        </div>
-
-        <!-- Right: Journey subtitle -->
-        <div class="space-y-6 lg:text-right">
-          <div class="flex lg:flex-row-reverse items-center gap-4">
-            <span class="text-6xl font-display text-white/10 font-bold"
-              >02</span
-            >
-            <div class="h-px flex-1 bg-white/10"></div>
-          </div>
-
-          <h2
-            class="text-reveal font-display uppercase group cursor-pointer lg:text-right"
-          >
-            <span class="text-gradient-base">The<br />Journey</span>
-            <span class="text-reveal-overlay">The<br />Journey</span>
-          </h2>
-
-          <div class="space-y-2 pr-1 lg:flex lg:flex-col lg:items-end">
-            <p class="font-decoration text-white/30">旅</p>
-            <p
-              class="text-xs text-white/40 max-w-xs font-display leading-relaxed lg:text-right"
-            >
-              Some lessons cost bugs. Some cost sleepless nights. All worth it.
             </p>
           </div>
         </div>

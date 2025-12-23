@@ -12,7 +12,7 @@
           <!-- Number indicator -->
           <div class="flex items-center gap-4">
             <span class="text-6xl font-display text-white/10 font-bold"
-              >01</span
+              >00</span
             >
             <div class="h-px flex-1 bg-white/10"></div>
           </div>
@@ -64,7 +64,7 @@
           <!-- Number indicator -->
           <div class="flex lg:flex-row-reverse items-center gap-4">
             <span class="text-6xl font-display text-white/10 font-bold"
-              >02</span
+              >00</span
             >
             <div class="h-px flex-1 bg-white/10"></div>
           </div>
