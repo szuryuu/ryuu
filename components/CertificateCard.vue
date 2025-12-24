@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <UCard class="ml-4 w-56 md:w-72 bg-primary border-2 border-accent">
+  <UCard class="w-56 md:w-72 max-h-[320px] bg-primary border-2 border-accent">
     <div class="flex flex-col gap-2">
       <NuxtImg
         :src="certificate.Image"

@@ -19,8 +19,12 @@
 
           <!-- Reveal -->
           <h2 class="text-reveal font-display uppercase group cursor-pointer">
-            <span class="text-gradient-base">Certifi-<br />cations</span>
-            <span class="text-reveal-overlay">Certifi<br />cations</span>
+            <span class="text-gradient-base text-8xl"
+              >Certifi-<br />cations</span
+            >
+            <span class="text-reveal-overlay text-8xl"
+              >Certifi<br />cations</span
+            >
           </h2>
 
           <!-- Meta info -->
@@ -63,8 +67,8 @@
           <h2
             class="text-reveal font-display uppercase group cursor-pointer lg:text-right"
           >
-            <span class="text-gradient-base">Tech<br />Stack</span>
-            <span class="text-reveal-overlay">Tech<br />Stack</span>
+            <span class="text-gradient-base text-8xl">Tech<br />Stack</span>
+            <span class="text-reveal-overlay text-8xl">Tech<br />Stack</span>
           </h2>
 
           <!-- Meta info -->
