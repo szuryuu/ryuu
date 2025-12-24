@@ -70,7 +70,7 @@ const stats = computed(() => {
     <!-- Sidebar -->
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
-        <div class="flex items-start">
+        <div class="flex items-start text-white">
           <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
             プロジェクト
           </span>
@@ -153,32 +153,36 @@ const stats = computed(() => {
           <!-- Stats -->
           <div class="grid grid-cols-3 gap-6 pt-8">
             <div
-              class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+              class="bg-white/5 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/10 flex flex-col justify-between"
             >
               <div class="text-4xl font-display font-bold text-white mb-2">
                 {{ stats.total }}
               </div>
-              <div class="text-sm font-display text-white/60">
+              <div class="text-xs md:text-sm font-display text-white/60">
                 Total Projects
               </div>
             </div>
 
             <div
-              class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+              class="bg-white/5 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/10 flex flex-col justify-between"
             >
               <div class="text-4xl font-display font-bold text-white mb-2">
                 {{ stats.featured }}
               </div>
-              <div class="text-sm font-display text-white/60">Featured</div>
+              <div class="text-xs md:text-sm font-display text-white/60">
+                Featured
+              </div>
             </div>
 
             <div
-              class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+              class="bg-white/5 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/10 flex flex-col justify-between"
             >
               <div class="text-4xl font-display font-bold text-white mb-2">
                 {{ stats.completed }}
               </div>
-              <div class="text-sm font-display text-white/60">Completed</div>
+              <div class="text-xs md:text-sm font-display text-white/60">
+                Completed
+              </div>
             </div>
           </div>
         </div>

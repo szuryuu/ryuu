@@ -1,4 +1,3 @@
-<!-- Experience.vue - Text Reveal Style -->
 <script setup lang="ts">
 import { computed } from "vue";
 import { useTimeline } from "~/composables/useTimeline";
@@ -18,7 +17,7 @@ const items = computed(() => {
   }));
 });
 
-// Stats - make these specific
+// Stats
 const stats = [
   {
     number: `${projects.value?.length ?? 0}+`,
@@ -107,19 +106,9 @@ const stats = [
               <div
                 class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >
-                <svg
+                <LucideChevronRight
                   class="w-5 h-5 text-white group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                />
               </div>
             </div>
           </div>
@@ -175,28 +164,16 @@ const stats = [
               <div class="flex gap-3">
                 <NuxtLink
                   to="mailto:your@email.com"
-                  class="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg text-sm font-display font-semibold hover:bg-white/90 transition-colors"
+                  class="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg text-xs md:text-sm font-display font-semibold hover:bg-white/90 transition-colors"
                 >
                   Get in Touch
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                  <LucideChevronRight class="w-4 h-4" />
                 </NuxtLink>
 
                 <NuxtLink
                   to="/cv.pdf"
                   target="_blank"
-                  class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white rounded-lg text-sm font-display hover:bg-white/10 transition-colors"
+                  class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white rounded-lg text-xs md:text-sm font-display hover:bg-white/10 transition-colors"
                 >
                   <svg
                     class="w-4 h-4"

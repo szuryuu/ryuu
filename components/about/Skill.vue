@@ -43,19 +43,9 @@
                 class="border-b border-white group-hover/link:border-white/60"
                 >View All</span
               >
-              <svg
+              <LucideChevronRight
                 class="w-3 h-3 group-hover/link:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              />
             </NuxtLink>
           </div>
         </div>
@@ -97,19 +87,9 @@
                 class="border-b border-white group-hover/link:border-white/60"
                 >Explore</span
               >
-              <svg
+              <LucideChevronRight
                 class="w-3 h-3 group-hover/link:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              />
             </NuxtLink>
           </div>
         </div>

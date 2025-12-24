@@ -1,19 +1,10 @@
-<!-- Intro.vue - Skill.vue Style -->
-<script setup lang="ts">
-const contact = {
-  email: "shafwan@yourdomain.com", // CHANGE THIS
-  github: "https://github.com/szuryuu",
-  linkedin: "https://linkedin.com/in/yourprofile", // CHANGE THIS
-  cv: "/cv.pdf",
-};
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="h-full z-20 flex items-center max-w-7xl w-full px-4">
     <div class="w-full space-y-12">
       <!-- NAME & ROLE SECTION -->
       <section class="grid grid-cols-1 gap-8 lg:gap-12 items-center">
-        <!-- Left: Name -->
         <div class="space-y-6">
           <!-- Indicator -->
           <div class="flex items-center gap-4">
@@ -64,26 +55,13 @@ const contact = {
                 class="border-b border-white group-hover/link:border-white/60"
                 >View Work</span
               >
-              <svg
+              <LucideChevronRight
                 class="w-3 h-3 group-hover/link:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              />
             </NuxtLink>
           </div>
         </div>
       </section>
-
-      <!-- QUICK ACTIONS -->
-      <section class="w-full"></section>
     </div>
   </div>
 </template>

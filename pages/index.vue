@@ -23,7 +23,7 @@ import Hero from "~/components/Hero.vue";
         </h1>
       </div>
       <div
-        class="text-xs overflow-hidden font-display md:col-span-1 md:block hidden text-right py-4"
+        class="text-xs overflow-hidden font-display md:col-span-1 md:block hidden text-right py-4 text-white"
       >
         Full Stack Developer and Cyber Security Engineer dedicated to building
         secure, high-performing software solutions with a strong emphasis on

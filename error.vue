@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import Circle from "./components/Circle.vue";
-import { Home, User, Code2, Mail, ArrowLeft } from "lucide-vue-next";
+// import { Home, User, Code2, Mail, ArrowLeft } from "lucide-vue-next";
 
 const error = useError();
 
 const quickLinks = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/about", label: "About", icon: User },
-  { to: "/project", label: "Projects", icon: Code2 },
-  { to: "/contact", label: "Contact", icon: Mail },
+  { to: "/", label: "Home", icon: "i-custom-house" },
+  { to: "/about", label: "About", icon: "i-custom-user" },
+  { to: "/project", label: "Projects", icon: "i-custom-code-xml" },
+  { to: "/contact", label: "Contact", icon: "i-custom-mail" },
 ];
 
 const handleError = () => clearError({ redirect: "/" });
@@ -57,8 +57,8 @@ const handleError = () => clearError({ redirect: "/" });
           :to="link.to"
           class="flex flex-col items-center gap-2 p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:border-white/30 transition-all duration-300 group"
         >
-          <component
-            :is="link.icon"
+          <UIcon
+            :name="link.icon"
             class="w-6 h-6 text-white/60 group-hover:text-white group-hover:scale-110 transition-all"
           />
           <span

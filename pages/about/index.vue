@@ -9,7 +9,7 @@ import Circle from "~/components/Circle.vue";
   >
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
-        <div class="flex items-start">
+        <div class="flex items-start text-white">
           <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
             私について
           </span>

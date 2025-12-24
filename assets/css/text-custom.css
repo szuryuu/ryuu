@@ -1,7 +1,7 @@
 .text-reveal {
   font-size: clamp(3.5rem, 9vw, 8rem);
   font-weight: 900;
-  letter-spacing: -0.04em;
+  letter-spacing: 0.025em;
   line-height: 0.85;
   position: relative;
   display: inline-block;

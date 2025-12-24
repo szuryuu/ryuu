@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Circle from "~/components/Circle.vue";
-// import { Github, Mail, Linkedin, FileText } from "~/assets/images/icons";
-import { UIcon } from "#components";
 
 const contacts = [
   {
@@ -53,7 +51,7 @@ const hoveredContact = ref<string | null>(null);
     <!-- Sidebar -->
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
-        <div class="flex items-start">
+        <div class="flex items-start text-white">
           <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
             コンタクト
           </span>

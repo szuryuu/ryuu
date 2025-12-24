@@ -18,7 +18,7 @@ defineProps<{
 <template>
   <UCard
     variant="soft"
-    class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-white/5 overflow-hidden"
+    class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-white/5 overflow-hidden text-white"
   >
     <!-- Image -->
     <div class="flex justify-between">
@@ -68,7 +68,7 @@ defineProps<{
           class="flex gap-2 items-center justify-center w-full"
           target="_blank"
         >
-          <LucideGithub :size="10" /> Repo
+          <UIcon name="i-custom-github2" class="size-3" /> Repo
         </LinkButton>
       </div>
     </div>
