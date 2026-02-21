@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from "vue";
+import Circle from "~/components/Circle.vue";
 import gsap from "gsap";
 
 // Props for controlling overlay visibility and animation state
@@ -163,17 +164,7 @@ watch(
     ></div>
 
     <!-- Radial glow — responsive via clamp -->
-    <div
-      class="absolute rounded-full opacity-40 pointer-events-none"
-      style="
-        width: clamp(280px, 60vw, 600px);
-        height: clamp(280px, 60vw, 600px);
-        background: radial-gradient(circle, #242424, transparent);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      "
-    ></div>
+    <Circle class="fixed !z-0" />
 
     <!-- Line top -->
     <div ref="lineTop" class="curtain-line">
@@ -233,7 +224,7 @@ watch(
         </span>
       </div> -->
 
-      <img src="/public/logo.webp" alt="logo" class="w-24 h-24" />
+      <img src="/logo.webp" alt="logo" class="w-24 h-24" />
 
       <!-- Progress bar — only meaningful during initial load -->
       <div
