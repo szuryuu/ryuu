@@ -6,7 +6,7 @@ const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 </script>
 
 <template>
-  <div ref="pageRef" class="min-h-screen flex flex-col" style="opacity: 0">
+  <div ref="pageRef" class="min-h-screen flex flex-col">
     <Hero />
     <div class="items-end flex flex-1">
       <div
