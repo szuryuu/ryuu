@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import LinkButton from "~/components/LinkButton.vue";
+import { usePageEnter } from "~/composables/usePageEnter";
+
+const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 
 const route = useRoute();
 const { data: project } = await useAsyncData(
@@ -20,7 +23,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <article v-if="project" class="w-full min-h-screen relative">
+  <article v-if="project" class="w-full min-h-screen relative" ref="pageRef">
     <header class="relative flex mb-10 gap-8">
       <div class="absolute inset-0 -z-10">
         <NuxtImg

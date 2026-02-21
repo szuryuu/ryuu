@@ -2,6 +2,9 @@
 import { ref, computed } from "vue";
 import ProjectCard from "~/components/project/ProjectCard.vue";
 import Circle from "~/components/Circle.vue";
+import { usePageEnter } from "~/composables/usePageEnter";
+
+const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 
 const { data: projects } = await useAsyncData("projects", () =>
   queryCollection("projects").order("order", "ASC").all(),
@@ -66,6 +69,7 @@ const stats = computed(() => {
 <template>
   <div
     class="w-full min-h-screen flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
+    ref="pageRef"
   >
     <!-- Sidebar -->
     <aside class="w-full hidden lg:block">
