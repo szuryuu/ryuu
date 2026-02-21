@@ -192,7 +192,7 @@ watch(
       style="opacity: 0; gap: clamp(1.5rem, 4vw, 2.5rem)"
     >
       <!-- Japanese + Latin title -->
-      <div class="flex items-start gap-1">
+      <!-- <div class="flex items-start gap-1">
         <span
           class="font-decoration text-white"
           style="
@@ -215,10 +215,10 @@ watch(
         >
           portofolio
         </span>
-      </div>
+      </div> -->
 
       <!-- Monogram -->
-      <div class="flex items-baseline gap-1">
+      <!-- <div class="flex items-baseline gap-1">
         <span
           class="font-decoration bg-white text-black font-semibold px-2 leading-tight"
           style="font-size: clamp(1.75rem, 5vw, 2.25rem)"
@@ -231,7 +231,7 @@ watch(
         >
           Ilham Dzaky
         </span>
-      </div>
+      </div> -->
 
       <!-- Progress bar — only meaningful during initial load -->
       <div
