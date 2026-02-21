@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import LinkButton from "~/components/LinkButton.vue";
+import { usePageEnter } from "~/composables/usePageEnter";
+
+const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 
 const route = useRoute();
 const { data: article } = await useAsyncData(
@@ -50,7 +53,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
 </script>
 
 <template>
-  <article v-if="article" class="w-full min-h-screen relative">
+  <article v-if="article" class="w-full min-h-screen relative" ref="pageRef">
     <!-- Sticky progress + title bar -->
     <div class="fixed top-0 left-0 right-0 z-20">
       <!-- 1px scroll progress line -->
