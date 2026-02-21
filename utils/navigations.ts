@@ -15,6 +15,11 @@ export const navigationItems = [
     japanese: "プロジェクト",
   },
   {
+    to: "/writing",
+    label: "Writing",
+    japanese: "書く",
+  },
+  {
     to: "/contact",
     label: "Contact",
     japanese: "コンタクト",

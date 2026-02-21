@@ -23,5 +23,20 @@ export default defineContentConfig({
         role: z.string().optional(),
       }),
     }),
+
+    writing: defineCollection({
+      type: "page",
+      source: "writing/**/*.md",
+      schema: z.object({
+        title: z.string().min(2).max(120),
+        slug: z.string().min(2).max(120),
+        description: z.string().min(2).max(300),
+        date: z.string(),
+        tags: z.array(z.string()).default([]),
+        cover: z.string().optional(),
+        featured: z.boolean().default(false),
+        order: z.number().default(0),
+      }),
+    }),
   },
 });

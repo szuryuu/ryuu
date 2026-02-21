@@ -7,7 +7,8 @@ const error = useError();
 const quickLinks = [
   { to: "/", label: "Home", icon: "i-custom-house" },
   { to: "/about", label: "About", icon: "i-custom-user" },
-  { to: "/project", label: "Projects", icon: "i-custom-code-xml" },
+  { to: "/project", label: "Project", icon: "i-custom-code-xml" },
+  { to: "/writing", label: "Writing", icon: "i-custom-pen" },
   { to: "/contact", label: "Contact", icon: "i-custom-mail" },
 ];
 
@@ -50,7 +51,7 @@ const handleError = () => clearError({ redirect: "/" });
       </div>
 
       <!-- Quick Navigation -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3 pt-4">
         <NuxtLink
           v-for="link in quickLinks"
           :key="link.to"
