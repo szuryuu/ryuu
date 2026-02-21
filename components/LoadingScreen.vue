@@ -233,6 +233,8 @@ watch(
         </span>
       </div> -->
 
+      <img src="/public/logo.webp" alt="logo" class="w-24 h-24" />
+
       <!-- Progress bar — only meaningful during initial load -->
       <div
         class="flex flex-col items-center gap-3"
