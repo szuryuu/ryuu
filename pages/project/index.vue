@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import ProjectCard from "~/components/project/ProjectCard.vue";
-import Circle from "~/components/Circle.vue";
 import { usePageEnter } from "~/composables/usePageEnter";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
@@ -117,8 +116,6 @@ const stats = computed(() => {
 
     <!-- Main Content -->
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
-      <Circle class="fixed" />
-
       <!-- Overview Section -->
       <section id="overview" class="relative group">
         <div

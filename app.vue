@@ -1,27 +1,13 @@
-<template>
-  <UApp>
-    <LoadingScreen
-      :visible="isLoading"
-      :closing="isClosing"
-      :is-initial-load="isInitialLoad"
-      @opened="onCurtainOpened"
-      @close-done="onCloseDone"
-    />
-
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </UApp>
-</template>
-
 <script setup lang="ts">
 import { ref } from "vue";
 import LoadingScreen from "~/components/LoadingScreen.vue";
+import Circle from "~/components/Circle.vue";
 
 const isLoading = ref(true);
 const isClosing = ref(false);
 const isInitialLoad = ref(true);
 const router = useRouter();
+const nuxtApp = useNuxtApp();
 
 const curtainOpen = useState("curtainOpen", () => false);
 
@@ -60,11 +46,27 @@ router.beforeEach(async (to, from) => {
 });
 
 // Runs after each route navigation to finish loading screen animation.
-router.afterEach(() => {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      isClosing.value = false;
-    });
-  });
+nuxtApp.hook("page:finish", () => {
+  setTimeout(() => {
+    isClosing.value = false;
+  }, 200);
 });
 </script>
+
+<template>
+  <UApp>
+    <LoadingScreen
+      :visible="isLoading"
+      :closing="isClosing"
+      :is-initial-load="isInitialLoad"
+      @opened="onCurtainOpened"
+      @close-done="onCloseDone"
+    />
+
+    <Circle class="fixed pointer-events-none -z-10" />
+
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
+</template>
