@@ -1,6 +1,5 @@
 ---
 title: "Internship Monitoring"
-slug: "internship-monitoring"
 type: "Exam Project"
 year: "2025"
 description: "A centralized platform for managing vocational school internships, featuring a robust Admin Dashboard built with Filament PHP and RESTful APIs for student mobile apps."

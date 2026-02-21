@@ -1,6 +1,5 @@
 ---
 title: "Notori - Notes App"
-slug: "notori"
 type: "Solo Project"
 year: "2025"
 description: "A lightweight, modular note-taking application engineered with Native Web Components and Webpack to demonstrate framework-agnostic component architecture."

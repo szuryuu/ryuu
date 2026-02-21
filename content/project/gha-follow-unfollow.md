@@ -1,6 +1,5 @@
 ---
 title: "GHA Follow Unfollow"
-slug: "gha-follow-unfollow"
 type: "Solo Project"
 year: "2025"
 description: "A serverless Go automation tool running on GitHub Actions to manage followers, maintaining a healthy follower ratio with automated sync and activity logging."

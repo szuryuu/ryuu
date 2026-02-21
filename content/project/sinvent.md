@@ -1,6 +1,5 @@
 ---
 title: "Sinvent - Inventory System"
-slug: "sinvent"
 type: "Solo Project"
 year: "2025"
 description: "A modern, decoupled inventory management system featuring secure JWT authentication, role-based access control, and interactive data visualization for real-time stock tracking."

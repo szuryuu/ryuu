@@ -1,6 +1,5 @@
 ---
 title: "GHA Sheet Attendance"
-slug: "gha-sheet-attend"
 type: "Solo Project"
 year: "2025"
 description: "A serverless attendance logging system that leverages GitHub Actions to automate daily reporting into Google Sheets with programmatic formatting and secure credential handling."

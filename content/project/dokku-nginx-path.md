@@ -1,6 +1,5 @@
 ---
 title: "Dokku Nginx Path"
-slug: "dokku-nginx-path"
 type: "Intern Project"
 year: "2025"
 description: "A Dokku plugin enabling path-based routing for multiple applications under a single domain, featuring automated Nginx configuration merging and unified SSL management."

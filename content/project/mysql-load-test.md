@@ -1,6 +1,5 @@
 ---
 title: "MySQL Load Test"
-slug: "mysql-load-test"
 type: "Intern Project"
 year: "2025"
 description: "A high-performance load testing suite that captures real production traffic via PCAP analysis and replays it with weighted concurrency to accurately simulate database load."

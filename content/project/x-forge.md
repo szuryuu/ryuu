@@ -1,6 +1,5 @@
 ---
 title: "X-Forge - Code Tool"
-slug: "x-forge"
 type: "Team Project"
 year: "2025"
 description: "A TypeScript-based CLI toolkit that simplifies ESLint and Prettier configuration, designed to automatically standardize code quality across various JavaScript/TypeScript projects."

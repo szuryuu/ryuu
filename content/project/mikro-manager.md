@@ -1,6 +1,5 @@
 ---
 title: "Mikrotik Manager"
-slug: "mikro-manager"
 type: "Team Project"
 year: "2024"
 description: "A Python-based CLI utility designed to automate common MikroTik RouterOS configuration tasks, featuring a modular architecture and a rich terminal interface."

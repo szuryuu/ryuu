@@ -7,7 +7,6 @@ export default defineContentConfig({
       source: "project/**/*.md",
       schema: z.object({
         title: z.string().min(2).max(100),
-        slug: z.string().min(2).max(100),
         type: z.string().min(2).max(100),
         year: z.string().length(4),
         description: z.string().min(2).max(1000),
@@ -29,7 +28,6 @@ export default defineContentConfig({
       source: "writing/**/*.md",
       schema: z.object({
         title: z.string().min(2).max(120),
-        slug: z.string().min(2).max(120),
         description: z.string().min(2).max(300),
         date: z.string(),
         tags: z.array(z.string()).default([]),
