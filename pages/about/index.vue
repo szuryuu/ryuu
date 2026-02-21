@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Experience, Intro, Skill } from "@/components/about";
 import Circle from "~/components/Circle.vue";
+import { usePageEnter } from "~/composables/usePageEnter";
+
+const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 </script>
 
 <template>
   <div
     class="w-full min-h-screen flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
+    ref="pageRef"
   >
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">

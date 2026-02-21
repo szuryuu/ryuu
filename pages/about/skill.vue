@@ -8,6 +8,9 @@ import {
 } from "@/utils/skills";
 import CertificateCard from "@/components/CertificateCard.vue";
 import { certificateArray } from "@/utils/certificates";
+import { usePageEnter } from "~/composables/usePageEnter";
+
+const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 
 const selectedTab = ref("certificate");
 const filterItems = ref(["All", "FullStack", "DevOps", "CyberSec"]);
@@ -32,7 +35,7 @@ const handleTabChange = (tabId: string) => {
 </script>
 
 <template>
-  <div class="flex w-full min-h-screen max-w-7xl mx-auto mt-4">
+  <div class="flex w-full min-h-screen max-w-7xl mx-auto mt-4" ref="pageRef">
     <section
       class="w-16 md:w-24 flex-shrink-0 flex justify-center items-center"
     >
