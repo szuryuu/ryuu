@@ -1,133 +1,173 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import gsap from "gsap";
 
+// Props for controlling overlay visibility and animation state
 const props = defineProps<{
   visible: boolean;
   closing: boolean;
+  isInitialLoad: boolean;
 }>();
 
+// Emits for signaling open and close animation completion
 const emit = defineEmits<{
   (e: "opened"): void;
   (e: "closeDone"): void;
 }>();
 
-// Template
-const overlay    = ref<HTMLElement | null>(null);
-const bg         = ref<HTMLElement | null>(null);
-const lineTop    = ref<HTMLElement | null>(null);
+// Overlay element refs for GSAP animation targets
+const overlay = ref<HTMLElement | null>(null);
+const bg = ref<HTMLElement | null>(null);
+const lineTop = ref<HTMLElement | null>(null);
 const lineBottom = ref<HTMLElement | null>(null);
-const content    = ref<HTMLElement | null>(null);
+const content = ref<HTMLElement | null>(null);
 
-// Progress bar 
+// Progress bar value and GSAP tween instance for smooth loading animation
 const progress = ref(0);
-let tickTimer: ReturnType<typeof setTimeout> | null = null;
+let progressTween: gsap.core.Tween | null = null;
 
+// Animates the progress bar from 0 to 100% with GSAP and resolves after a brief pause
 function startProgress(): Promise<void> {
   return new Promise((resolve) => {
     progress.value = 0;
-    if (tickTimer) clearTimeout(tickTimer);
-    const increments = [15, 30, 85, 95, 100];
-    let i = 0;
-    const tick = () => {
-      if (i < increments.length) {
-        progress.value = increments[i];
-        i++;
-        if (progress.value === 100) {
-          // Brief pause so user sees 100% before opening
-          tickTimer = setTimeout(resolve, 280);
-        } else {
-          tickTimer = setTimeout(tick, i < 4 ? 120 : i < 6 ? 200 : 300);
-        }
-      }
-    };
-    tickTimer = setTimeout(tick, 80);
+    if (progressTween) progressTween.kill();
+
+    const proxy = { value: 0 }; // Proxy object for GSAP tween
+
+    progressTween = gsap.to(proxy, {
+      value: 100,
+      duration: 2.2,
+      ease: "power1.inOut",
+      onUpdate() {
+        progress.value = Math.round(proxy.value);
+      },
+      onComplete() {
+        progress.value = 100;
+        setTimeout(resolve, 320); // Pause at 100% for user feedback
+      },
+    });
   });
 }
 
+// Animates the curtain close effect and emits when done
 function animateClose() {
-  if (!lineTop.value || !lineBottom.value || !bg.value || !content.value) return;
+  if (!lineTop.value || !lineBottom.value || !bg.value || !content.value)
+    return;
 
   gsap.set(content.value, { opacity: 0, y: 8 });
-  gsap.set(bg.value,      { opacity: 0 });
-  gsap.set(lineTop.value,    { top: "0%" });
+  gsap.set(bg.value, { opacity: 0 });
+  gsap.set(lineTop.value, { top: "0%" });
   gsap.set(lineBottom.value, { top: "100%" });
 
   const tl = gsap.timeline({ onComplete: () => emit("closeDone") });
-
-  tl.to(lineTop.value,
-    { top: "50%", duration: 0.75, ease: "power3.inOut" }, 0);
-  tl.to(lineBottom.value,
-    { top: "50%", duration: 0.75, ease: "power3.inOut" }, 0);
-  tl.to(bg.value,
-    { opacity: 1, duration: 0.55, ease: "power2.inOut" }, 0.18);
+  tl.to(lineTop.value, { top: "50%", duration: 0.75, ease: "power3.inOut" }, 0);
+  tl.to(
+    lineBottom.value,
+    { top: "50%", duration: 0.75, ease: "power3.inOut" },
+    0,
+  );
+  tl.to(bg.value, { opacity: 1, duration: 0.55, ease: "power2.inOut" }, 0.18);
 }
 
+// Animates the curtain open effect and emits when done
 async function animateOpen() {
   if (!lineTop.value || !lineBottom.value || !content.value) return;
 
-  // Wait until progress bar reaches 100% (and brief pause at 100)
-  await startProgress();
+  if (props.isInitialLoad) {
+    await startProgress(); // Wait for progress bar to finish
 
-  const tl = gsap.timeline({ onComplete: () => emit("opened") });
-
-  tl.to(lineTop.value,
-    { top: "25%", duration: 0.65, ease: "power3.inOut" });
-  tl.to(lineBottom.value,
-    { top: "75%", duration: 0.65, ease: "power3.inOut" }, "<");
-  tl.to(content.value,
-    { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.15");
+    const tl = gsap.timeline({ onComplete: () => emit("opened") });
+    tl.to(content.value, {
+      opacity: 0,
+      y: -8,
+      duration: 0.3,
+      ease: "power2.in",
+    }); // Fade out content
+    tl.to(
+      lineTop.value,
+      { top: "-2px", duration: 0.65, ease: "power3.inOut" },
+      "-=0.05",
+    ); // Move top line off-screen
+    tl.to(
+      lineBottom.value,
+      { top: "calc(100% + 2px)", duration: 0.65, ease: "power3.inOut" },
+      "<",
+    ); // Move bottom line off-screen
+    tl.to(
+      bg.value,
+      { opacity: 0, duration: 0.55, ease: "power2.inOut" },
+      "<+0.1",
+    ); // Fade out background
+  } else {
+    const tl = gsap.timeline({ onComplete: () => emit("opened") });
+    tl.to(lineTop.value, { top: "25%", duration: 0.65, ease: "power3.inOut" }); // Move top line to open position
+    tl.to(
+      lineBottom.value,
+      { top: "75%", duration: 0.65, ease: "power3.inOut" },
+      "<",
+    ); // Move bottom line to open position
+    tl.to(
+      content.value,
+      { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+      "-=0.15",
+    ); // Show content
+  }
 }
 
-
+// Handles initial mount and triggers open or close animation
 onMounted(() => {
   if (props.closing) {
     animateClose();
   } else {
-    // Initial page load 
-    gsap.set(lineTop.value,    { top: "25%" });
+    gsap.set(lineTop.value, { top: "25%" });
     gsap.set(lineBottom.value, { top: "75%" });
-    gsap.set(bg.value,         { opacity: 1 });
-    gsap.set(content.value,    { opacity: 1, y: 0 });
-    startProgress(); 
+    gsap.set(bg.value, { opacity: 1 });
+    gsap.set(content.value, { opacity: 1, y: 0 });
+    animateOpen();
   }
 });
 
+// Cleans up GSAP progress tween on component unmount
+onUnmounted(() => {
+  if (progressTween) progressTween.kill();
+});
+
+// Watches for closing prop changes and triggers corresponding animation
 watch(
   () => props.closing,
   (val) => {
     if (val) animateClose();
-    else     animateOpen();
-  }
+    else animateOpen();
+  },
 );
 </script>
 
 <template>
-  <!-- v-show so refs are always available when GSAP runs -->
+  <!-- v-show keeps refs alive for GSAP -->
   <div
     v-show="visible"
     ref="overlay"
     class="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
   >
-    <!-- Background (opacity animated by GSAP on close) -->
+    <!-- Background -->
     <div ref="bg" class="absolute inset-0 bg-primary" style="opacity: 1"></div>
 
     <!-- Texture overlay -->
     <div
       class="absolute inset-0 pointer-events-none"
       style="
-        background: url('/texture.png') repeat;
+        background: url(&quot;/texture.png&quot;) repeat;
         opacity: 0.08;
         mix-blend-mode: overlay;
       "
     ></div>
 
-    <!-- Radial glow -->
+    <!-- Radial glow — responsive via clamp -->
     <div
       class="absolute rounded-full opacity-40 pointer-events-none"
       style="
-        width: 600px;
-        height: 600px;
+        width: clamp(280px, 60vw, 600px);
+        height: clamp(280px, 60vw, 600px);
         background: radial-gradient(circle, #242424, transparent);
         top: 50%;
         left: 50%;
@@ -148,8 +188,8 @@ watch(
     <!-- Content -->
     <div
       ref="content"
-      class="relative z-10 flex flex-col items-center gap-10 select-none"
-      style="opacity: 0"
+      class="relative z-10 flex flex-col items-center select-none px-4"
+      style="opacity: 0; gap: clamp(1.5rem, 4vw, 2.5rem)"
     >
       <!-- Japanese + Latin title -->
       <div class="flex items-start gap-1">
@@ -158,7 +198,7 @@ watch(
           style="
             writing-mode: vertical-rl;
             text-orientation: upright;
-            font-size: 2rem;
+            font-size: clamp(1.4rem, 4vw, 2rem);
             letter-spacing: 0.1em;
           "
         >
@@ -168,7 +208,7 @@ watch(
           class="font-display text-white/40 uppercase"
           style="
             writing-mode: vertical-lr;
-            font-size: 0.6rem;
+            font-size: clamp(0.45rem, 1.2vw, 0.6rem);
             letter-spacing: 0.15em;
             padding: 0 4px;
           "
@@ -180,25 +220,36 @@ watch(
       <!-- Monogram -->
       <div class="flex items-baseline gap-1">
         <span
-          class="font-decoration bg-white text-black font-semibold px-2 leading-tight text-4xl"
+          class="font-decoration bg-white text-black font-semibold px-2 leading-tight"
+          style="font-size: clamp(1.75rem, 5vw, 2.25rem)"
         >
           S.
         </span>
-        <span class="font-display text-white text-3xl tracking-wider">
+        <span
+          class="font-display text-white tracking-wider"
+          style="font-size: clamp(1.25rem, 4vw, 1.875rem)"
+        >
           Ilham Dzaky
         </span>
       </div>
 
-      <!-- Progress bar -->
-      <div class="flex flex-col items-center gap-3 w-48">
-        <div class="w-full h-px bg-white/10 relative overflow-hidden rounded-full">
+      <!-- Progress bar — only meaningful during initial load -->
+      <div
+        class="flex flex-col items-center gap-3"
+        style="width: clamp(10rem, 40vw, 12rem)"
+      >
+        <div
+          class="w-full h-px bg-white/10 relative overflow-hidden rounded-full"
+        >
           <div
-            class="absolute left-0 top-0 h-full bg-white transition-all duration-300 ease-out rounded-full"
-            :style="{ width: progress + '%' }"
+            class="absolute left-0 top-0 h-full bg-white rounded-full"
+            :style="{ width: progress + '%', transition: 'width 0.08s linear' }"
           ></div>
         </div>
         <div class="flex justify-between w-full">
-          <span class="font-display text-white/30 uppercase tracking-widest text-xs">
+          <span
+            class="font-display text-white/30 uppercase tracking-widest text-xs"
+          >
             Loading
           </span>
           <span class="font-display text-white/30 text-xs tabular-nums">
@@ -208,7 +259,10 @@ watch(
       </div>
 
       <!-- Decorative separator -->
-      <div class="flex items-center gap-4 w-48">
+      <div
+        class="flex items-center gap-4"
+        style="width: clamp(10rem, 40vw, 12rem)"
+      >
         <div class="flex-1 h-px bg-white/10"></div>
         <span class="font-decoration text-white/20 text-xs">読み込み中</span>
         <div class="flex-1 h-px bg-white/10"></div>
@@ -232,4 +286,3 @@ watch(
   background: rgba(255, 255, 255, 0.18);
 }
 </style>
-
