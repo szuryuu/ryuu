@@ -7,8 +7,7 @@ const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 const route = useRoute();
 const { data: project } = await useAsyncData(
   `project-${route.params.slug}`,
-  () =>
-    queryCollection("projects").path(`/project/${route.params.slug}`).first(),
+  () => queryCollection("projects").path(route.path).first(),
 );
 
 if (!project.value) {

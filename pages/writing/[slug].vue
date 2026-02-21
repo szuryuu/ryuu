@@ -8,8 +8,7 @@ const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 const route = useRoute();
 const { data: article } = await useAsyncData(
   `writing-${route.params.slug}`,
-  () =>
-    queryCollection("writing").path(`/writing/${route.params.slug}`).first(),
+  () => queryCollection("writing").path(route.path).first(),
 );
 
 if (!article.value) {
