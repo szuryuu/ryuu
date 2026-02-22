@@ -18,7 +18,7 @@ defineProps<{
 <template>
   <UCard
     variant="soft"
-    class="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-white/5 overflow-hidden text-white"
+    class="bg-white/5 backdrop-blur-none md:backdrop-blur-sm transform-gpu rounded-xl border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-white/5 overflow-hidden text-white"
   >
     <!-- Image -->
     <div class="flex justify-between">
@@ -32,10 +32,13 @@ defineProps<{
       <NuxtImg
         :src="project.image"
         alt="Project Image"
-        class="w-48 h-auto px-2"
+        class="w-48 h-auto px-0 object-cover bg-white/5"
         height="180"
         width="180"
+        format="webp"
         loading="lazy"
+        placeholder
+        decoding="async"
       />
 
       <div
