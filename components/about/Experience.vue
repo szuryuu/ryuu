@@ -51,7 +51,7 @@ const stats = [
           <div class="flex items-center gap-4">
             <div class="h-px flex-1 bg-white/10"></div>
             <span class="text-6xl font-display text-white/10 font-bold"
-              >00</span
+              >02</span
             >
           </div>
 
