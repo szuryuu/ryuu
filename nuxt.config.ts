@@ -22,7 +22,12 @@ export default defineNuxtConfig({
     "nuxt-lucide-icons",
     "v-gsap-nuxt",
     "@nuxt/image",
+    "@nuxtjs/supabase",
   ],
+
+  supabase: {
+    redirect: false,
+  },
 
   icon: {
     customCollections: [
