@@ -6,7 +6,7 @@ defineProps<{
     name: string;
     type: string;
     year: string;
-    slug: string;
+    path: string;
     image?: string;
     projectDetailUrl: string;
     liveDemoUrl?: string;
@@ -48,7 +48,7 @@ defineProps<{
 
     <!-- Detail -->
     <div class="flex flex-col justify-between items-center mt-8 gap-4">
-      <NuxtLink :to="`/project/${project.slug}`">
+      <NuxtLink :to="project.path">
         {{ project.name }}
       </NuxtLink>
       <div class="flex justify-between w-full gap-1">
