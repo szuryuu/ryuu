@@ -30,8 +30,9 @@
             <p
               class="text-xs text-white/40 max-w-xs font-display leading-relaxed"
             >
-              Fullstack developer building production systems with Vue, Node.js,
-              and security-first architecture.
+              Software & DevOps Engineer. Bridging the gap between full-stack
+              development, automated infrastructure, and security-first
+              architecture.
             </p>
 
             <!-- Status -->
