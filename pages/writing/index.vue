@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import Circle from "~/components/Circle.vue";
 import { usePageEnter } from "~/composables/usePageEnter";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
@@ -83,8 +82,6 @@ function formatDate(date: string) {
 
     <!-- Main -->
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
-      <Circle class="fixed" />
-
       <!-- Overview -->
       <section id="overview" class="relative group">
         <div
@@ -100,7 +97,7 @@ function formatDate(date: string) {
           <div class="flex items-center gap-4">
             <div class="h-px flex-1 bg-white/10"></div>
             <span class="text-6xl font-display text-white/10 font-bold"
-              >00</span
+              >01</span
             >
           </div>
 
