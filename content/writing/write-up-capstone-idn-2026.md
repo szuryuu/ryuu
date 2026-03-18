@@ -92,6 +92,9 @@ Sistem analitik sering kali dikonfigurasi dengan threshold atau ambang batas det
 
 **Dokumentasi:**
 
+![Index Patterns](/images/writing/index-pattern.png)
+![Wazuh Archives](/images/writing/wazuh-archive.png)
+
 ## 4\. Anomali Deteksi SQL Injection
 
 Ini adalah temuan krusial yang membuktikan adanya titik buta (blind spot) pada sistem deteksi peringatan bawaan.
@@ -100,7 +103,7 @@ Ini adalah temuan krusial yang membuktikan adanya titik buta (blind spot) pada s
   * **Rasionalisasi:** Dari 4 payload eksploitasi database yang dikirim peretas, 3 payload gagal dikenali sebagai SQL Injection dan hanya diklasifikasikan sebagai serangan web biasa. Hanya 1 payload yang secara eksplisit memicu alarm spesifik SQL Injection. Karena pertanyaan meminta jumlah yang spesifik terdeteksi sebagai SQLI oleh sistem maka angkanya adalah 1. Ini menjadi temuan berharga untuk menambal aturan deteksi SIEM di masa depan.
   * **Langkah:** 
     1. Kembali ke modul **Security events**.
-    2. Ketikkan query `rule.id: 31164` pada search bar (ID ini spesifik untuk deteksi percobaan SQL injection).
+    2. Ketikkan filter `rule.id: 31164` (ID ini spesifik untuk deteksi percobaan SQL injection).
     3. Ubah rentang waktu di pojok kanan atas menjadi batas maksimal agar mencakup seluruh data historis.
     4. Perhatikan metrik angka berlabel Hits di bagian atas dashboard yang menampilkan jumlah tangkapan log.
   * **Jawaban:** 
@@ -110,15 +113,18 @@ Ini adalah temuan krusial yang membuktikan adanya titik buta (blind spot) pada s
 
 **Dokumentasi:**
 
+![Filter SQLI](/images/writing/filter-rule-id-sqli.png)
+![SQLI Attempt](/images/writing/sqli-attempt.png)
+
 ## 5\. Validasi Eksekusi Cross Site Scripting
 
 Menemukan script berbahaya di dalam log tidak otomatis berarti server tersebut berhasil diretas. Analis harus selalu memvalidasi bagaimana server merespons payload tersebut.
 
   * **Tujuan:** Menyisipkan script `<script>alert(document.cookie);</script>` untuk menguji apakah aplikasi web melakukan sanitasi input pada parameter URL. Jika berhasil celah ini bisa digunakan untuk merampas session token pengguna sah.
   * **Langkah:** 
-    1. Hapus pencarian sebelumnya dan ketikkan `rule.groups: "xss"` pada search bar.
+    1. Hapus filter sebelumnya dan ketikkan `data.uri` kemudian masukkan operator `is one of` lalu masukkan valus yang memiliki `xss` di dalamnya.
     2. Buka struktur JSON dari log yang tertangkap.
-    3. Fokus pada atribut `full_log` atau `data.id`.
+    3. Fokus pada atribut `full_log`.
     4. Pada teks log access mentah tersebut lihat angka tiga digit yang muncul tepat setelah protokol HTTP/1.1. Angka tersebut adalah HTTP status code server yang menunjukkan bahwa request berhasil diproses tanpa diblokir oleh WAF.
   * **Jawaban:** 
     ```bash
@@ -126,6 +132,9 @@ Menemukan script berbahaya di dalam log tidak otomatis berarti server tersebut b
     ```
 
 **Dokumentasi:**
+
+![Filter XSS](/images/writing/filter-rule-xss.png)
+![XSS Code](/images/writing/xss-http-code.png)
 
 ## 6\. Identifikasi File Target File Inclusion
 
