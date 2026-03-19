@@ -142,8 +142,8 @@ Kerentanan aplikasi dimanfaatkan penyerang untuk keluar dari kurungan root direk
 
   * **Tujuan:** Membaca data `/etc/passwd` adalah langkah pengintaian (reconnaissance) standar di ekosistem Linux. Attacker mencoba memetakan nama nama pengguna di dalam sistem untuk keperluan serangan brute force di tahap berikutnya.
   * **Langkah:** 
-    1. Buka ui OpenSearch utama melalui menu **Discover**.
-    2. Ubah basis index pencarian dari alert biasa menjadi index arsip mentah (`wazuh-archives-*`) menggunakan menu pilihan di sebelah kiri.
+    1. Buka **Security events**.
+    2. Ubah basis index pencarian dari alert biasa menjadi index arsip mentah (`wazuh-archives-*`) menggunakan menu pilihan di sebelah kanan.
     3. Ketikkan kata `passwd` pada search bar untuk mencari jejak eksploitasi direktori yang diam diam lolos dari alarm.
     4. Buka JSON log yang muncul dan perhatikan bagian paling ujung dari teks payload penyerang. Ditemukan file spesifik target pembacaan akun pengguna.
   * **Jawaban:** 
@@ -152,6 +152,9 @@ Kerentanan aplikasi dimanfaatkan penyerang untuk keluar dari kurungan root direk
     ```
 
 **Dokumentasi:**
+
+![Wazuh Archives](/images/writing/wazuh-archive-search.png)
+![Log File Inclusion](/images/writing/etc-passwd.png)
 
 ## 7\. Backdoor Reverse Shell pada Jaringan
 
@@ -170,6 +173,9 @@ Setelah kerentanan aplikasi web dibongkar fokus beralih pada ekstraksi paket jar
 
 **Dokumentasi:**
 
+![Filter HTTP Method](/images/writing/http-method-filter.png)
+![TCP Follow](/images/writing/tcp-follow-port-suspect.png)
+
 ## 8\. Koneksi Framework Metasploit
 
 Seorang hacker jarang bekerja murni dari nol. Mereka sering menggunakan alat bantu canggih seperti Metasploit untuk menstabilkan dan mengendalikan sesi backdoor yang telah tertanam di mesin korban.
@@ -186,6 +192,9 @@ Seorang hacker jarang bekerja murni dari nol. Mereka sering menggunakan alat ban
     ```
 
 **Dokumentasi:**
+
+![Filter Port](/images/writing/filter-port-4444.png)
+![Source Port](/images/writing/source-port.png)
 
 ## 9\. Isolasi Malware di dalam Memory
 
@@ -205,13 +214,20 @@ Langkah pamungkas dalam skenario serangan adalah menetapkan persistensi. Attacke
 
 **Dokumentasi:**
 
+![Suspected Raw](/images/writing/suspect-raw.png)
+![Suspected Raw Info](/images/writing/suspect-raw-info.png)
+![Suspected Raw Pslist](/images/writing/suspect-raw-pslist.png)
+
+search shell.exe and check PID
+![Suspected Raw PID](/images/writing/suspect-pid.png)
+
 ## 10\. Dokumentasi URL Local File Inclusion
 
 Sebagai konklusi pencatatan dalam investigasi analis harus mendokumentasikan secara presisi dan utuh struktur URL yang dieksploitasi oleh penyerang di awal insiden. Tujuannya adalah memberikan data yang valid kepada tim developer untuk segera menambal celah perimeter aplikasi.
 
   * **Tujuan:** Menyatukan kembali kepingan artefak serangan web yang membuka pintu bagi seluruh insiden peretasan ini sejak awal.
   * **Langkah:** 
-    1. Kembali ke menu **Discover** di dashboard SIEM yang mengarah pada index raw logs (mengulangi filter pencarian pada langkah keenam).
+    1. Kembali ke menu **Security events** di dashboard SIEM yang mengarah pada index raw logs (langkah keenam).
     2. Buka JSON dari log manipulasi direktori tersebut.
     3. Cari atribut `data.url` atau lihat pada baris request HTTP GET di dalam atribut `full_log`.
     4. Salin seluruh teks URL eksploitasi tersebut secara penuh tanpa ada karakter yang tertinggal.
@@ -221,3 +237,6 @@ Sebagai konklusi pencatatan dalam investigasi analis harus mendokumentasikan sec
     ```
 
 **Dokumentasi:**
+
+![Step 6](/images/writing/wazuh-archive-search.png)
+![Full Log](/images/writing/full-log.png)
