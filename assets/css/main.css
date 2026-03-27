@@ -40,6 +40,10 @@ body::after {
   pointer-events: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   background-color: var(--color-primary);
