@@ -42,7 +42,6 @@ const scrollProgress = ref(0);
 const activeId = ref("");
 let observer: IntersectionObserver | null = null;
 
-// Mekanisme Read Counter
 let startTime = 0;
 let hasCountedRead = false;
 const readCount = ref(0);
@@ -339,3 +338,12 @@ onUnmounted(() => {
     </section>
   </article>
 </template>
+
+<style scoped>
+:deep(.prose h1),
+:deep(.prose h2),
+:deep(.prose h3),
+:deep(.prose h4) {
+  scroll-margin-top: 160px;
+}
+</style>

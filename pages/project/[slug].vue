@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import LinkButton from "~/components/LinkButton.vue";
 import { usePageEnter } from "~/composables/usePageEnter";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
-
 const route = useRoute();
+const supabase = useSupabaseClient();
+
 const { data: project } = await useAsyncData(
   `project-${route.params.slug}`,
   () => queryCollection("projects").path(route.path).first(),
@@ -19,11 +21,103 @@ useSeoMeta({
   description: project.value.description,
   ogImage: project.value.image,
 });
+
+const scrollProgress = ref(0);
+const activeId = ref("");
+let observer: IntersectionObserver | null = null;
+
+let startTime = 0;
+let hasCountedRead = false;
+const readCount = ref(0);
+
+const fetchReadCount = async () => {
+  const { data } = await supabase
+    .from("article_reads")
+    .select("read_count")
+    .eq("slug", route.params.slug)
+    .single();
+  if (data) readCount.value = data.read_count;
+};
+
+watch(scrollProgress, async (newVal) => {
+  if (hasCountedRead) return;
+
+  const storageKey = `read_project_${route.params.slug}`;
+  if (localStorage.getItem(storageKey)) {
+    hasCountedRead = true;
+    return;
+  }
+
+  const timeSpent = Date.now() - startTime;
+  const minTimeRequired =
+    getReadingTimeMins(project.value?.body) * 60000 * 0.25;
+
+  if (newVal >= 80 && timeSpent >= minTimeRequired) {
+    hasCountedRead = true;
+    localStorage.setItem(storageKey, "true");
+
+    await supabase.rpc("increment_read_count", {
+      article_slug: route.params.slug as string,
+    });
+    readCount.value++;
+  }
+});
+
+function onScroll() {
+  const el = document.documentElement;
+  const scrolled = el.scrollTop;
+  const total = el.scrollHeight - el.clientHeight;
+  scrollProgress.value = total > 0 ? (scrolled / total) * 100 : 0;
+}
+
+function getReadingTimeMins(body: unknown): number {
+  const text = JSON.stringify(body ?? "");
+  const words = text.split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+onMounted(() => {
+  startTime = Date.now();
+  fetchReadCount();
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeId.value = entry.target.id;
+        }
+      });
+    },
+    { rootMargin: "0px 0px -80% 0px", threshold: 0.1 },
+  );
+
+  setTimeout(() => {
+    document.querySelectorAll(".prose h2, .prose h3").forEach((heading) => {
+      if (heading.id) observer?.observe(heading);
+    });
+  }, 500);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", onScroll);
+  observer?.disconnect();
+});
 </script>
 
 <template>
   <article v-if="project" class="w-full min-h-screen relative" ref="pageRef">
-    <header class="relative flex mb-10 gap-8">
+    <div class="fixed top-0 left-0 right-0 z-20 pointer-events-none">
+      <div class="h-px w-full bg-white/5">
+        <div
+          class="h-full bg-white/60 transition-none"
+          :style="{ width: scrollProgress + '%' }"
+        ></div>
+      </div>
+    </div>
+
+    <header class="relative flex mb-0 gap-8">
       <div class="absolute inset-0 -z-10">
         <NuxtImg
           v-if="project.image"
@@ -50,22 +144,19 @@ useSeoMeta({
           ></div>
         </div>
 
-        <!-- Title -->
         <h1
           class="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 leading-tight"
         >
           {{ project.title }}
         </h1>
 
-        <!-- Description -->
         <p
           class="text-xl md:text-2xl text-white/80 max-w-3xl mb-12 font-display"
         >
           {{ project.description }}
         </p>
 
-        <!-- Info -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
           <div v-if="project.type" class="hero-meta">
             <p class="text-xs uppercase font-display text-white/50 mb-1">
               Type
@@ -94,11 +185,16 @@ useSeoMeta({
               {{ project.status }}
             </span>
           </div>
+          <div class="hero-meta">
+            <p class="text-xs uppercase font-display text-white/50 mb-1">
+              Reads
+            </p>
+            <p class="text-lg font-display text-white">{{ readCount }}</p>
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- Tech Stack & Links Section -->
     <section
       class="content-section sticky top-0 z-10 bg-primary/95 backdrop-blur-md border-b border-white/10"
     >
@@ -106,7 +202,6 @@ useSeoMeta({
         <div
           class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
         >
-          <!-- Tech Stack -->
           <div class="flex-1">
             <p class="text-xs uppercase font-display text-white/50 mb-3">
               Tech Stack
@@ -122,7 +217,6 @@ useSeoMeta({
             </div>
           </div>
 
-          <!-- Action Links -->
           <div class="flex gap-3">
             <LinkButton
               v-if="project.github"
@@ -148,7 +242,6 @@ useSeoMeta({
       </div>
     </section>
 
-    <!-- Another Info -->
     <section
       v-if="project.duration || project.team_size"
       class="content-section max-w-7xl mx-auto px-6 md:px-12 py-16"
@@ -194,7 +287,6 @@ useSeoMeta({
       </div>
     </section>
 
-    <!-- Content -->
     <section class="max-w-7xl mx-auto px-6 md:px-12 pb-16 pt-8 relative">
       <div class="flex flex-col lg:flex-row items-start gap-12 lg:gap-24">
         <main
@@ -208,14 +300,13 @@ useSeoMeta({
         >
           <div class="flex flex-col">
             <div class="flex items-start text-white mb-10 opacity-60">
-              <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
-                目次
-              </span>
+              <span class="[writing-mode:vertical-lr] text-2xl font-decoration"
+                >目次</span
+              >
               <span
                 class="[writing-mode:vertical-lr] text-lg font-display uppercase tracking-widest"
+                >Contents</span
               >
-                Contents
-              </span>
             </div>
 
             <nav
@@ -226,15 +317,33 @@ useSeoMeta({
                 v-for="link in project.body.toc.links"
                 :key="link.id"
                 :href="`#${link.id}`"
-                class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase tracking-widest"
+                class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+                :class="
+                  activeId === link.id
+                    ? 'text-white'
+                    : 'text-white/40 hover:text-white'
+                "
               >
                 <span
-                  class="h-px bg-white/20 transition-all duration-300"
-                  :class="{
-                    'w-8 group-hover:w-12': link.depth === 2,
-                    'w-4 group-hover:w-8 ml-4': link.depth === 3,
-                    'w-2 group-hover:w-6 ml-8': link.depth > 3,
-                  }"
+                  class="h-px transition-all duration-300"
+                  :class="[
+                    activeId === link.id ? 'bg-white' : 'bg-white/20',
+                    link.depth === 2
+                      ? activeId === link.id
+                        ? 'w-12'
+                        : 'w-8 group-hover:w-12'
+                      : '',
+                    link.depth === 3
+                      ? activeId === link.id
+                        ? 'w-8 ml-4'
+                        : 'w-4 group-hover:w-8 ml-4'
+                      : '',
+                    link.depth > 3
+                      ? activeId === link.id
+                        ? 'w-6 ml-8'
+                        : 'w-2 group-hover:w-6 ml-8'
+                      : '',
+                  ]"
                 ></span>
                 <span class="line-clamp-2 leading-relaxed flex-1">{{
                   link.text
@@ -257,7 +366,7 @@ useSeoMeta({
       <LinkButton
         to="/project"
         aria-label="Back to Projects"
-        class="flex items-center gap-2 group"
+        class="flex items-center gap-2 group w-max"
       >
         <LucideArrowLeft
           :size="14"
@@ -268,3 +377,12 @@ useSeoMeta({
     </section>
   </article>
 </template>
+
+<style scoped>
+:deep(.prose h1),
+:deep(.prose h2),
+:deep(.prose h3),
+:deep(.prose h4) {
+  scroll-margin-top: 160px;
+}
+</style>
