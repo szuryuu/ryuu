@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import LinkButton from "~/components/LinkButton.vue";
 import { usePageEnter } from "~/composables/usePageEnter";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
-
 const route = useRoute();
+
 const { data: article } = await useAsyncData(
   `writing-${route.params.slug}`,
   () => queryCollection("writing").path(route.path).first(),
@@ -15,14 +15,31 @@ if (!article.value) {
   throw createError({ statusCode: 404, message: "Article not found" });
 }
 
+const { data: allArticles } = await useAsyncData("all-writing", () =>
+  queryCollection("writing").order("date", "DESC").all(),
+);
+
+const currentIndex = computed(
+  () => allArticles.value?.findIndex((a) => a.path === route.path) ?? -1,
+);
+const prevArticle = computed(() =>
+  currentIndex.value > 0 ? allArticles.value?.[currentIndex.value - 1] : null,
+);
+const nextArticle = computed(() =>
+  currentIndex.value < (allArticles.value?.length ?? 0) - 1
+    ? allArticles.value?.[currentIndex.value + 1]
+    : null,
+);
+
 useSeoMeta({
   title: article.value.title,
   description: article.value.description,
   ogImage: article.value.cover,
 });
 
-// Scroll progress bar
 const scrollProgress = ref(0);
+const activeId = ref("");
+let observer: IntersectionObserver | null = null;
 
 function onScroll() {
   const el = document.documentElement;
@@ -31,7 +48,6 @@ function onScroll() {
   scrollProgress.value = total > 0 ? (scrolled / total) * 100 : 0;
 }
 
-// Reading time
 function readingTime(body: unknown): string {
   const text = JSON.stringify(body ?? "");
   const words = text.split(/\s+/).length;
@@ -47,15 +63,36 @@ function formatDate(date: string) {
   });
 }
 
-onMounted(() => window.addEventListener("scroll", onScroll, { passive: true }));
-onUnmounted(() => window.removeEventListener("scroll", onScroll));
+onMounted(() => {
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeId.value = entry.target.id;
+        }
+      });
+    },
+    { rootMargin: "0px 0px -80% 0px", threshold: 0.1 },
+  );
+
+  setTimeout(() => {
+    document.querySelectorAll(".prose h2, .prose h3").forEach((heading) => {
+      if (heading.id) observer?.observe(heading);
+    });
+  }, 500);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", onScroll);
+  observer?.disconnect();
+});
 </script>
 
 <template>
   <article v-if="article" class="w-full min-h-screen relative" ref="pageRef">
-    <!-- Sticky progress + title bar -->
     <div class="fixed top-0 left-0 right-0 z-20">
-      <!-- 1px scroll progress line -->
       <div class="h-px w-full bg-white/5">
         <div
           class="h-full bg-white/60 transition-none"
@@ -64,7 +101,6 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </div>
     </div>
 
-    <!-- Hero header -->
     <header class="relative flex mb-10 gap-8">
       <div class="absolute inset-0 -z-10">
         <NuxtImg
@@ -83,7 +119,6 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </div>
 
       <div class="w-full max-w-7xl mx-auto px-6 md:px-12 pb-16 pt-32">
-        <!-- Label -->
         <div class="flex items-center gap-4 mb-8">
           <span class="font-decoration text-2xl text-white/60">技術記事</span>
           <div
@@ -91,7 +126,6 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           ></div>
         </div>
 
-        <!-- Tags -->
         <div class="flex flex-wrap gap-2 mb-6">
           <span
             v-for="tag in article.tags"
@@ -102,19 +136,16 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           </span>
         </div>
 
-        <!-- Title -->
         <h1
           class="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight"
         >
           {{ article.title }}
         </h1>
 
-        <!-- Description -->
         <p class="text-lg text-white/70 max-w-2xl font-display mb-10">
           {{ article.description }}
         </p>
 
-        <!-- Meta row -->
         <div
           class="flex flex-wrap items-center gap-6 text-xs font-display text-white/40 uppercase tracking-wider"
         >
@@ -130,8 +161,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </div>
     </header>
 
-    <!-- Article body -->
-    <section class="max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-4 relative">
+    <section class="max-w-7xl mx-auto px-6 md:px-12 pb-16 pt-4 relative">
       <div class="flex flex-col lg:flex-row items-start gap-12 lg:gap-24">
         <main
           class="flex-1 min-w-0 w-full prose prose-lg prose-invert max-w-none text-white"
@@ -142,14 +172,13 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         <aside class="hidden lg:block w-56 shrink-0 sticky top-32 self-start">
           <div class="flex flex-col">
             <div class="flex items-start text-white mb-10 opacity-60">
-              <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
-                目次
-              </span>
+              <span class="[writing-mode:vertical-lr] text-2xl font-decoration"
+                >目次</span
+              >
               <span
                 class="[writing-mode:vertical-lr] text-lg font-display uppercase tracking-widest"
+                >Contents</span
               >
-                Contents
-              </span>
             </div>
 
             <nav
@@ -160,15 +189,33 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
                 v-for="link in article.body.toc.links"
                 :key="link.id"
                 :href="`#${link.id}`"
-                class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase tracking-widest"
+                class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+                :class="
+                  activeId === link.id
+                    ? 'text-white'
+                    : 'text-white/40 hover:text-white'
+                "
               >
                 <span
-                  class="h-px bg-white/20 transition-all duration-300"
-                  :class="{
-                    'w-8 group-hover:w-12': link.depth === 2,
-                    'w-4 group-hover:w-8 ml-4': link.depth === 3,
-                    'w-2 group-hover:w-6 ml-8': link.depth > 3,
-                  }"
+                  class="h-px transition-all duration-300"
+                  :class="[
+                    activeId === link.id ? 'bg-white' : 'bg-white/20',
+                    link.depth === 2
+                      ? activeId === link.id
+                        ? 'w-12'
+                        : 'w-8 group-hover:w-12'
+                      : '',
+                    link.depth === 3
+                      ? activeId === link.id
+                        ? 'w-8 ml-4'
+                        : 'w-4 group-hover:w-8 ml-4'
+                      : '',
+                    link.depth > 3
+                      ? activeId === link.id
+                        ? 'w-6 ml-8'
+                        : 'w-2 group-hover:w-6 ml-8'
+                      : '',
+                  ]"
                 ></span>
                 <span class="line-clamp-2 leading-relaxed flex-1">{{
                   link.text
@@ -187,25 +234,58 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </div>
     </section>
 
-    <!-- Bottom nav -->
     <section class="max-w-7xl mx-auto px-6 md:px-12 pb-24">
       <div
-        class="pt-12 border-t border-white/10 flex flex-col md:flex-row md:justify-between md:items-center gap-4"
+        class="pt-12 border-t border-white/10 flex flex-col md:flex-row md:justify-between md:items-center gap-8"
       >
+        <NuxtLink
+          v-if="prevArticle"
+          :to="prevArticle.path"
+          class="flex flex-col items-start gap-2 group w-full md:w-1/3"
+        >
+          <span
+            class="text-[10px] font-display text-white/40 uppercase tracking-widest flex items-center gap-2"
+          >
+            <LucideArrowLeft
+              class="w-3 h-3 group-hover:-translate-x-1 transition-transform"
+            />
+            Previous
+          </span>
+          <span
+            class="text-sm font-display text-white/80 group-hover:text-white line-clamp-2"
+            >{{ prevArticle.title }}</span
+          >
+        </NuxtLink>
+        <div v-else class="w-full md:w-1/3"></div>
+
         <LinkButton
           to="/writing"
           aria-label="Back to Writing"
-          class="flex items-center gap-2 group"
+          class="shrink-0 flex items-center justify-center gap-2 group"
         >
-          <LucideArrowLeft
-            class="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform"
-          />
+          <LucideGrid class="w-4 h-4" />
           <span class="font-display">All Articles</span>
         </LinkButton>
 
-        <p class="text-xs font-display text-white/25 uppercase tracking-widest">
-          Thanks for reading
-        </p>
+        <NuxtLink
+          v-if="nextArticle"
+          :to="nextArticle.path"
+          class="flex flex-col items-end gap-2 group w-full md:w-1/3 text-right"
+        >
+          <span
+            class="text-[10px] font-display text-white/40 uppercase tracking-widest flex items-center gap-2"
+          >
+            Next
+            <LucideArrowRight
+              class="w-3 h-3 group-hover:translate-x-1 transition-transform"
+            />
+          </span>
+          <span
+            class="text-sm font-display text-white/80 group-hover:text-white line-clamp-2"
+            >{{ nextArticle.title }}</span
+          >
+        </NuxtLink>
+        <div v-else class="w-full md:w-1/3"></div>
       </div>
     </section>
   </article>
