@@ -195,9 +195,61 @@ useSeoMeta({
     </section>
 
     <!-- Content -->
-    <section class="max-w-7xl mx-auto px-6 md:px-12 pb-16 pt-8">
-      <div class="max-w-none text-white prose prose-lg prose-invert">
-        <ContentRenderer class="text-white" :value="project" />
+    <section class="max-w-7xl mx-auto px-6 md:px-12 pb-16 pt-8 relative">
+      <div class="flex flex-col lg:flex-row items-start gap-12 lg:gap-24">
+        <main
+          class="flex-1 min-w-0 w-full prose prose-lg prose-invert max-w-none text-white"
+        >
+          <ContentRenderer class="text-white" :value="project" />
+        </main>
+
+        <aside
+          class="hidden lg:block w-56 shrink-0 sticky top-48 pt-4 self-start"
+        >
+          <div class="flex flex-col">
+            <div class="flex items-start text-white mb-10 opacity-60">
+              <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
+                目次
+              </span>
+              <span
+                class="[writing-mode:vertical-lr] text-lg font-display uppercase tracking-widest"
+              >
+                Contents
+              </span>
+            </div>
+
+            <nav
+              v-if="project?.body?.toc?.links?.length"
+              class="flex flex-col gap-5 text-[11px] font-display"
+            >
+              <a
+                v-for="link in project.body.toc.links"
+                :key="link.id"
+                :href="`#${link.id}`"
+                class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase tracking-widest"
+              >
+                <span
+                  class="h-px bg-white/20 transition-all duration-300"
+                  :class="{
+                    'w-8 group-hover:w-12': link.depth === 2,
+                    'w-4 group-hover:w-8 ml-4': link.depth === 3,
+                    'w-2 group-hover:w-6 ml-8': link.depth > 3,
+                  }"
+                ></span>
+                <span class="line-clamp-2 leading-relaxed flex-1">{{
+                  link.text
+                }}</span>
+              </a>
+            </nav>
+
+            <p
+              v-else
+              class="text-xs font-display text-white/30 uppercase tracking-widest"
+            >
+              No contents available
+            </p>
+          </div>
+        </aside>
       </div>
     </section>
 

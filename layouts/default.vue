@@ -13,7 +13,7 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col relative overflow-hidden">
+  <div class="min-h-screen flex flex-col relative">
     <!-- Move to Css -->
     <!--
     <div class="absolute inset-0 bg-primary -z-10"></div>
@@ -43,7 +43,7 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
 
     <div class="flex flex-col flex-1">
       <Menu v-if="isOpen" class="flex-1 flex" @close="isOpen = false" />
-      <main v-if="!isOpen" class="flex-1 flex px-6 md:px-12 overflow-hidden">
+      <main v-if="!isOpen" class="flex-1 flex px-6 md:px-12">
         <slot />
       </main>
     </div>
