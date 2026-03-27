@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import LinkButton from "~/components/LinkButton.vue";
 import { usePageEnter } from "~/composables/usePageEnter";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 const route = useRoute();
+const supabase = useSupabaseClient();
 
 const { data: article } = await useAsyncData(
   `writing-${route.params.slug}`,
@@ -41,6 +42,44 @@ const scrollProgress = ref(0);
 const activeId = ref("");
 let observer: IntersectionObserver | null = null;
 
+// Mekanisme Read Counter
+let startTime = 0;
+let hasCountedRead = false;
+const readCount = ref(0);
+
+const fetchReadCount = async () => {
+  const { data } = await supabase
+    .from("article_reads")
+    .select("read_count")
+    .eq("slug", route.params.slug)
+    .single();
+  if (data) readCount.value = data.read_count;
+};
+
+watch(scrollProgress, async (newVal) => {
+  if (hasCountedRead) return;
+
+  const storageKey = `read_${route.params.slug}`;
+  if (localStorage.getItem(storageKey)) {
+    hasCountedRead = true;
+    return;
+  }
+
+  const timeSpent = Date.now() - startTime;
+  const minTimeRequired =
+    getReadingTimeMins(article.value?.body) * 60000 * 0.25;
+
+  if (newVal >= 80 && timeSpent >= minTimeRequired) {
+    hasCountedRead = true;
+    localStorage.setItem(storageKey, "true");
+
+    await supabase.rpc("increment_read_count", {
+      article_slug: route.params.slug as string,
+    });
+    readCount.value++;
+  }
+});
+
 function onScroll() {
   const el = document.documentElement;
   const scrolled = el.scrollTop;
@@ -48,11 +87,14 @@ function onScroll() {
   scrollProgress.value = total > 0 ? (scrolled / total) * 100 : 0;
 }
 
-function readingTime(body: unknown): string {
+function getReadingTimeMins(body: unknown): number {
   const text = JSON.stringify(body ?? "");
   const words = text.split(/\s+/).length;
-  const mins = Math.max(1, Math.round(words / 200));
-  return `${mins} min read`;
+  return Math.max(1, Math.round(words / 200));
+}
+
+function readingTime(body: unknown): string {
+  return `${getReadingTimeMins(body)} min read`;
 }
 
 function formatDate(date: string) {
@@ -64,6 +106,9 @@ function formatDate(date: string) {
 }
 
 onMounted(() => {
+  startTime = Date.now();
+  fetchReadCount();
+
   window.addEventListener("scroll", onScroll, { passive: true });
 
   observer = new IntersectionObserver(
@@ -156,6 +201,10 @@ onUnmounted(() => {
           <span class="flex items-center gap-2">
             <LucideClock class="w-3.5 h-3.5" />
             {{ readingTime(article.body) }}
+          </span>
+          <span class="flex items-center gap-2">
+            <LucideEye class="w-3.5 h-3.5" />
+            {{ readCount }} Reads
           </span>
         </div>
       </div>

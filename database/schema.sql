@@ -1,11 +1,19 @@
--- Enable Row Level Security to restrict access per row.
-ALTER TABLE guestbook ENABLE ROW LEVEL SECURITY;
+CREATE TABLE IF NOT EXISTS article_reads (
+  slug TEXT PRIMARY KEY,
+  read_count INTEGER DEFAULT 0
+);
 
--- Allow anyone to read guestbook entries.
-CREATE POLICY "allow_read" ON guestbook
+CREATE OR REPLACE FUNCTION increment_read_count(article_slug TEXT)
+RETURNS void AS $$
+BEGIN
+  INSERT INTO article_reads (slug, read_count)
+  VALUES (article_slug, 1)
+  ON CONFLICT (slug) DO UPDATE
+  SET read_count = article_reads.read_count + 1;
+END;
+$$ LANGUAGE plpgsql;
+
+ALTER TABLE article_reads ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "allow_read_all" ON article_reads
 FOR SELECT USING (true);
-
--- Allow only authenticated users to insert entries matching their own user_id.
-CREATE POLICY "allow_insert_authenticated" ON guestbook
-FOR INSERT TO authenticated
-WITH CHECK ( (select auth.uid()) = user_id );
