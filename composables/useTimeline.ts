@@ -25,7 +25,7 @@ export const useTimeline = () => {
       roles: [
         {
           title: "Front End Code Reviewer",
-          date: "Sep 2025 - Dec 2025",
+          date: "Sep 2025 - Present",
           description:
             "Mentored developers through rigorous code reviews, enforcing scalable architecture and secure coding standards.",
         },
