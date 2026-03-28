@@ -11,13 +11,13 @@ const { data: projects } = await useAsyncData("projects-count", () =>
 );
 
 const items = computed(() => {
-  return timeline.value.map((item) => ({
-    ...item,
+  return timeline.value.slice(0, 3).map((item) => ({
     title: item.title.toUpperCase(),
+    description: item.description,
+    date: item.date,
   }));
 });
 
-// Stats
 const stats = [
   {
     number: `${projects.value?.length ?? 0}+`,
@@ -35,7 +35,7 @@ const stats = [
     number: "2+",
     label: "Years",
     sublabel: "Building & Learning",
-    link: "/about#journey",
+    link: "/about/timeline",
   },
 ];
 </script>
@@ -45,7 +45,6 @@ const stats = [
     class="flex w-full h-full justify-center items-center max-w-7xl mx-auto px-4"
   >
     <div class="w-full space-y-12">
-      <!-- HEADER SECTION -->
       <section class="grid grid-cols-1 gap-8 lg:gap-12 items-center">
         <div class="space-y-6">
           <div class="flex items-center gap-4">
@@ -65,14 +64,13 @@ const stats = [
             <p
               class="text-xs text-white/40 max-w-xs font-display leading-relaxed"
             >
-              From first "Hello World" to production deployments. Each step
-              taught something new.
+              Architecting solutions, securing networks, and shipping scalable
+              applications.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- STATS GRID -->
       <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <NuxtLink
           v-for="(stat, index) in stats"
@@ -83,14 +81,12 @@ const stats = [
           <div
             class="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 transition-all duration-500"
           >
-            <!-- Number indicator -->
             <div
               class="absolute top-4 right-4 text-4xl font-display text-white/5 font-bold"
             >
               {{ String(index + 1).padStart(2, "0") }}
             </div>
 
-            <!-- Content -->
             <div class="relative z-10">
               <div class="text-5xl font-display font-bold text-white mb-2">
                 {{ stat.number }}
@@ -102,7 +98,6 @@ const stats = [
                 {{ stat.sublabel }}
               </div>
 
-              <!-- Arrow indicator on hover -->
               <div
                 class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >
@@ -115,55 +110,62 @@ const stats = [
         </NuxtLink>
       </section>
 
-      <!-- TIMELINE SECTION -->
       <section class="w-full">
         <div class="flex items-center gap-4 mb-8">
           <div class="h-px flex-1 bg-white/10"></div>
           <span
             class="text-xs uppercase tracking-wider text-white/30 font-display"
-            >Timeline</span
+            >Recent Activity</span
           >
         </div>
 
         <div
           class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10"
         >
-          <div class="mb-8">
-            <h3 class="text-2xl font-display font-bold text-white mb-2">
-              Career Path
-            </h3>
-            <p class="text-sm text-white/40 font-display">
-              Each milestone represents growth, learning, and shipping code that
-              matters.
-            </p>
+          <div
+            class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4"
+          >
+            <div>
+              <h3 class="text-2xl font-display font-bold text-white mb-2">
+                Active Branches
+              </h3>
+              <p class="text-sm text-white/40 font-display">
+                Recent milestones driving my technical growth.
+              </p>
+            </div>
+            <NuxtLink
+              to="/about/timeline"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-xs font-display text-white transition-colors"
+            >
+              View Full Git Log
+              <LucideChevronRight class="w-4 h-4" />
+            </NuxtLink>
           </div>
 
           <UTimeline
             color="neutral"
             size="sm"
             orientation="horizontal"
-            :default-value="4"
             :items="items"
             class="w-full overflow-x-auto"
           />
 
-          <!-- Footer CTA -->
           <div class="mt-8 pt-6 border-t border-white/10">
             <div
               class="flex flex-col md:flex-row md:justify-between md:items-center gap-4"
             >
               <div>
                 <p class="text-sm text-white/60 font-display mb-1">
-                  Want the full story?
+                  Ready to collaborate?
                 </p>
                 <p class="text-xs text-white/40 font-display">
-                  Let's talk about what we can build together.
+                  Let's engineer solutions together.
                 </p>
               </div>
 
               <div class="flex gap-3">
                 <NuxtLink
-                  to="mailto:your@email.com"
+                  to="mailto:ilhamdzaky2007@gmail.com"
                   class="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg text-xs md:text-sm font-display font-semibold hover:bg-white/90 transition-colors"
                 >
                   Get in Touch
