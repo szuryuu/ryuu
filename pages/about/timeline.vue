@@ -2,7 +2,7 @@
 import { useTimeline } from "~/composables/useTimeline";
 import { usePageEnter } from "~/composables/usePageEnter";
 
-const { timeline } = useTimeline();
+const { events } = useTimeline();
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 </script>
 
@@ -20,45 +20,106 @@ const pageRef = usePageEnter({ y: 20, duration: 0.6 });
         Git Log: Career Path
       </h1>
       <p class="text-white/40 font-display text-sm">
-        A complete history of my experience, active branches, and shipped
-        projects.
+        A structured, non-linear visualization of my main trajectory and
+        parallel technical tracks.
       </p>
     </div>
 
-    <div
-      class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-px before:bg-white/10"
-    >
+    <div class="relative w-full">
       <div
-        v-for="(item, index) in timeline"
-        :key="index"
-        class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group"
+        v-for="event in events"
+        :key="event.id"
+        class="relative flex min-h-[140px] group"
       >
-        <div
-          class="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 bg-black text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"
-        >
-          <LucideGitCommit class="w-5 h-5" />
+        <div class="relative w-24 shrink-0">
+          <div class="absolute left-6 top-0 bottom-0 w-px bg-white/20"></div>
+
+          <div
+            v-if="!event.isMain && event.status === 'ongoing'"
+            class="absolute left-[71px] top-0 bottom-1/2 w-px bg-gradient-to-t from-white/20 to-transparent"
+          ></div>
+
+          <svg
+            v-if="!event.isMain"
+            class="absolute top-1/2 left-6 w-12 h-1/2"
+            viewBox="0 0 48 100"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M 0 100 C 0 50, 48 50, 48 0"
+              fill="none"
+              class="stroke-white/20"
+              stroke-width="2"
+              vector-effect="non-scaling-stroke"
+            />
+          </svg>
+
+          <svg
+            v-if="!event.isMain && event.status === 'merged'"
+            class="absolute bottom-1/2 left-6 w-12 h-1/2"
+            viewBox="0 0 48 100"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M 48 100 C 48 50, 0 50, 0 0"
+              fill="none"
+              class="stroke-white/20"
+              stroke-width="2"
+              vector-effect="non-scaling-stroke"
+            />
+          </svg>
+
+          <div
+            class="absolute w-4 h-4 rounded-full border-[3px] border-[#0a0a0a] z-10 top-1/2 -translate-y-1/2 transition-transform duration-300 group-hover:scale-125"
+            :class="[
+              event.color,
+              event.isMain
+                ? 'left-6 -translate-x-1/2'
+                : 'left-[72px] -translate-x-1/2',
+            ]"
+          ></div>
         </div>
 
-        <div
-          class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/30 transition-all duration-300"
-        >
-          <div class="flex flex-col gap-1 mb-3">
-            <div class="flex flex-wrap items-center gap-3">
-              <span class="text-white font-display font-bold">{{
-                item.title
-              }}</span>
-              <span
-                v-if="item.concurrent"
-                class="px-2 py-0.5 text-[10px] uppercase tracking-widest bg-white/10 text-white/80 rounded font-mono"
-              >
-                Active Branch
-              </span>
+        <div class="flex-1 pb-12 pt-4 pr-4 md:pr-0">
+          <div
+            class="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/30 transition-all duration-300"
+          >
+            <div class="flex flex-col gap-1 mb-3">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="text-white font-display font-bold text-lg">{{
+                  event.title
+                }}</span>
+
+                <span
+                  v-if="event.status === 'merged'"
+                  class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-sky-500/10 text-sky-400 rounded font-mono"
+                >
+                  <LucideGitMerge class="w-3 h-3" />
+                  Merged
+                </span>
+                <span
+                  v-else-if="!event.isMain"
+                  class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-emerald-500/10 text-emerald-400 rounded font-mono"
+                >
+                  <LucideGitBranch class="w-3 h-3" />
+                  Active Branch
+                </span>
+                <span
+                  v-else
+                  class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-white/10 text-white/80 rounded font-mono"
+                >
+                  <LucideGitCommit class="w-3 h-3" />
+                  Main
+                </span>
+              </div>
+              <time class="text-xs font-mono text-white/40">{{
+                event.date
+              }}</time>
             </div>
-            <time class="text-xs font-mono text-white/40">{{ item.date }}</time>
+            <p class="text-sm text-white/60 font-display leading-relaxed">
+              {{ event.description }}
+            </p>
           </div>
-          <p class="text-sm text-white/60 font-display leading-relaxed">
-            {{ item.description }}
-          </p>
         </div>
       </div>
     </div>

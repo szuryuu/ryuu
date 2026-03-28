@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useTimeline } from "~/composables/useTimeline";
 import { certificateArray } from "@/utils/certificates";
 
-const { timeline } = useTimeline();
+const { linearTimeline } = useTimeline();
 const certificates = certificateArray;
 
 const { data: projects } = await useAsyncData("projects-count", () =>
@@ -11,7 +11,7 @@ const { data: projects } = await useAsyncData("projects-count", () =>
 );
 
 const items = computed(() => {
-  return timeline.value.slice(0, 3).map((item) => ({
+  return linearTimeline.value.map((item) => ({
     title: item.title.toUpperCase(),
     description: item.description,
     date: item.date,
@@ -127,17 +127,17 @@ const stats = [
           >
             <div>
               <h3 class="text-2xl font-display font-bold text-white mb-2">
-                Active Branches
+                Career Path
               </h3>
               <p class="text-sm text-white/40 font-display">
-                Recent milestones driving my technical growth.
+                Key milestones driving my technical growth.
               </p>
             </div>
             <NuxtLink
               to="/about/timeline"
               class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-xs font-display text-white transition-colors"
             >
-              View Full Git Log
+              View Full
               <LucideChevronRight class="w-4 h-4" />
             </NuxtLink>
           </div>
