@@ -47,7 +47,7 @@ export const useTimeline = () => {
         },
         {
           title: "Full Stack Developer Intern",
-          date: "Jul 2025 – Nov 2025",
+          date: "Jul 2025 – Augst 2025",
           description:
             "Engineered and deployed production-ready features. Optimized database queries and improved system latency.",
         },
