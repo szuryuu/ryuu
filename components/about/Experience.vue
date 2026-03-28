@@ -137,7 +137,7 @@ const stats = [
               to="/about/timeline"
               class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 rounded-lg text-xs font-display text-white transition-colors"
             >
-              View Full
+              View Full Git Log
               <LucideChevronRight class="w-4 h-4" />
             </NuxtLink>
           </div>
@@ -165,7 +165,7 @@ const stats = [
 
               <div class="flex gap-3">
                 <NuxtLink
-                  to="mailto:ilhamdzaky2007@gmail.com"
+                  to="mailto:hello@szuryuu.com"
                   class="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg text-xs md:text-sm font-display font-semibold hover:bg-white/90 transition-colors"
                 >
                   Get in Touch

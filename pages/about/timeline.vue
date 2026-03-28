@@ -82,43 +82,102 @@ const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 
         <div class="flex-1 pb-12 pt-4 pr-4 md:pr-0">
           <div
-            class="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/30 transition-all duration-300"
+            class="p-6 md:p-8 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:border-white/30 transition-all duration-300"
           >
-            <div class="flex flex-col gap-1 mb-3">
-              <div class="flex flex-wrap items-center gap-3">
-                <span class="text-white font-display font-bold text-lg">{{
-                  event.title
-                }}</span>
-
-                <span
-                  v-if="event.status === 'merged'"
-                  class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-sky-500/10 text-sky-400 rounded font-mono"
-                >
-                  <LucideGitMerge class="w-3 h-3" />
-                  Merged
-                </span>
-                <span
-                  v-else-if="!event.isMain"
-                  class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-emerald-500/10 text-emerald-400 rounded font-mono"
-                >
-                  <LucideGitBranch class="w-3 h-3" />
-                  Active Branch
-                </span>
-                <span
-                  v-else
-                  class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-white/10 text-white/80 rounded font-mono"
-                >
-                  <LucideGitCommit class="w-3 h-3" />
-                  Main
-                </span>
+            <div
+              class="flex flex-col md:flex-row md:items-center gap-4 mb-2 pb-6 border-b border-white/10"
+            >
+              <div
+                v-if="event.logo"
+                class="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0 p-2.5 bg-white/05"
+              >
+                <img
+                  :src="event.logo"
+                  :alt="event.title"
+                  class="w-full h-full object-contain"
+                />
               </div>
-              <time class="text-xs font-mono text-white/40">{{
-                event.date
-              }}</time>
+              <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-3 mb-1.5">
+                  <h3 class="text-white font-display font-bold text-xl">
+                    {{ event.title }}
+                  </h3>
+
+                  <span
+                    v-if="event.status === 'merged'"
+                    class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-sky-500/10 text-sky-400 rounded font-mono"
+                  >
+                    <LucideGitMerge class="w-3 h-3" />
+                    Merged
+                  </span>
+                  <span
+                    v-else-if="!event.isMain"
+                    class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-emerald-500/10 text-emerald-400 rounded font-mono"
+                  >
+                    <LucideGitBranch class="w-3 h-3" />
+                    Active Branch
+                  </span>
+                  <span
+                    v-else
+                    class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] uppercase tracking-widest bg-white/10 text-white/80 rounded font-mono"
+                  >
+                    <LucideGitCommit class="w-3 h-3" />
+                    Main
+                  </span>
+                </div>
+              </div>
             </div>
-            <p class="text-sm text-white/60 font-display leading-relaxed">
-              {{ event.description }}
-            </p>
+
+            <div class="mt-4 flex flex-col">
+              <div
+                v-for="(role, index) in event.roles"
+                :key="index"
+                class="relative pl-12 py-2 group/role"
+              >
+                <svg
+                  class="absolute top-0 left-4 w-8 h-full -translate-x-px"
+                  fill="none"
+                >
+                  <line
+                    v-if="index !== event.roles.length - 1"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="100%"
+                    class="stroke-white/10"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M 0 0 V 20 C 0 28, 8 28, 24 28"
+                    class="stroke-white/20 group-hover/role:stroke-white/40 transition-colors duration-300"
+                    stroke-width="1.5"
+                  />
+                </svg>
+
+                <div
+                  class="absolute left-[40px] top-[28px] w-2 h-2 rounded-full ring-4 ring-[#1a1a1a] -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 group-hover/role:scale-125"
+                  :class="index === 0 ? event.color : 'bg-white/20'"
+                ></div>
+
+                <div
+                  class="bg-white/[0.02] border border-white/5 rounded-xl p-5 hover:bg-white/[0.05] hover:border-white/10 transition-all duration-300"
+                >
+                  <div class="flex flex-col gap-1 mb-2">
+                    <span
+                      class="text-white font-display font-semibold text-base"
+                      >{{ role.title }}</span
+                    >
+                    <time
+                      class="text-[11px] font-mono text-white/40 tracking-wider"
+                      >{{ role.date }}</time
+                    >
+                  </div>
+                  <p class="text-sm text-white/60 font-display leading-relaxed">
+                    {{ role.description }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
