@@ -1,90 +1,52 @@
 export const certificateArray = [
   {
     id: 1,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
+    Image: "https://picsum.photos/400/300?random=1",
+    title: "Offensive Security Certified Professional (OSCP)",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "FullStack",
+      "Comprehensive penetration testing and ethical hacking certification focusing on practical application of security skills.",
+    skill: "CyberSec",
+    pinned: true,
+    url: "#",
   },
   {
     id: 2,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
+    Image: "https://picsum.photos/400/300?random=2",
+    title: "AWS Certified Solutions Architect",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "Advanced cloud architecture, provisioning, and management of distributed application systems on AWS.",
     skill: "DevOps",
+    pinned: true,
+    url: "#",
   },
   {
     id: 3,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
+    Image: "https://picsum.photos/400/300?random=3",
+    title: "Certified Kubernetes Administrator (CKA)",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "CyberSec",
+      "Designing, building, configuring, and exposing cloud native applications for Kubernetes.",
+    skill: "DevOps",
+    pinned: false,
+    url: "#",
   },
   {
     id: 4,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
+    Image: "https://picsum.photos/400/300?random=4",
+    title: "Full Stack Open",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
+      "Modern web development with React, Redux, Node.js, GraphQL, and TypeScript.",
+    skill: "FullStack",
+    pinned: false,
+    url: "#",
   },
   {
     id: 5,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
+    Image: "https://picsum.photos/400/300?random=5",
+    title: "CompTIA Security+",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
-  },
-  {
-    id: 6,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
-  },
-  {
-    id: 7,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
-  },
-  {
-    id: 8,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
-  },
-  {
-    id: 9,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
-  },
-  {
-    id: 10,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
-  },
-  {
-    id: 11,
-    Image: "https://picsum.photos/200/200",
-    title: "Certificate Title",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    skill: "Skill Name",
+      "Baseline skills necessary to perform core security functions and pursue an IT security career.",
+    skill: "CyberSec",
+    pinned: false,
+    url: "#",
   },
 ];

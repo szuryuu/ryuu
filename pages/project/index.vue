@@ -6,7 +6,7 @@ import { useScrollSpy } from "~/composables/useScrollSpy";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 
-const { activeId } = useScrollSpy(["overview", "showcase", "filter"]);
+const { activeId } = useScrollSpy(["overview", "filter", "showcase"]);
 
 const { data: projects } = await useAsyncData("projects", () =>
   queryCollection("projects").order("order", "ASC").all(),
@@ -16,7 +16,6 @@ if (!projects.value || projects.value.length === 0) {
   console.warn("No projects found. Add content to /content/project/");
 }
 
-// Filters
 const filters = [
   "All",
   "Team Project",
@@ -27,7 +26,6 @@ const filters = [
 const selectedFilter = ref("All");
 const selectedTech = ref<string | null>(null);
 
-// Get unique tech stack
 const allTech = computed(() => {
   if (!projects.value) return [];
   const techSet = new Set<string>();
@@ -37,18 +35,14 @@ const allTech = computed(() => {
   return Array.from(techSet).sort();
 });
 
-// Filtered projects
 const filteredProjects = computed(() => {
   if (!projects.value) return [];
-
   let filtered = projects.value;
 
-  // Filter by type
   if (selectedFilter.value !== "All") {
     filtered = filtered.filter((p) => p.type === selectedFilter.value);
   }
 
-  // Filter by tech
   if (selectedTech.value) {
     filtered = filtered.filter((p) => p.tech?.includes(selectedTech.value!));
   }
@@ -56,10 +50,8 @@ const filteredProjects = computed(() => {
   return filtered;
 });
 
-// Stats
 const stats = computed(() => {
   if (!projects.value) return { total: 0, featured: 0, completed: 0 };
-
   return {
     total: projects.value.length,
     featured: projects.value.filter((p) => p.featured).length,
@@ -73,7 +65,6 @@ const stats = computed(() => {
     class="w-full min-h-screen flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
     ref="pageRef"
   >
-    <!-- Sidebar -->
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
         <div class="flex items-start text-white">
@@ -88,38 +79,66 @@ const stats = computed(() => {
         <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display">
           <a
             href="#overview"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'overview'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'overview'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Overview
           </a>
           <a
-            href="#showcase"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
-          >
-            <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
-            ></span>
-            Showcase
-          </a>
-          <a
             href="#filter"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'filter'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'filter'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Filter
+          </a>
+          <a
+            href="#showcase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'showcase'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
+          >
+            <span
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'showcase'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
+            ></span>
+            Showcase
           </a>
         </nav>
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
-      <!-- Overview Section -->
       <section id="overview" class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
@@ -131,7 +150,6 @@ const stats = computed(() => {
         </h2>
 
         <div class="space-y-8">
-          <!-- Title -->
           <div class="flex items-center gap-4 mb-8">
             <div class="h-px flex-1 bg-white/10"></div>
             <span class="text-6xl font-display text-white/10 font-bold"
@@ -154,7 +172,6 @@ const stats = computed(() => {
             </p>
           </div>
 
-          <!-- Stats -->
           <div class="grid grid-cols-3 gap-6 pt-8">
             <div
               class="bg-white/5 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/10 flex flex-col justify-between"
@@ -192,7 +209,6 @@ const stats = computed(() => {
         </div>
       </section>
 
-      <!-- Filter Section -->
       <section id="filter" class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
@@ -204,7 +220,6 @@ const stats = computed(() => {
         </h2>
 
         <div class="space-y-6">
-          <!-- Type Filter -->
           <div>
             <p
               class="text-sm font-display text-white/60 mb-3 uppercase tracking-wider"
@@ -228,7 +243,6 @@ const stats = computed(() => {
             </div>
           </div>
 
-          <!-- Tech Filter -->
           <div>
             <div class="flex items-center justify-between mb-3">
               <p
@@ -261,7 +275,6 @@ const stats = computed(() => {
             </div>
           </div>
 
-          <!-- Active Filters Display -->
           <div
             v-if="selectedFilter !== 'All' || selectedTech"
             class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10"
@@ -286,7 +299,6 @@ const stats = computed(() => {
         </div>
       </section>
 
-      <!-- Projects Showcase -->
       <section id="showcase" class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
@@ -297,7 +309,6 @@ const stats = computed(() => {
           03 / Showcase
         </h2>
 
-        <!-- No Results State -->
         <div
           v-if="filteredProjects.length === 0"
           class="bg-white/5 backdrop-blur-sm rounded-xl p-12 border border-white/10 text-center"
@@ -320,7 +331,6 @@ const stats = computed(() => {
           </p>
         </div>
 
-        <!-- Project Grid -->
         <div
           v-else
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -345,7 +355,6 @@ const stats = computed(() => {
           </div>
         </div>
 
-        <!-- Show All CTA -->
         <div
           v-if="selectedFilter !== 'All' || selectedTech"
           class="mt-12 text-center"
@@ -365,7 +374,6 @@ const stats = computed(() => {
         </div>
       </section>
 
-      <!-- Call to Action -->
       <section class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"

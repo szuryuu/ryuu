@@ -26,7 +26,6 @@ const filtered = computed(() => {
   return articles.value.filter((a) => a.tags?.includes(selectedTag.value));
 });
 
-// Reading time estimate from body length
 function readingTime(body: unknown): string {
   const text = JSON.stringify(body ?? "");
   const words = text.split(/\s+/).length;
@@ -48,7 +47,6 @@ function formatDate(date: string) {
     class="w-full min-h-screen flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
     ref="pageRef"
   >
-    <!-- Sidebar -->
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
         <div class="flex items-start text-white">
@@ -63,19 +61,39 @@ function formatDate(date: string) {
         <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display">
           <a
             href="#overview"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'overview'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'overview'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Overview
           </a>
           <a
             href="#articles"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'articles'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'articles'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Articles
           </a>
@@ -83,9 +101,7 @@ function formatDate(date: string) {
       </div>
     </aside>
 
-    <!-- Main -->
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
-      <!-- Overview -->
       <section id="overview" class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
@@ -119,7 +135,6 @@ function formatDate(date: string) {
             </p>
           </div>
 
-          <!-- Stats -->
           <div class="grid grid-cols-2 gap-6 pt-4 max-w-xs">
             <div
               class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10"
@@ -141,7 +156,6 @@ function formatDate(date: string) {
         </div>
       </section>
 
-      <!-- Articles -->
       <section id="articles" class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
@@ -152,7 +166,6 @@ function formatDate(date: string) {
           02 / Articles
         </h2>
 
-        <!-- Tag filter -->
         <div class="flex flex-wrap gap-2 mb-10">
           <button
             v-for="tag in allTags"
@@ -169,7 +182,6 @@ function formatDate(date: string) {
           </button>
         </div>
 
-        <!-- Article list -->
         <div v-if="!filtered.length" class="py-16 text-center">
           <p class="font-display text-white/30 text-sm">No articles yet.</p>
         </div>
@@ -181,14 +193,12 @@ function formatDate(date: string) {
             :to="article.path"
             class="group/row relative flex items-start gap-6 py-7 border-b border-white/8 hover:border-white/20 transition-all duration-300"
           >
-            <!-- Number -->
             <span
               class="font-display text-white/15 text-xs tabular-nums pt-1 shrink-0 w-6 text-right"
             >
               {{ String(index + 1).padStart(2, "0") }}
             </span>
 
-            <!-- Content -->
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-2 mb-2">
                 <span
@@ -200,7 +210,6 @@ function formatDate(date: string) {
                 </span>
               </div>
 
-              <!-- Title with slide-underline on hover -->
               <h3
                 class="font-display text-white text-lg md:text-xl font-semibold leading-snug mb-2 relative inline-block"
               >
@@ -215,17 +224,15 @@ function formatDate(date: string) {
               </p>
             </div>
 
-            <!-- Meta right -->
             <div class="shrink-0 flex flex-col items-end gap-1 pt-1 text-right">
-              <span class="text-[11px] font-display text-white/30">
-                {{ formatDate(article.date) }}
-              </span>
-              <span class="text-[11px] font-display text-white/20">
-                {{ readingTime(article.body) }}
-              </span>
+              <span class="text-[11px] font-display text-white/30">{{
+                formatDate(article.date)
+              }}</span>
+              <span class="text-[11px] font-display text-white/20">{{
+                readingTime(article.body)
+              }}</span>
             </div>
 
-            <!-- Arrow on hover -->
             <LucideChevronRight
               class="w-4 h-4 text-white/20 shrink-0 self-center opacity-0 group-hover/row:opacity-100 group-hover/row:translate-x-1 transition-all duration-300"
             />

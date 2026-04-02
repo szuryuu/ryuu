@@ -3,7 +3,6 @@ import { ref, onMounted } from "vue";
 import { usePageEnter } from "~/composables/usePageEnter";
 import { useScrollSpy } from "~/composables/useScrollSpy";
 
-// Handles page enter animation effect
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
 
 const { activeId } = useScrollSpy([
@@ -14,7 +13,6 @@ const { activeId } = useScrollSpy([
   "guestbook",
 ]);
 
-// Contact information for sidebar and cards
 const contacts = [
   {
     id: "email",
@@ -54,10 +52,8 @@ const contacts = [
   },
 ];
 
-// Tracks which contact card is currently hovered
 const hoveredContact = ref<string | null>(null);
 
-// Guestbook entry structure including optional avatar_url
 interface GuestEntry {
   id: string;
   name: string;
@@ -66,25 +62,15 @@ interface GuestEntry {
   created_at: string;
 }
 
-// Stores guestbook entries
 const entries = ref<GuestEntry[]>([]);
-// Indicates loading state for guestbook entries
 const loadingList = ref(true);
-// Indicates if guestbook form is submitting
 const submitting = ref(false);
-// Indicates if guestbook submission was successful
 const submitDone = ref(false);
-// Stores error message for guestbook submission
 const submitError = ref("");
-
-// Guestbook form state
 const form = ref({ message: "" });
-
-// Supabase client and user for authentication
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
-// Formats entry date for display
 function formatEntryDate(dt: string) {
   return new Date(dt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -93,19 +79,16 @@ function formatEntryDate(dt: string) {
   });
 }
 
-// Fetches guestbook entries from API
 async function fetchEntries() {
   loadingList.value = true;
   try {
     entries.value = await $fetch<GuestEntry[]>("/api/guestbook");
   } catch {
-    // Ignore fetch error on initial load
   } finally {
     loadingList.value = false;
   }
 }
 
-// Initiates GitHub OAuth login via Supabase
 async function loginWithGithub() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "github",
@@ -116,12 +99,10 @@ async function loginWithGithub() {
   if (error) console.error(error);
 }
 
-// Logs out current user from Supabase
 async function logout() {
   await supabase.auth.signOut();
 }
 
-// Handles guestbook form submission and error/success state
 async function handleSubmit() {
   submitError.value = "";
   if (!form.value.message.trim()) {
@@ -150,7 +131,6 @@ async function handleSubmit() {
   }
 }
 
-// Runs fetchEntries when component is mounted
 onMounted(() => fetchEntries());
 </script>
 
@@ -159,7 +139,6 @@ onMounted(() => fetchEntries());
     class="w-full min-h-screen flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
     ref="pageRef"
   >
-    <!-- Sidebar -->
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
         <div class="flex items-start text-white">
@@ -176,19 +155,39 @@ onMounted(() => fetchEntries());
             v-for="contact in contacts"
             :key="contact.id"
             :href="`#${contact.id}`"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === contact.id
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === contact.id
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             {{ contact.label }}
           </a>
           <a
             href="#guestbook"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'guestbook'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'guestbook'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Guestbook
           </a>
@@ -196,9 +195,7 @@ onMounted(() => fetchEntries());
       </div>
     </aside>
 
-    <!-- Main -->
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
-      <!-- Header -->
       <section class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
@@ -231,7 +228,6 @@ onMounted(() => fetchEntries());
         </div>
       </section>
 
-      <!-- Contact cards -->
       <section class="space-y-8">
         <div
           v-for="(contact, index) in contacts"
@@ -308,7 +304,6 @@ onMounted(() => fetchEntries());
         </div>
       </section>
 
-      <!-- Quick info -->
       <section class="relative group">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
@@ -385,20 +380,17 @@ onMounted(() => fetchEntries());
         </div>
       </section>
 
-      <!-- Guestbook divider -->
-      <div id="guestbook" class="flex items-center gap-6 pt-8">
+      <div class="flex items-center gap-6 pt-8">
         <div class="flex-1 h-px bg-white/10"></div>
         <span class="font-decoration text-white/25 text-2xl">芳名帳</span>
         <div class="flex-1 h-px bg-white/10"></div>
       </div>
 
-      <!-- Guestbook section -->
-      <section class="relative group space-y-8">
+      <section id="guestbook" class="relative group space-y-8">
         <div
           class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
         ></div>
 
-        <!-- Section header -->
         <div>
           <h2
             class="text-xs font-display text-white/40 uppercase tracking-widest mb-2 pl-4"
@@ -410,7 +402,6 @@ onMounted(() => fetchEntries());
           </p>
         </div>
 
-        <!-- Submit form -->
         <div
           class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
         >
@@ -542,12 +533,12 @@ onMounted(() => fetchEntries());
 
               <div class="flex-1 min-w-0">
                 <div class="flex items-baseline gap-3 mb-1">
-                  <span class="text-sm font-display font-semibold text-white">
-                    {{ entry.name }}
-                  </span>
-                  <span class="text-[11px] font-display text-white/25">
-                    {{ formatEntryDate(entry.created_at) }}
-                  </span>
+                  <span class="text-sm font-display font-semibold text-white">{{
+                    entry.name
+                  }}</span>
+                  <span class="text-[11px] font-display text-white/25">{{
+                    formatEntryDate(entry.created_at)
+                  }}</span>
                 </div>
                 <p class="text-sm text-white/55 font-display leading-relaxed">
                   {{ entry.message }}
