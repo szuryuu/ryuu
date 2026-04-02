@@ -2,8 +2,11 @@
 import { ref, computed } from "vue";
 import ProjectCard from "~/components/project/ProjectCard.vue";
 import { usePageEnter } from "~/composables/usePageEnter";
+import { useScrollSpy } from "~/composables/useScrollSpy";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
+
+const { activeId } = useScrollSpy(["overview", "showcase", "filter"]);
 
 const { data: projects } = await useAsyncData("projects", () =>
   queryCollection("projects").order("order", "ASC").all(),

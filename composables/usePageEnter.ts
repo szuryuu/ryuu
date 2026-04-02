@@ -1,4 +1,4 @@
-import { ref, watch, onUnmounted } from "vue";
+import { ref, watch, onUnmounted, onMounted } from "vue";
 import gsap from "gsap";
 
 interface PageEnterOptions {
@@ -9,7 +9,6 @@ interface PageEnterOptions {
   ease?: string;
 }
 
-// usePageEnter animates a page element's entrance when the curtain opens.
 export function usePageEnter(options: PageEnterOptions = {}) {
   const {
     delay = 0,
@@ -21,12 +20,18 @@ export function usePageEnter(options: PageEnterOptions = {}) {
 
   const pageRef = ref<HTMLElement | null>(null);
   const curtainOpen = useState<boolean>("curtainOpen");
+  const hasNavigated = useState<boolean>("hasNavigated", () => false);
 
   let tween: gsap.core.Tween | null = null;
 
   function runAnimation() {
     if (!pageRef.value) return;
     if (tween) tween.kill();
+
+    if (!hasNavigated.value) {
+      gsap.set(pageRef.value, { clearProps: "all" });
+      return;
+    }
 
     tween = gsap.fromTo(
       pageRef.value,
@@ -42,16 +47,18 @@ export function usePageEnter(options: PageEnterOptions = {}) {
     );
   }
 
-  const stop = watch(
-    curtainOpen,
-    (isOpen) => {
-      if (isOpen) runAnimation();
-    },
-    { immediate: true },
-  );
+  const stopCurtain = watch(curtainOpen, (isOpen) => {
+    if (isOpen && pageRef.value) runAnimation();
+  });
+
+  onMounted(() => {
+    if (curtainOpen.value) {
+      runAnimation();
+    }
+  });
 
   onUnmounted(() => {
-    stop();
+    stopCurtain();
     if (tween) tween.kill();
   });
 

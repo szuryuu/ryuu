@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { Experience, Intro, Skill } from "@/components/about";
 import { usePageEnter } from "~/composables/usePageEnter";
+import { useScrollSpy } from "~/composables/useScrollSpy";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
+
+const { activeId } = useScrollSpy(["intro", "journey", "skill"]);
 </script>
 
 <template>
@@ -24,28 +27,58 @@ const pageRef = usePageEnter({ y: 20, duration: 0.6 });
         <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display">
           <a
             href="#intro"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'intro'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'intro'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Introduction
           </a>
           <a
             href="#journey"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'journey'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'journey'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Journey
           </a>
           <a
             href="#skill"
-            class="text-white/40 hover:text-white transition-colors flex items-center gap-3 group uppercase"
+            class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
+            :class="
+              activeId === 'skill'
+                ? 'text-white'
+                : 'text-white/40 hover:text-white'
+            "
           >
             <span
-              class="w-8 h-px bg-white/20 group-hover:w-12 transition-all"
+              class="h-px transition-all duration-300"
+              :class="
+                activeId === 'skill'
+                  ? 'w-12 bg-white'
+                  : 'w-8 bg-white/20 group-hover:w-12'
+              "
             ></span>
             Skill
           </a>

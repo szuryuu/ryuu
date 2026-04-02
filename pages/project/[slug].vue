@@ -118,7 +118,9 @@ onUnmounted(() => {
     </div>
 
     <header class="relative flex mb-0 gap-8">
-      <div class="absolute inset-0 -z-10">
+      <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full -z-10"
+      >
         <NuxtImg
           v-if="project.image"
           :src="project.image"
@@ -289,11 +291,36 @@ onUnmounted(() => {
 
     <section class="max-w-7xl mx-auto px-6 md:px-12 pb-16 pt-8 relative">
       <div class="flex flex-col lg:flex-row items-start gap-12 lg:gap-24">
-        <main
-          class="flex-1 min-w-0 w-full prose prose-lg prose-invert max-w-none text-white"
-        >
-          <ContentRenderer class="text-white" :value="project" />
-        </main>
+        <div class="flex-1 min-w-0 w-full">
+          <details
+            v-if="project?.body?.toc?.links?.length"
+            class="block lg:hidden mb-10 p-5 border border-white/10 bg-white/5 rounded-xl text-white"
+          >
+            <summary
+              class="font-display font-bold cursor-pointer outline-none uppercase tracking-widest text-xs opacity-60"
+            >
+              Table of Contents
+            </summary>
+            <nav class="mt-5 flex flex-col gap-4 text-xs font-display">
+              <a
+                v-for="link in project.body.toc.links"
+                :key="link.id"
+                :href="`#${link.id}`"
+                class="transition-colors text-white/60 hover:text-white uppercase tracking-widest"
+                :class="[
+                  link.depth === 3 ? 'ml-4' : '',
+                  link.depth > 3 ? 'ml-8' : '',
+                ]"
+              >
+                {{ link.text }}
+              </a>
+            </nav>
+          </details>
+
+          <main class="prose prose-lg prose-invert max-w-none text-white">
+            <ContentRenderer class="text-white" :value="project" />
+          </main>
+        </div>
 
         <aside
           class="hidden lg:block w-56 shrink-0 sticky top-48 pt-4 self-start"
@@ -377,12 +404,3 @@ onUnmounted(() => {
     </section>
   </article>
 </template>
-
-<style scoped>
-:deep(.prose h1),
-:deep(.prose h2),
-:deep(.prose h3),
-:deep(.prose h4) {
-  scroll-margin-top: 160px;
-}
-</style>

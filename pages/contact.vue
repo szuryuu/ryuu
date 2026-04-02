@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { usePageEnter } from "~/composables/usePageEnter";
+import { useScrollSpy } from "~/composables/useScrollSpy";
 
 // Handles page enter animation effect
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
+
+const { activeId } = useScrollSpy([
+  "email",
+  "github",
+  "linkedin",
+  "cv",
+  "guestbook",
+]);
 
 // Contact information for sidebar and cards
 const contacts = [

@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { usePageEnter } from "~/composables/usePageEnter";
+import { useScrollSpy } from "~/composables/useScrollSpy";
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
+
+const { activeId } = useScrollSpy(["overview", "articles"]);
 
 const { data: articles } = await useAsyncData("writing", () =>
   queryCollection("writing").order("order", "ASC").all(),

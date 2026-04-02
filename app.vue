@@ -3,17 +3,17 @@ import { ref } from "vue";
 import LoadingScreen from "~/components/LoadingScreen.vue";
 import Circle from "~/components/Circle.vue";
 
-const isLoading = ref(true);
+const isLoading = ref(false);
 const isClosing = ref(false);
-const isInitialLoad = ref(true);
+const isInitialLoad = ref(false);
 const router = useRouter();
 const nuxtApp = useNuxtApp();
 
-const curtainOpen = useState("curtainOpen", () => false);
+const curtainOpen = useState("curtainOpen", () => true);
+const hasNavigated = useState("hasNavigated", () => false);
 
 let resolveNavigation: (() => void) | null = null;
 
-// Handles the completion of the loading screen closing animation.
 function onCloseDone() {
   if (resolveNavigation) {
     resolveNavigation();
@@ -21,22 +21,16 @@ function onCloseDone() {
   }
 }
 
-// Handles the event when the loading curtain is fully opened.
 function onCurtainOpened() {
   isLoading.value = false;
-  isInitialLoad.value = false;
   curtainOpen.value = true;
 }
 
-// Runs logic when the component is mounted.
-onMounted(() => {});
-
-// Runs before each route navigation to trigger loading screen.
 router.beforeEach(async (to, from) => {
   if (to.path === from.path) return;
 
+  hasNavigated.value = true;
   curtainOpen.value = false;
-
   isLoading.value = true;
   isClosing.value = true;
 
@@ -45,7 +39,6 @@ router.beforeEach(async (to, from) => {
   });
 });
 
-// Runs after each route navigation to finish loading screen animation.
 nuxtApp.hook("page:finish", () => {
   setTimeout(() => {
     isClosing.value = false;
