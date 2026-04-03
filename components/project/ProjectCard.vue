@@ -37,9 +37,7 @@ defineProps<{
           height="180"
           width="180"
           format="webp"
-          loading="lazy"
-          placeholder
-          decoding="async"
+          preload
         />
         <div
           v-if="project.featured"
