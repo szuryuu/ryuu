@@ -136,15 +136,19 @@ onMounted(() => fetchEntries());
 
 <template>
   <div
-    class="w-full min-h-screen flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
+    class="w-full min-h-[100svh] flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
     ref="pageRef"
   >
+    <Circle
+      class="!fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-25 -z-10"
+    />
+
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
         <div class="flex items-start text-white">
-          <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
-            コンタクト
-          </span>
+          <span class="[writing-mode:vertical-lr] text-2xl font-decoration"
+            >コンタクト</span
+          >
           <span class="[writing-mode:vertical-lr] text-lg font-display"
             >Contact</span
           >
