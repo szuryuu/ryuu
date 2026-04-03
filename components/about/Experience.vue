@@ -12,9 +12,9 @@ const { data: projects } = await useAsyncData("projects-count", () =>
 
 const items = computed(() => {
   return linearTimeline.value.map((item) => ({
-    title: item.title.toUpperCase(),
+    title: item.title,
     description: item.description,
-    date: item.date,
+    label: item.date,
   }));
 });
 
@@ -79,7 +79,7 @@ const stats = [
           class="group relative overflow-hidden"
         >
           <div
-            class="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 transition-all duration-500"
+            class="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 transition-all duration-500 h-full"
           >
             <div
               class="absolute top-4 right-4 text-4xl font-display text-white/5 font-bold"
@@ -115,8 +115,9 @@ const stats = [
           <div class="h-px flex-1 bg-white/10"></div>
           <span
             class="text-xs uppercase tracking-wider text-white/30 font-display"
-            >Recent Activity</span
           >
+            Recent Activity
+          </span>
         </div>
 
         <div
@@ -142,15 +143,44 @@ const stats = [
             </NuxtLink>
           </div>
 
-          <UTimeline
-            color="neutral"
-            size="sm"
-            orientation="horizontal"
-            :items="items"
-            class="w-full overflow-x-auto"
-          />
+          <div
+            class="flex flex-col relative before:absolute before:inset-y-0 before:left-2 md:before:left-2.5 before:w-px before:bg-white/10 ml-2 mt-6"
+          >
+            <NuxtLink
+              to="/about/timeline"
+              v-for="(item, i) in items"
+              :key="i"
+              class="relative pl-8 py-5 group block hover:bg-white/5 rounded-r-xl transition-colors border border-transparent hover:border-white/5"
+            >
+              <div
+                class="absolute left-[7.5px] md:left-[9.5px] top-7 w-2 h-2 rounded-full bg-white/20 border border-white/40 group-hover:bg-white group-hover:scale-125 transition-all -translate-x-1/2 z-10 shadow-[0_0_10px_rgba(255,255,255,0)] group-hover:shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+              ></div>
 
-          <div class="mt-8 pt-6 border-t border-white/10">
+              <div class="flex items-center justify-between gap-4 mb-1.5">
+                <p
+                  class="text-[10px] md:text-xs uppercase tracking-widest text-white/40 font-display"
+                >
+                  {{ item.label }}
+                </p>
+                <LucideArrowUpRight
+                  class="w-3.5 h-3.5 text-white/20 group-hover:text-white transition-colors"
+                />
+              </div>
+
+              <h4
+                class="text-base md:text-lg font-display font-semibold text-white/80 group-hover:text-white transition-colors mb-1.5"
+              >
+                {{ item.title }}
+              </h4>
+              <p
+                class="text-xs md:text-sm text-white/50 font-display line-clamp-2 md:line-clamp-none pr-4"
+              >
+                {{ item.description }}
+              </p>
+            </NuxtLink>
+          </div>
+
+          <div class="mt-12 pt-6 border-t border-white/10">
             <div
               class="flex flex-col md:flex-row md:justify-between md:items-center gap-4"
             >

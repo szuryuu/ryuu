@@ -22,8 +22,18 @@ const selectedTag = ref("All");
 
 const filtered = computed(() => {
   if (!articles.value) return [];
-  if (selectedTag.value === "All") return articles.value;
-  return articles.value.filter((a) => a.tags?.includes(selectedTag.value));
+  let result = articles.value;
+
+  if (selectedTag.value !== "All") {
+    result = result.filter((a) => a.tags?.includes(selectedTag.value));
+  }
+
+  // Sort featured articles to the top
+  return result.sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return 0;
+  });
 });
 
 function readingTime(body: unknown): string {
@@ -121,8 +131,8 @@ function formatDate(date: string) {
           </div>
 
           <h1 class="text-reveal font-display uppercase group cursor-pointer">
-            <span class="text-gradient-base">Selected<br />Writing</span>
-            <span class="text-reveal-overlay">Selected<br />Writing</span>
+            <span class="text-gradient-base">Article<br />Archive</span>
+            <span class="text-reveal-overlay">Article<br />Archive</span>
           </h1>
 
           <div class="space-y-2 pl-1">
@@ -201,6 +211,13 @@ function formatDate(date: string) {
 
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span
+                  v-if="article.featured"
+                  class="text-[10px] uppercase tracking-wider font-display text-green-400 border border-green-500/30 bg-green-500/10 px-2 py-0.5 rounded flex items-center gap-1"
+                >
+                  <LucideStar class="w-3 h-3 fill-green-400/50" />
+                  Featured
+                </span>
                 <span
                   v-for="tag in article.tags"
                   :key="tag"

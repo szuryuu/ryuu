@@ -11,6 +11,7 @@ defineProps<{
     projectDetailUrl: string;
     liveDemoUrl?: string;
     githubUrl?: string;
+    featured?: boolean;
   };
 }>();
 </script>
@@ -20,7 +21,6 @@ defineProps<{
     variant="soft"
     class="bg-white/5 backdrop-blur-none md:backdrop-blur-sm transform-gpu rounded-xl border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-white/5 overflow-hidden text-white"
   >
-    <!-- Image -->
     <div class="flex justify-between">
       <USeparator
         orientation="vertical"
@@ -29,17 +29,26 @@ defineProps<{
         class="h-48"
       />
 
-      <NuxtImg
-        :src="project.image"
-        alt="Project Image"
-        class="w-48 h-auto px-0 object-cover bg-white/5"
-        height="180"
-        width="180"
-        format="webp"
-        loading="lazy"
-        placeholder
-        decoding="async"
-      />
+      <div class="relative w-48 flex items-center justify-center">
+        <NuxtImg
+          :src="project.image"
+          alt="Project Image"
+          class="w-48 h-auto max-h-48 px-0 object-cover bg-white/5"
+          height="180"
+          width="180"
+          format="webp"
+          loading="lazy"
+          placeholder
+          decoding="async"
+        />
+        <div
+          v-if="project.featured"
+          class="absolute top-2 right-2 flex items-center gap-1 bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] uppercase px-2 py-0.5 rounded font-display tracking-widest backdrop-blur-md shadow-sm"
+        >
+          <LucideStar class="w-3 h-3 fill-green-400/50" />
+          Featured
+        </div>
+      </div>
 
       <div
         class="flex justify-between items-center h-48 [writing-mode:vertical-lr]"
@@ -49,9 +58,11 @@ defineProps<{
       </div>
     </div>
 
-    <!-- Detail -->
     <div class="flex flex-col justify-between items-center mt-8 gap-4">
-      <NuxtLink :to="project.path">
+      <NuxtLink
+        :to="project.path"
+        class="text-center font-display font-medium line-clamp-2 min-h-[40px] flex items-center"
+      >
         {{ project.name }}
       </NuxtLink>
       <div class="flex justify-between w-full gap-1">

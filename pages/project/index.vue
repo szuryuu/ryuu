@@ -47,7 +47,11 @@ const filteredProjects = computed(() => {
     filtered = filtered.filter((p) => p.tech?.includes(selectedTech.value!));
   }
 
-  return filtered;
+  return filtered.sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return 0;
+  });
 });
 
 const stats = computed(() => {
@@ -158,8 +162,8 @@ const stats = computed(() => {
           </div>
 
           <h1 class="text-reveal font-display uppercase group cursor-pointer">
-            <span class="text-gradient-base">Selected<br />Work</span>
-            <span class="text-reveal-overlay">Selected<br />Work</span>
+            <span class="text-gradient-base">Project<br />Archive</span>
+            <span class="text-reveal-overlay">Project<br />Archive</span>
           </h1>
 
           <div class="space-y-2 pl-1">
@@ -350,6 +354,7 @@ const stats = computed(() => {
                 projectDetailUrl: `/project/${project.slug}`,
                 liveDemoUrl: project.live || '',
                 githubUrl: project.github || '',
+                featured: project.featured || false,
               }"
             />
           </div>

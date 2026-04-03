@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { useTimeline } from "~/composables/useTimeline";
 import { usePageEnter } from "~/composables/usePageEnter";
 
 const { events } = useTimeline();
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
+
+const expandedRoles = ref<Record<string, boolean>>({});
+
+function toggleRole(id: string) {
+  expandedRoles.value[id] = !expandedRoles.value[id];
+}
 </script>
 
 <template>
@@ -165,16 +172,37 @@ const pageRef = usePageEnter({ y: 20, duration: 0.6 });
                   <div class="flex flex-col gap-1 mb-2">
                     <span
                       class="text-white font-display font-semibold text-base"
-                      >{{ role.title }}</span
                     >
+                      {{ role.title }}
+                    </span>
                     <time
                       class="text-[11px] font-mono text-white/40 tracking-wider"
-                      >{{ role.date }}</time
                     >
+                      {{ role.date }}
+                    </time>
                   </div>
-                  <p class="text-sm text-white/60 font-display leading-relaxed">
-                    {{ role.description }}
-                  </p>
+                  <div>
+                    <p
+                      class="text-sm text-white/60 font-display leading-relaxed transition-all duration-300"
+                      :class="
+                        !expandedRoles[`${event.id}-${index}`]
+                          ? 'line-clamp-2 md:line-clamp-none'
+                          : ''
+                      "
+                    >
+                      {{ role.description }}
+                    </p>
+                    <button
+                      @click="toggleRole(`${event.id}-${index}`)"
+                      class="md:hidden mt-3 text-[10px] uppercase tracking-widest font-display text-white/30 hover:text-white transition-colors flex items-center gap-1"
+                    >
+                      {{
+                        expandedRoles[`${event.id}-${index}`]
+                          ? "Show Less"
+                          : "Read More"
+                      }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

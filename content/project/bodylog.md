@@ -7,7 +7,7 @@ image: "/images/projects/dokku.png"
 tech: ["Bash", "Go", "Nginx", "Dokku"]
 github: "https://github.com/szuryuu/bodylog"
 # live: ""
-featured: true
+featured: false
 order: 1
 status: "Completed"
 duration: "1 months"
