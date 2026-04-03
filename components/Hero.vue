@@ -1,29 +1,69 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { data: githubData } = await useAsyncData("github-commits", () =>
+  $fetch("/api/github/commits"),
+);
+</script>
 
 <template>
   <div
-    class="absolute top-0 right-0 bottom-0 -z-10 left-0 flex justify-center items-center"
+    class="min-h-[100svh] w-full flex flex-col justify-center items-center relative overflow-hidden px-6"
   >
     <div
-      class="absolute rounded-full opacity-50 -z-10 md:w-[800px] md:h-[800px] w-[500px] h-[500px]"
-      style="
-        background: radial-gradient(circle, #242424, transparent);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      "
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px] bg-primary/20 blur-[80px] md:blur-[120px] rounded-full pointer-events-none transform-gpu will-change-transform"
     ></div>
 
-    <div class="flex items-start">
+    <div class="z-10 flex flex-col items-center justify-center w-full">
       <div
-        class="upside text-2xl font-bold font-decoration shrink-0 text-white"
+        class="text-xs md:text-sm font-display text-white/50 tracking-widest uppercase mb-6 flex flex-col items-center gap-2"
       >
-        ポルトフォリオ
+        <span class="text-center">Shafwan Ilham Dzaky</span>
       </div>
-      <span
-        class="font-display [writing-mode:vertical-lr] text-xs uppercase px-1 text-white"
-        >portofolio</span
+
+      <div class="relative w-full max-w-4xl mx-auto flex flex-col items-center">
+        <h1
+          class="text-5xl sm:text-6xl md:text-8xl lg:text-[120px] font-display font-bold text-center leading-[0.9] tracking-tighter w-full"
+        >
+          <div class="overflow-hidden">
+            <span class="block text-white">SYSTEMS</span>
+          </div>
+          <div
+            class="overflow-hidden flex items-center justify-center gap-3 md:gap-4"
+          >
+            <span class="block text-white/40 italic font-light">&</span>
+            <span class="block text-white">CODE</span>
+          </div>
+        </h1>
+      </div>
+
+      <div
+        class="mt-10 md:mt-12 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 text-center md:text-left w-full max-w-2xl mx-auto"
       >
+        <div class="max-w-[280px]">
+          <p class="text-sm font-display text-white/60 leading-relaxed">
+            Full-stack engineer & systems administrator specializing in secure,
+            scalable infrastructure and production-grade applications.
+          </p>
+        </div>
+
+        <div class="h-px w-16 md:h-16 md:w-px bg-white/20 shrink-0"></div>
+
+        <div class="flex items-center justify-center gap-6 shrink-0">
+          <div class="flex flex-col items-center md:items-start gap-1">
+            <span class="text-3xl font-display font-bold text-white">2+</span>
+            <span class="text-[10px] uppercase tracking-widest text-white/40"
+              >Years Exp</span
+            >
+          </div>
+          <div class="flex flex-col items-center md:items-start gap-1">
+            <span class="text-3xl font-display font-bold text-white">{{
+              githubData?.totalCommits || "500+"
+            }}</span>
+            <span class="text-[10px] uppercase tracking-widest text-white/40"
+              >Git Commits</span
+            >
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

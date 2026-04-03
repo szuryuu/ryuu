@@ -13,7 +13,7 @@ const buttonVariant = computed(() => (isHovered.value ? "solid" : "outline"));
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col relative overflow-x-clip">
+  <div class="min-h-[100svh] flex flex-col relative overflow-x-clip">
     <nav
       class="fixed top-0 left-0 right-0 flex justify-between px-6 md:px-12 py-8 z-10"
     >
