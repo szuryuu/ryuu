@@ -6,34 +6,15 @@ description: "A serverless attendance logging system that leverages GitHub Actio
 image: "/images/projects/github-actions.png"
 tech: ["Go", "GitHub Actions", "Google Sheets API"]
 github: "https://github.com/szuryuu/gha-sheet-attend"
-# live: ""
 featured: false
-order: 3
+order: 12
 status: "Completed"
 duration: "2 weeks"
-# team_size: 4
-# role: "Lead Full-Stack Developer"
 ---
 
 ## The Problem
 
 Internships and remote work often require daily attendance logging or "logbooks." Doing this manually in a spreadsheet is repetitive, and maintaining consistent formatting (borders, alignment) across hundreds of rows becomes tedious. Forgetting to log a day can lead to administrative issues at the end of the month.
-
----
-
-title: "Mikrotik Manager"
-type: "Team Project"
-year: "2024"
-description: "A Python-based CLI utility designed to automate common MikroTik RouterOS configuration tasks, featuring a modular architecture and a rich terminal interface."
-image: "/images/projects/mikrotik.png"
-tech: ["Python", "MikroTik", "Paramiko", "Streamlit", "SSH"]
-github: "https://github.com/szuryuu/mikro-manager"
-featured: false
-order: 11
-status: "Completed"
-duration: "3 weeks"
-
----
 
 ## My Solution
 
