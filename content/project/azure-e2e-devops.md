@@ -7,7 +7,7 @@ image: "/images/projects/azure.png"
 tech: ["GitHub Actions", "Terraform", "Docker", "Azure", "Bash"]
 github: "https://github.com/szuryuu/azure-e2e-devops"
 featured: false
-order: 3
+order: 5
 status: "Completed"
 duration: "2 weeks"
 ---

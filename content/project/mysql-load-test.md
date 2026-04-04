@@ -6,13 +6,10 @@ description: "A high-performance load testing suite that captures real productio
 image: "/images/projects/mysql.png"
 tech: ["Go", "Gopacket", "Prometheus", "MySQL"]
 github: "https://github.com/szuryuu/mysql-load-test"
-# live: ""
 featured: true
 order: 4
 status: "Completed"
 duration: "1 months"
-# team_size: 4
-# role: "Lead Full-Stack Developer"
 ---
 
 ## The Problem

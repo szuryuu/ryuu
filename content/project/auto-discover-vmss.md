@@ -6,7 +6,7 @@ description: "An elastic Service Mesh architecture integrating Envoy Proxy with 
 image: "/images/projects/terraform.png"
 tech: ["Go", "Envoy Proxy", "Terraform", "Azure VMSS", "Cloud-init"]
 github: "https://github.com/szuryuu/auto-discover-vmss"
-featured: false
+featured: true
 order: 2
 status: "Completed"
 duration: "2 weeks"

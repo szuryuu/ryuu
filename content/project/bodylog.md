@@ -7,7 +7,7 @@ image: "/images/projects/nuxt.png"
 tech: ["Nuxt 4", "Vue 3", "Tailwind CSS v4", "Google Sheets API", "Serverless"]
 github: "https://github.com/szuryuu/bodylog"
 featured: false
-order: 5
+order: 8
 status: "Completed"
 duration: "1 week"
 ---

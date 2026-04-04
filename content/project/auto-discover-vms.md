@@ -6,8 +6,8 @@ description: "A dynamic Service Mesh utilizing Envoy Proxy and a custom Go Contr
 image: "/images/projects/terraform.png"
 tech: ["Go", "Envoy Proxy", "Terraform", "Azure", "Cloud-init"]
 github: "https://github.com/szuryuu/auto-discover-vms"
-featured: true
-order: 1
+featured: false
+order: 6
 status: "Completed"
 duration: "3 weeks"
 ---

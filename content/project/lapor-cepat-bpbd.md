@@ -16,7 +16,7 @@ tech:
 github: "https://github.com/szuryuu/lapor-cepat-bpbd"
 live: "https://lapor-cepat.vercel.app"
 featured: true
-order: 4
+order: 3
 status: "Completed"
 duration: "3 weeks"
 ---
