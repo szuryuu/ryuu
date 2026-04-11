@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { data: githubData } = await useAsyncData("github-commits", () =>
+const { data: githubData } = await useLazyAsyncData("github-commits", () =>
   $fetch("/api/github/commits"),
 );
 </script>
@@ -50,17 +50,11 @@ const { data: githubData } = await useAsyncData("github-commits", () =>
         <div class="flex items-center justify-center gap-6 shrink-0">
           <div class="flex flex-col items-center md:items-start gap-1">
             <span class="text-3xl font-display font-bold text-white">2+</span>
-            <span class="text-[10px] uppercase tracking-widest text-white/40"
-              >Years Exp</span
-            >
+            <span class="text-[10px] uppercase tracking-widest text-white/40">Years Exp</span>
           </div>
           <div class="flex flex-col items-center md:items-start gap-1">
-            <span class="text-3xl font-display font-bold text-white">{{
-              githubData?.totalCommits || "500+"
-            }}</span>
-            <span class="text-[10px] uppercase tracking-widest text-white/40"
-              >Git Commits</span
-            >
+            <span class="text-3xl font-display font-bold text-white">{{ githubData?.totalCommits || "500+" }}</span>
+            <span class="text-[10px] uppercase tracking-widest text-white/40">Git Commits</span>
           </div>
         </div>
       </div>
