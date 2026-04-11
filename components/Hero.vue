@@ -64,6 +64,22 @@ const { data: githubData } = await useAsyncData("github-commits", () =>
           </div>
         </div>
       </div>
+
+      <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+        <NuxtLink
+          to="/cv-2026.pdf"
+          target="_blank"
+          class="w-full sm:w-auto px-8 py-3 bg-white text-black font-display text-xs uppercase tracking-widest text-center hover:bg-white/90 transition-colors"
+        >
+          Download CV
+        </NuxtLink>
+        <NuxtLink
+          to="/project"
+          class="w-full sm:w-auto px-8 py-3 bg-transparent border border-white/20 text-white font-display text-xs uppercase tracking-widest text-center hover:bg-white/5 hover:border-white/40 transition-all"
+        >
+          View Projects
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
