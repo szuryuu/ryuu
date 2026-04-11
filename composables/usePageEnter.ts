@@ -19,7 +19,7 @@ export function usePageEnter(options: PageEnterOptions = {}) {
   } = options;
 
   const pageRef = ref<HTMLElement | null>(null);
-  const curtainOpen = useState<boolean>("curtainOpen");
+  const curtainOpen = useState<boolean>("curtainOpen", () => true);
   const hasNavigated = useState<boolean>("hasNavigated", () => false);
 
   let tween: gsap.core.Tween | null = null;

@@ -6,7 +6,6 @@ import {
   cyberSecuritySkills,
   skillUrl,
 } from "@/utils/skills";
-import CertificateCard from "@/components/CertificateCard.vue";
 import { certificateArray } from "@/utils/certificates";
 import { usePageEnter } from "~/composables/usePageEnter";
 import { useScrollSpy } from "~/composables/useScrollSpy";
@@ -44,88 +43,52 @@ const filteredCertificates = computed(() => {
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
         <div class="flex items-start text-white">
-          <span class="[writing-mode:vertical-lr] text-2xl font-decoration"
-            >スキル</span
-          >
-          <span class="[writing-mode:vertical-lr] text-lg font-display"
-            >Skills & Certs</span
-          >
+          <span class="[writing-mode:vertical-lr] text-2xl font-decoration">スキル</span>
+          <span class="[writing-mode:vertical-lr] text-lg font-display">Skills & Certs</span>
         </div>
 
         <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display">
           <a
             href="#certificates"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
-            :class="
-              activeId === 'certificates'
-                ? 'text-white'
-                : 'text-white/40 hover:text-white'
-            "
+            :class="activeId === 'certificates' ? 'text-white' : 'text-white/40 hover:text-white'"
           >
             <span
               class="h-px transition-all duration-300"
-              :class="
-                activeId === 'certificates'
-                  ? 'w-12 bg-white'
-                  : 'w-8 bg-white/20 group-hover:w-12'
-              "
+              :class="activeId === 'certificates' ? 'w-12 bg-white' : 'w-8 bg-white/20 group-hover:w-12'"
             ></span>
             Certificates
           </a>
           <a
             href="#fullstack"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
-            :class="
-              activeId === 'fullstack'
-                ? 'text-white'
-                : 'text-white/40 hover:text-white'
-            "
+            :class="activeId === 'fullstack' ? 'text-white' : 'text-white/40 hover:text-white'"
           >
             <span
               class="h-px transition-all duration-300"
-              :class="
-                activeId === 'fullstack'
-                  ? 'w-12 bg-white'
-                  : 'w-8 bg-white/20 group-hover:w-12'
-              "
+              :class="activeId === 'fullstack' ? 'w-12 bg-white' : 'w-8 bg-white/20 group-hover:w-12'"
             ></span>
             Full Stack
           </a>
           <a
             href="#devops"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
-            :class="
-              activeId === 'devops'
-                ? 'text-white'
-                : 'text-white/40 hover:text-white'
-            "
+            :class="activeId === 'devops' ? 'text-white' : 'text-white/40 hover:text-white'"
           >
             <span
               class="h-px transition-all duration-300"
-              :class="
-                activeId === 'devops'
-                  ? 'w-12 bg-white'
-                  : 'w-8 bg-white/20 group-hover:w-12'
-              "
+              :class="activeId === 'devops' ? 'w-12 bg-white' : 'w-8 bg-white/20 group-hover:w-12'"
             ></span>
             DevOps
           </a>
           <a
             href="#security"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
-            :class="
-              activeId === 'security'
-                ? 'text-white'
-                : 'text-white/40 hover:text-white'
-            "
+            :class="activeId === 'security' ? 'text-white' : 'text-white/40 hover:text-white'"
           >
             <span
               class="h-px transition-all duration-300"
-              :class="
-                activeId === 'security'
-                  ? 'w-12 bg-white'
-                  : 'w-8 bg-white/20 group-hover:w-12'
-              "
+              :class="activeId === 'security' ? 'w-12 bg-white' : 'w-8 bg-white/20 group-hover:w-12'"
             ></span>
             Security
           </a>
@@ -151,11 +114,7 @@ const filteredCertificates = computed(() => {
               :key="filter"
               @click="selectedFilter = filter"
               class="px-4 py-2 rounded-lg text-sm font-display transition-all duration-300"
-              :class="
-                selectedFilter === filter
-                  ? 'bg-white text-black'
-                  : 'bg-white/5 text-white border border-white/10 hover:bg-white/10'
-              "
+              :class="selectedFilter === filter ? 'bg-white text-black' : 'bg-white/5 text-white border border-white/10 hover:bg-white/10'"
             >
               {{ filter }}
             </button>
