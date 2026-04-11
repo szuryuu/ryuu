@@ -1,52 +1,32 @@
 export const certificateArray = [
   {
     id: 1,
-    Image: "https://picsum.photos/400/300?random=1",
-    title: "Offensive Security Certified Professional (OSCP)",
+    Image: "/images/certificate/coding-camp-2025.jpg",
+    title: "[Coding Camp 2025] Full Stack Web Development Cohort",
     description:
-      "Comprehensive penetration testing and ethical hacking certification focusing on practical application of security skills.",
-    skill: "CyberSec",
+      "Coding Camp bootcamp focused on full stack web development by Dicoding Indonesia and DBS Foundation.",
+    skill: "FullStack",
     pinned: true,
     url: "#",
   },
   {
     id: 2,
-    Image: "https://picsum.photos/400/300?random=2",
-    title: "AWS Certified Solutions Architect",
+    Image: "/images/certificate/cyberdefense-idn-2026.png",
+    title: "[CyberDefense IDN 2026] CyberDefense Fundamentals Certification",
     description:
-      "Advanced cloud architecture, provisioning, and management of distributed application systems on AWS.",
-    skill: "DevOps",
+      "Certification for cybersecurity professionals demonstrating foundational knowledge in cyber defense principles and practices.",
+    skill: "CyberSec",
     pinned: true,
     url: "#",
   },
   {
     id: 3,
-    Image: "https://picsum.photos/400/300?random=3",
-    title: "Certified Kubernetes Administrator (CKA)",
+    Image: "/images/certificate/mtcna.png",
+    title: "MTCNA (MikroTik Certified Network Associate)",
     description:
-      "Designing, building, configuring, and exposing cloud native applications for Kubernetes.",
-    skill: "DevOps",
-    pinned: false,
-    url: "#",
-  },
-  {
-    id: 4,
-    Image: "https://picsum.photos/400/300?random=4",
-    title: "Full Stack Open",
-    description:
-      "Modern web development with React, Redux, Node.js, GraphQL, and TypeScript.",
-    skill: "FullStack",
-    pinned: false,
-    url: "#",
-  },
-  {
-    id: 5,
-    Image: "https://picsum.photos/400/300?random=5",
-    title: "CompTIA Security+",
-    description:
-      "Baseline skills necessary to perform core security functions and pursue an IT security career.",
-    skill: "CyberSec",
-    pinned: false,
+      "Certification for network professionals demonstrating proficiency in MikroTik RouterOS and networking concepts.",
+    skill: "Networking",
+    pinned: true,
     url: "#",
   },
 ];
