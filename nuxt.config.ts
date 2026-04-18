@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
@@ -39,9 +38,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-  prerender: {
-    crawlLinks: true,
-    routes: ['/', '/writing', '/project', '/about', '/contact'],
+    preset: "cloudflare-pages",
+    prerender: {
+      crawlLinks: true,
+      routes: ["/", "/writing", "/project", "/about", "/contact"],
+    },
   },
-},
 });
