@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import LoadingScreen from "~/components/LoadingScreen.vue";
-import Circle from "~/components/Circle.vue";
-
 const isLoading = ref(false);
 const isClosing = ref(false);
 const isInitialLoad = ref(false);
@@ -42,7 +38,7 @@ router.beforeEach(async (to, from) => {
 nuxtApp.hook("page:finish", () => {
   setTimeout(() => {
     isClosing.value = false;
-  }, 200);
+  }, NAVIGATION_CURTAIN_CLOSE_DELAY_MS);
 });
 </script>
 

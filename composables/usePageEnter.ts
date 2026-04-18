@@ -1,4 +1,3 @@
-import { ref, watch, onUnmounted, onMounted } from "vue";
 import gsap from "gsap";
 
 interface PageEnterOptions {
@@ -26,9 +25,13 @@ export function usePageEnter(options: PageEnterOptions = {}) {
 
   function runAnimation() {
     if (!pageRef.value) return;
-    if (tween) tween.kill();
+    tween?.kill();
 
-    if (!hasNavigated.value) {
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (!hasNavigated.value || reducedMotion) {
       gsap.set(pageRef.value, { clearProps: "all" });
       return;
     }
@@ -47,19 +50,17 @@ export function usePageEnter(options: PageEnterOptions = {}) {
     );
   }
 
-  const stopCurtain = watch(curtainOpen, (isOpen) => {
+  const stopCurtainWatch = watch(curtainOpen, (isOpen) => {
     if (isOpen && pageRef.value) runAnimation();
   });
 
   onMounted(() => {
-    if (curtainOpen.value) {
-      runAnimation();
-    }
+    if (curtainOpen.value) runAnimation();
   });
 
   onUnmounted(() => {
-    stopCurtain();
-    if (tween) tween.kill();
+    stopCurtainWatch();
+    tween?.kill();
   });
 
   return pageRef;

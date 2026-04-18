@@ -1,60 +1,55 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
-import { gsap } from "gsap";
-import ProjectCard from "./ProjectCard.vue";
+import gsap from "gsap";
 
 const { data: projects } = await useAsyncData("projects", () =>
   queryCollection("projects").order("order", "ASC").all(),
 );
 
-if (!projects.value || projects.value.length === 0) {
-  console.warn("No projects found. Add content to /content/project/");
-}
-
 const projectContainer = ref(null);
-let observer: IntersectionObserver | null = null;
+let cardObserver: IntersectionObserver | null = null;
 
 onMounted(() => {
   const cards = document.querySelectorAll(".project-card");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  gsap.set(cards, {
-    autoAlpha: 0,
-    x: 100,
-    y: 100,
-  });
+  if (reducedMotion) {
+    gsap.set(cards, { autoAlpha: 1, x: 0, y: 0 });
+    return;
+  }
 
-  observer = new IntersectionObserver(
+  cardObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
         const index = Array.from(cards).indexOf(entry.target as Element);
-
-        if (entry.isIntersecting) {
-          // Animate in
-          gsap.to(entry.target, {
-            autoAlpha: 1,
-            x: 0,
-            y: 0,
-            duration: 0.6,
-            delay: index * 0.1,
-            ease: "power2.out",
-          });
-        }
+        gsap.to(entry.target, {
+          autoAlpha: 1,
+          x: 0,
+          y: 0,
+          duration: 0.6,
+          delay: index * 0.1,
+          ease: "power2.out",
+        });
+        cardObserver?.unobserve(entry.target);
       });
     },
-    {
-      threshold: 0.2, // Trigger area
-      rootMargin: "0px", // Margin trigger area
-    },
+    { threshold: 0.2, rootMargin: "0px" },
   );
 
-  // Observe all cards
   cards.forEach((card) => {
-    observer?.observe(card);
+    const rect = card.getBoundingClientRect();
+    const isAlreadyVisible = rect.top < window.innerHeight;
+    if (isAlreadyVisible) {
+      gsap.set(card, { autoAlpha: 1, x: 0, y: 0 });
+    } else {
+      gsap.set(card, { autoAlpha: 0, x: 100, y: 100 });
+      cardObserver?.observe(card);
+    }
   });
 });
 
 onUnmounted(() => {
-  observer?.disconnect();
+  cardObserver?.disconnect();
 });
 </script>
 
@@ -71,9 +66,8 @@ onUnmounted(() => {
         name: project.title,
         type: project.type,
         year: project.year,
-        slug: project.slug,
+        path: `/project/${project.slug}`,
         image: project.image,
-        projectDetailUrl: `/project/${project.slug}`,
         liveDemoUrl: project.live || '',
         githubUrl: project.github || '',
       }"

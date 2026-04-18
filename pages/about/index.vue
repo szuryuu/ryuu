@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { usePageEnter } from "~/composables/usePageEnter";
-import { useScrollSpy } from "~/composables/useScrollSpy";
+useSeoMeta({
+  title: "About — Shafwan Ilham Dzaky",
+  description: "Software & DevOps Engineer. Full-stack development, automated infrastructure, and security-first architecture.",
+  ogTitle: "About — Shafwan Ilham Dzaky",
+  ogDescription: "Software & DevOps Engineer bridging full-stack development, DevOps automation, and security.",
+});
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
-
 const { activeId } = useScrollSpy(["intro", "journey", "skill"]);
 </script>
 
@@ -12,24 +15,21 @@ const { activeId } = useScrollSpy(["intro", "journey", "skill"]);
     class="w-full min-h-[100svh] flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
     ref="pageRef"
   >
-    <Circle
-      class="!fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-25 -z-10"
-    />
+    <Circle class="!fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-25 -z-10" />
 
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
         <div class="flex items-start text-white">
-          <span class="[writing-mode:vertical-lr] text-2xl font-decoration">
-            私について
-          </span>
+          <span class="[writing-mode:vertical-lr] text-2xl font-decoration">私について</span>
           <span class="[writing-mode:vertical-lr] text-lg font-display">About</span>
         </div>
 
-        <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display">
+        <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display" aria-label="Page sections">
           <a
             href="#intro"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
             :class="activeId === 'intro' ? 'text-white' : 'text-white/40 hover:text-white'"
+            :aria-current="activeId === 'intro' ? 'location' : undefined"
           >
             <span
               class="h-px transition-all duration-300"
@@ -41,6 +41,7 @@ const { activeId } = useScrollSpy(["intro", "journey", "skill"]);
             href="#journey"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
             :class="activeId === 'journey' ? 'text-white' : 'text-white/40 hover:text-white'"
+            :aria-current="activeId === 'journey' ? 'location' : undefined"
           >
             <span
               class="h-px transition-all duration-300"
@@ -52,6 +53,7 @@ const { activeId } = useScrollSpy(["intro", "journey", "skill"]);
             href="#skill"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
             :class="activeId === 'skill' ? 'text-white' : 'text-white/40 hover:text-white'"
+            :aria-current="activeId === 'skill' ? 'location' : undefined"
           >
             <span
               class="h-px transition-all duration-300"
@@ -65,38 +67,20 @@ const { activeId } = useScrollSpy(["intro", "journey", "skill"]);
 
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
       <section id="intro" class="relative group">
-        <div
-          class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
-        ></div>
-        <h2
-          class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4"
-        >
-          01 / Introduction
-        </h2>
+        <div class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"></div>
+        <h2 class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4">01 / Introduction</h2>
         <AboutIntro />
       </section>
 
       <section id="journey" class="relative group">
-        <div
-          class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
-        ></div>
-        <h2
-          class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4"
-        >
-          02 / Journey
-        </h2>
+        <div class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"></div>
+        <h2 class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4">02 / Journey</h2>
         <AboutExperience />
       </section>
 
       <section id="skill" class="relative group">
-        <div
-          class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
-        ></div>
-        <h2
-          class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4"
-        >
-          03 / Skill
-        </h2>
+        <div class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"></div>
+        <h2 class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4">03 / Skill</h2>
         <AboutSkill />
       </section>
     </main>

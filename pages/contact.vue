@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { usePageEnter } from "~/composables/usePageEnter";
-import { useScrollSpy } from "~/composables/useScrollSpy";
+import type { GuestEntry } from "~/types/guestbook";
+
+useSeoMeta({
+  title: "Contact — Shafwan Ilham Dzaky",
+  description: "Open to freelance projects, full-time opportunities, and collaborations. Based in Yogyakarta, Indonesia.",
+  ogTitle: "Contact — Shafwan Ilham Dzaky",
+  ogDescription: "Open to freelance projects, full-time opportunities, and collaborations.",
+});
 
 const pageRef = usePageEnter({ y: 20, duration: 0.6 });
-
-const { activeId } = useScrollSpy([
-  "email",
-  "github",
-  "linkedin",
-  "cv",
-  "guestbook",
-]);
+const { activeId } = useScrollSpy(["email", "github", "linkedin", "cv", "guestbook"]);
+const { entries, isLoading, fetchError, prependEntry } = useGuestbookEntries();
 
 const contacts = [
   {
@@ -52,86 +51,11 @@ const contacts = [
   },
 ];
 
-const hoveredContact = ref<string | null>(null);
+const hoveredContactId = ref<string | null>(null);
 
-interface GuestEntry {
-  id: string;
-  name: string;
-  message: string;
-  avatar_url?: string;
-  created_at: string;
+function onGuestbookEntrySubmitted(entry: GuestEntry) {
+  prependEntry(entry);
 }
-
-const entries = ref<GuestEntry[]>([]);
-const loadingList = ref(true);
-const submitting = ref(false);
-const submitDone = ref(false);
-const submitError = ref("");
-const form = ref({ message: "" });
-const supabase = useSupabaseClient();
-const user = useSupabaseUser();
-
-function formatEntryDate(dt: string) {
-  return new Date(dt).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
-
-async function fetchEntries() {
-  loadingList.value = true;
-  try {
-    entries.value = await $fetch<GuestEntry[]>("/api/guestbook");
-  } catch {
-  } finally {
-    loadingList.value = false;
-  }
-}
-
-async function loginWithGithub() {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "github",
-    options: {
-      redirectTo: `${window.location.origin}/contact`,
-    },
-  });
-  if (error) console.error(error);
-}
-
-async function logout() {
-  await supabase.auth.signOut();
-}
-
-async function handleSubmit() {
-  submitError.value = "";
-  if (!form.value.message.trim()) {
-    submitError.value = "Message cannot be empty.";
-    return;
-  }
-
-  submitting.value = true;
-  try {
-    const entry = await $fetch<GuestEntry>("/api/guestbook", {
-      method: "POST",
-      body: {
-        message: form.value.message.trim(),
-      },
-    });
-    entries.value.unshift(entry);
-    form.value = { message: "" };
-    submitDone.value = true;
-    setTimeout(() => (submitDone.value = false), 3000);
-  } catch (e: unknown) {
-    const err = e as { data?: { message?: string } };
-    submitError.value =
-      err?.data?.message ?? "Something went wrong. Try again.";
-  } finally {
-    submitting.value = false;
-  }
-}
-
-onMounted(() => fetchEntries());
 </script>
 
 <template>
@@ -139,59 +63,37 @@ onMounted(() => fetchEntries());
     class="w-full min-h-[100svh] flex flex-col lg:flex-row pt-24 gap-8 max-w-7xl mx-auto"
     ref="pageRef"
   >
-    <Circle
-      class="!fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-25 -z-10"
-    />
+    <Circle class="!fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-25 -z-10" />
 
     <aside class="w-full hidden lg:block">
       <div class="flex items-start flex-col justify-between fixed">
         <div class="flex items-start text-white">
-          <span class="[writing-mode:vertical-lr] text-2xl font-decoration"
-            >コンタクト</span
-          >
-          <span class="[writing-mode:vertical-lr] text-lg font-display"
-            >Contact</span
-          >
+          <span class="[writing-mode:vertical-lr] text-2xl font-decoration">コンタクト</span>
+          <span class="[writing-mode:vertical-lr] text-lg font-display">Contact</span>
         </div>
 
-        <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display">
-          <a
+        <nav class="hidden lg:flex flex-col gap-4 mt-12 text-sm font-display" aria-label="Contact sections">
+          <a 
             v-for="contact in contacts"
             :key="contact.id"
             :href="`#${contact.id}`"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
-            :class="
-              activeId === contact.id
-                ? 'text-white'
-                : 'text-white/40 hover:text-white'
-            "
+            :class="activeId === contact.id ? 'text-white' : 'text-white/40 hover:text-white'"
           >
             <span
               class="h-px transition-all duration-300"
-              :class="
-                activeId === contact.id
-                  ? 'w-12 bg-white'
-                  : 'w-8 bg-white/20 group-hover:w-12'
-              "
+              :class="activeId === contact.id ? 'w-12 bg-white' : 'w-8 bg-white/20 group-hover:w-12'"
             ></span>
             {{ contact.label }}
           </a>
           <a
             href="#guestbook"
             class="transition-colors flex items-center gap-3 group uppercase tracking-widest"
-            :class="
-              activeId === 'guestbook'
-                ? 'text-white'
-                : 'text-white/40 hover:text-white'
-            "
+            :class="activeId === 'guestbook' ? 'text-white' : 'text-white/40 hover:text-white'"
           >
             <span
               class="h-px transition-all duration-300"
-              :class="
-                activeId === 'guestbook'
-                  ? 'w-12 bg-white'
-                  : 'w-8 bg-white/20 group-hover:w-12'
-              "
+              :class="activeId === 'guestbook' ? 'w-12 bg-white' : 'w-8 bg-white/20 group-hover:w-12'"
             ></span>
             Guestbook
           </a>
@@ -201,32 +103,19 @@ onMounted(() => fetchEntries());
 
     <main class="w-full lg:min-w-5xl max-w-5xl space-y-12 pb-32 mx-auto">
       <section class="relative group">
-        <div
-          class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
-        ></div>
-        <h2
-          class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4"
-        >
-          00 / Get in Touch
-        </h2>
+        <div class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"></div>
+        <h2 class="text-xs font-display text-white/40 uppercase tracking-widest mb-12 pl-4">00 / Get in Touch</h2>
 
         <div class="space-y-6">
           <h1 class="text-reveal font-display uppercase group cursor-pointer">
-            <span class="text-gradient-base"
-              >Let's<br />Work<br />Together</span
-            >
-            <span class="text-reveal-overlay"
-              >Let's<br />Work<br />Together</span
-            >
+            <span class="text-gradient-base">Let's<br />Work<br />Together</span>
+            <span class="text-reveal-overlay">Let's<br />Work<br />Together</span>
           </h1>
 
           <div class="space-y-2 pl-1">
             <p class="font-decoration text-white/30">連絡先</p>
-            <p
-              class="text-xs text-white/40 max-w-xs font-display leading-relaxed"
-            >
-              Open to freelance projects, full-time opportunities, and
-              collaborations. Response time: usually within 24 hours.
+            <p class="text-xs text-white/40 max-w-xs font-display leading-relaxed">
+              Open to freelance projects, full-time opportunities, and collaborations. Response time: usually within 24 hours.
             </p>
           </div>
         </div>
@@ -239,15 +128,13 @@ onMounted(() => fetchEntries());
           :id="contact.id"
           class="relative group"
         >
-          <div
-            class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
-          ></div>
+          <div class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"></div>
 
           <div class="flex items-center gap-4 mb-4">
             <div class="h-px flex-1 bg-white/10"></div>
-            <span class="text-4xl font-display text-white/10 font-bold">{{
-              String(index + 1).padStart(2, "0")
-            }}</span>
+            <span class="text-4xl font-display text-white/10 font-bold">
+              {{ String(index + 1).padStart(2, "0") }}
+            </span>
           </div>
 
           <a
@@ -255,53 +142,34 @@ onMounted(() => fetchEntries());
             target="_blank"
             rel="noopener noreferrer"
             class="block bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-white/30 transition-all duration-500 group/card"
-            @mouseenter="hoveredContact = contact.id"
-            @mouseleave="hoveredContact = null"
+            @mouseenter="hoveredContactId = contact.id"
+            @mouseleave="hoveredContactId = null"
           >
             <div class="flex flex-col md:flex-row md:items-center gap-6">
-              <div
-                class="w-16 h-16 flex items-center justify-center bg-white/5 rounded-lg border border-white/10 group-hover/card:border-white/30 transition-colors"
-              >
-                <UIcon
-                  :name="contact.icon"
-                  class="w-8 h-8 text-white group-hover/card:scale-110 transition-transform"
-                />
+              <div class="w-16 h-16 flex items-center justify-center bg-white/5 rounded-lg border border-white/10 group-hover/card:border-white/30 transition-colors">
+                <UIcon :name="contact.icon" class="w-8 h-8 text-white group-hover/card:scale-110 transition-transform" />
               </div>
 
               <div class="flex-1">
                 <div class="flex items-center gap-3 mb-2">
-                  <h3 class="text-xl font-display font-semibold text-white">
-                    {{ contact.label }}
-                  </h3>
-                  <span class="text-sm font-decoration text-white/40">{{
-                    contact.japanese
-                  }}</span>
+                  <h3 class="text-xl font-display font-semibold text-white">{{ contact.label }}</h3>
+                  <span class="text-sm font-decoration text-white/40">{{ contact.japanese }}</span>
                 </div>
-                <p class="text-sm text-white/60 font-display mb-2">
-                  {{ contact.description }}
-                </p>
+                <p class="text-sm text-white/60 font-display mb-2">{{ contact.description }}</p>
                 <div class="flex items-center gap-2 text-white">
-                  <span class="font-display font-medium">{{
-                    contact.value
-                  }}</span>
-                  <LucideExternalLink
-                    class="w-4 h-4 opacity-0 group-hover/card:opacity-100 transition-opacity"
-                  />
+                  <span class="font-display font-medium">{{ contact.value }}</span>
+                  <LucideExternalLink class="w-4 h-4 opacity-0 group-hover/card:opacity-100 transition-opacity" />
                 </div>
               </div>
             </div>
 
             <div
               class="mt-6 h-px bg-white/10 rounded-full overflow-hidden"
-              :class="
-                hoveredContact === contact.id ? 'opacity-100' : 'opacity-0'
-              "
+              :class="hoveredContactId === contact.id ? 'opacity-100' : 'opacity-0'"
             >
               <div
                 class="h-full bg-white transition-all duration-500"
-                :style="{
-                  width: hoveredContact === contact.id ? '100%' : '0%',
-                }"
+                :style="{ width: hoveredContactId === contact.id ? '100%' : '0%' }"
               ></div>
             </div>
           </a>
@@ -309,56 +177,40 @@ onMounted(() => fetchEntries());
       </section>
 
       <section class="relative group">
-        <div
-          class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
-        ></div>
+        <div class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"></div>
 
-        <div
-          class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
-        >
-          <h3 class="text-2xl font-display font-bold text-white mb-6">
-            Quick Info
-          </h3>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+          <h3 class="text-2xl font-display font-bold text-white mb-6">Quick Info</h3>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div class="flex items-center gap-2 mb-2">
                 <LucideMapPin class="w-4 h-4 text-white/40" />
-                <p class="text-xs uppercase text-white/40 font-display">
-                  Location
-                </p>
+                <p class="text-xs uppercase text-white/40 font-display">Location</p>
               </div>
               <p class="text-white font-display">Yogyakarta, Indonesia</p>
             </div>
             <div>
               <div class="flex items-center gap-2 mb-2">
                 <LucideClock class="w-4 h-4 text-white/40" />
-                <p class="text-xs uppercase text-white/40 font-display">
-                  Timezone
-                </p>
+                <p class="text-xs uppercase text-white/40 font-display">Timezone</p>
               </div>
               <p class="text-white font-display">WIB (UTC+7)</p>
             </div>
             <div>
               <div class="flex items-center gap-2 mb-2">
                 <LucideMessageSquare class="w-4 h-4 text-white/40" />
-                <p class="text-xs uppercase text-white/40 font-display">
-                  Response Time
-                </p>
+                <p class="text-xs uppercase text-white/40 font-display">Response Time</p>
               </div>
               <p class="text-white font-display">Within 24 hours</p>
             </div>
             <div>
               <div class="flex items-center gap-2 mb-2">
                 <LucideCalendar class="w-4 h-4 text-white/40" />
-                <p class="text-xs uppercase text-white/40 font-display">
-                  Availability
-                </p>
+                <p class="text-xs uppercase text-white/40 font-display">Availability</p>
               </div>
               <div class="flex items-center gap-2">
-                <span
-                  class="w-2 h-2 bg-green-400 rounded-full animate-pulse"
-                ></span>
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                 <p class="text-white font-display">Open for opportunities</p>
               </div>
             </div>
@@ -375,6 +227,7 @@ onMounted(() => fetchEntries());
             <a
               href="/cv.pdf"
               target="_blank"
+              rel="noopener noreferrer"
               class="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white rounded-lg text-sm font-display hover:bg-white/10 transition-colors"
             >
               <LucideDownload class="w-4 h-4" />
@@ -391,181 +244,16 @@ onMounted(() => fetchEntries());
       </div>
 
       <section id="guestbook" class="relative group space-y-8">
-        <div
-          class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"
-        ></div>
+        <div class="absolute -left-4 top-0 bottom-0 w-px bg-white/10 origin-top scale-y-0 transition-transform group-hover:scale-y-100 duration-500"></div>
 
         <div>
-          <h2
-            class="text-xs font-display text-white/40 uppercase tracking-widest mb-2 pl-4"
-          >
-            Guestbook
-          </h2>
-          <p class="text-xs text-white/30 font-display pl-4">
-            You were here. Leave a mark.
-          </p>
+          <h2 class="text-xs font-display text-white/40 uppercase tracking-widest mb-2 pl-4">Guestbook</h2>
+          <p class="text-xs text-white/30 font-display pl-4">You were here. Leave a mark.</p>
         </div>
 
-        <div
-          class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
-        >
-          <div class="flex items-center justify-between mb-5">
-            <h3
-              class="text-sm font-display font-semibold text-white uppercase tracking-wider"
-            >
-              Sign the Guestbook
-            </h3>
-            <button
-              v-if="user"
-              @click="logout"
-              class="text-xs text-red-400 hover:text-red-300 font-display transition-colors"
-            >
-              Sign Out
-            </button>
-          </div>
-
-          <div v-if="!user" class="text-center py-6">
-            <p class="text-sm font-display text-white/50 mb-4">
-              You must be logged in to sign the guestbook. This keeps the bots
-              away.
-            </p>
-            <button
-              @click="loginWithGithub"
-              class="inline-flex items-center gap-3 px-6 py-3 bg-white text-black rounded-lg text-xs font-display font-semibold hover:bg-white/90 transition-all"
-            >
-              <LucideGithub class="w-4 h-4" />
-              Sign in with GitHub
-            </button>
-          </div>
-
-          <div v-else class="space-y-4">
-            <div class="flex items-center gap-3 mb-4">
-              <img
-                :src="user.user_metadata.avatar_url"
-                class="w-8 h-8 rounded-full bg-white/10"
-                alt="Avatar"
-              />
-              <span class="text-sm font-display text-white"
-                >Signing in as
-                <strong>{{
-                  user.user_metadata.full_name || user.user_metadata.user_name
-                }}</strong></span
-              >
-            </div>
-
-            <div>
-              <textarea
-                v-model="form.message"
-                maxlength="300"
-                rows="3"
-                placeholder="Leave a note, thought, or just say hi."
-                class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm font-display text-white placeholder-white/20 focus:outline-none focus:border-white/30 transition-colors resize-none"
-                :disabled="submitting"
-              ></textarea>
-              <p class="text-right text-[10px] font-display text-white/20 mt-1">
-                {{ form.message.length }} / 300
-              </p>
-            </div>
-
-            <p v-if="submitError" class="text-xs font-display text-red-400">
-              {{ submitError }}
-            </p>
-
-            <Transition name="fade-up">
-              <p
-                v-if="submitDone"
-                class="text-xs font-display text-green-400 flex items-center gap-2"
-              >
-                <LucideCheck class="w-3.5 h-3.5" />
-                Your message has been recorded. ありがとう。
-              </p>
-            </Transition>
-
-            <button
-              @click="handleSubmit"
-              :disabled="submitting"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-lg text-xs font-display font-semibold hover:bg-white/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-            >
-              <LucideLoader2
-                v-if="submitting"
-                class="w-3.5 h-3.5 animate-spin"
-              />
-              {{ submitting ? "Signing..." : "Sign Guestbook" }}
-            </button>
-          </div>
-        </div>
-
-        <div>
-          <div v-if="loadingList" class="space-y-3">
-            <div
-              v-for="i in 3"
-              :key="i"
-              class="h-14 rounded-lg bg-white/5 animate-pulse"
-            ></div>
-          </div>
-
-          <div
-            v-else-if="entries.length === 0"
-            class="py-12 text-center border border-white/5 rounded-xl"
-          >
-            <p class="font-decoration text-white/20 text-xl mb-1">
-              まだ誰もいない
-            </p>
-            <p class="text-xs font-display text-white/25">
-              Be the first to sign.
-            </p>
-          </div>
-
-          <div v-else class="flex flex-col">
-            <div
-              v-for="entry in entries"
-              :key="entry.id"
-              class="group/entry flex items-start gap-4 py-5 border-b border-white/8 hover:border-white/15 transition-colors"
-            >
-              <img
-                v-if="entry.avatar_url"
-                :src="entry.avatar_url"
-                :alt="entry.name"
-                class="w-8 h-8 rounded-full bg-white/10 border border-white/15 shrink-0 mt-0.5 object-cover"
-              />
-              <div
-                v-else
-                class="w-8 h-8 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-xs font-display text-white/60 shrink-0 mt-0.5 uppercase"
-              >
-                {{ entry.name.charAt(0) }}
-              </div>
-
-              <div class="flex-1 min-w-0">
-                <div class="flex items-baseline gap-3 mb-1">
-                  <span class="text-sm font-display font-semibold text-white">{{
-                    entry.name
-                  }}</span>
-                  <span class="text-[11px] font-display text-white/25">{{
-                    formatEntryDate(entry.created_at)
-                  }}</span>
-                </div>
-                <p class="text-sm text-white/55 font-display leading-relaxed">
-                  {{ entry.message }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <GuestbookForm @submitted="onGuestbookEntrySubmitted" />
+        <GuestbookList :entries="entries" :is-loading="isLoading" :fetch-error="fetchError" />
       </section>
     </main>
   </div>
 </template>
-
-<style scoped>
-.fade-up-enter-active,
-.fade-up-leave-active {
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-}
-.fade-up-enter-from,
-.fade-up-leave-to {
-  opacity: 0;
-  transform: translateY(4px);
-}
-</style>

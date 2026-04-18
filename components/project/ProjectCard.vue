@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import LinkButton from "~/components/LinkButton.vue";
-
 defineProps<{
   project: {
     name: string;
@@ -8,7 +6,6 @@ defineProps<{
     year: string;
     path: string;
     image?: string;
-    projectDetailUrl: string;
     liveDemoUrl?: string;
     githubUrl?: string;
     featured?: boolean;
@@ -22,22 +19,18 @@ defineProps<{
     class="bg-white/5 backdrop-blur-none md:backdrop-blur-sm transform-gpu rounded-xl border border-white/10 hover:border-white/30 hover:shadow-2xl hover:shadow-white/5 overflow-hidden text-white"
   >
     <div class="flex justify-between">
-      <USeparator
-        orientation="vertical"
-        color="secondary"
-        type="solid"
-        class="h-48"
-      />
+      <USeparator orientation="vertical" color="secondary" type="solid" class="h-48" />
 
       <div class="relative w-48 flex items-center justify-center">
         <NuxtImg
+          v-if="project.image"
           :src="project.image"
-          alt="Project Image"
+          :alt="project.name"
           class="w-48 h-auto max-h-48 px-0 object-cover bg-white/5"
           height="180"
           width="180"
           format="webp"
-          preload
+          loading="lazy"
         />
         <div
           v-if="project.featured"
@@ -48,9 +41,7 @@ defineProps<{
         </div>
       </div>
 
-      <div
-        class="flex justify-between items-center h-48 [writing-mode:vertical-lr]"
-      >
+      <div class="flex justify-between items-center h-48 [writing-mode:vertical-lr]">
         <span class="uppercase text-xs">{{ project.type }}</span>
         <span class="text-xs">{{ project.year }}</span>
       </div>
@@ -67,18 +58,18 @@ defineProps<{
         <LinkButton
           v-if="project.liveDemoUrl"
           :to="project.liveDemoUrl"
+          target="_blank"
           aria-label="Open Live Demo"
           class="flex gap-2 items-center justify-center w-full"
-          target="_blank"
         >
           Live Demo
         </LinkButton>
         <LinkButton
           v-if="project.githubUrl"
           :to="project.githubUrl"
-          aria-label="Open GitHub"
-          class="flex gap-2 items-center justify-center w-full"
           target="_blank"
+          aria-label="Open GitHub Repository"
+          class="flex gap-2 items-center justify-center w-full"
         >
           <UIcon name="i-custom-github2" class="size-3" /> Repo
         </LinkButton>
