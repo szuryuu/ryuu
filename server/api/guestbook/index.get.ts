@@ -1,7 +1,12 @@
 import { serverSupabaseClient } from "#supabase/server";
 
-// Fetches the latest 100 guestbook entries including avatar URLs from the database.
 export default defineEventHandler(async (event) => {
+  setHeader(
+    event,
+    "Cache-Control",
+    "public, s-maxage=30, stale-while-revalidate=60",
+  );
+
   const client = await serverSupabaseClient(event);
 
   const { data, error } = await client
