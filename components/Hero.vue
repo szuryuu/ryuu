@@ -24,13 +24,13 @@ const { data: githubData } = await useLazyAsyncData("github-commits", () =>
           class="text-5xl sm:text-6xl md:text-8xl lg:text-[120px] font-display font-bold text-center leading-[0.9] tracking-tighter w-full"
         >
           <div class="overflow-hidden">
-            <span class="block text-white">SYSTEMS</span>
+            <span class="block text-white">INFRA</span>
           </div>
           <div
             class="overflow-hidden flex items-center justify-center gap-3 md:gap-4"
           >
             <span class="block text-white/40 italic font-light">&</span>
-            <span class="block text-white">CODE</span>
+            <span class="block text-white">SEC</span>
           </div>
         </h1>
       </div>
@@ -40,8 +40,8 @@ const { data: githubData } = await useLazyAsyncData("github-commits", () =>
       >
         <div class="max-w-[280px]">
           <p class="text-sm font-display text-white/60 leading-relaxed">
-            Full-stack engineer & systems administrator specializing in secure,
-            scalable infrastructure and production-grade applications.
+            DevOps Engineer specializing in scalable infrastructure, automated
+            deployments, and expanding expertise in security operations.
           </p>
         </div>
 
@@ -50,16 +50,24 @@ const { data: githubData } = await useLazyAsyncData("github-commits", () =>
         <div class="flex items-center justify-center gap-6 shrink-0">
           <div class="flex flex-col items-center md:items-start gap-1">
             <span class="text-3xl font-display font-bold text-white">2+</span>
-            <span class="text-[10px] uppercase tracking-widest text-white/40">Years Exp</span>
+            <span class="text-[10px] uppercase tracking-widest text-white/40"
+              >Years Exp</span
+            >
           </div>
           <div class="flex flex-col items-center md:items-start gap-1">
-            <span class="text-3xl font-display font-bold text-white">{{ githubData?.totalCommits || "500+" }}</span>
-            <span class="text-[10px] uppercase tracking-widest text-white/40">Git Commits</span>
+            <span class="text-3xl font-display font-bold text-white">{{
+              githubData?.totalCommits || "500+"
+            }}</span>
+            <span class="text-[10px] uppercase tracking-widest text-white/40"
+              >Git Commits</span
+            >
           </div>
         </div>
       </div>
 
-      <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+      <div
+        class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 w-full"
+      >
         <NuxtLink
           to="/cv-2026.pdf"
           target="_blank"

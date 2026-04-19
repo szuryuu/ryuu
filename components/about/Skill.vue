@@ -35,8 +35,8 @@
             <p
               class="text-xs text-white/40 max-w-xs font-display leading-relaxed"
             >
-              Professional credentials spanning full-stack development, DevOps
-              automation, and security engineering.
+              Professional credentials spanning application architecture, DevOps
+              automation, and security.
             </p>
 
             <!-- CTA -->

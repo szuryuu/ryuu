@@ -30,9 +30,9 @@
             <p
               class="text-xs text-white/40 max-w-xs font-display leading-relaxed"
             >
-              Software & DevOps Engineer. Bridging the gap between full-stack
-              development, automated infrastructure, and security-first
-              architecture.
+              DevOps Engineer with a strong focus on DevSecOps. Bridging the gap
+              between automated infrastructure, reliable systems, and
+              security-first architecture.
             </p>
 
             <!-- Status -->

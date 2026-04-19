@@ -41,7 +41,7 @@ export const useTimeline = () => {
       roles: [
         {
           title: "DevOps Engineer Intern",
-          date: "Nov 2025 - Present",
+          date: "Nov 2025 - Apr 2026",
           description:
             "Transitioned to DevOps. Managed CI/CD pipelines, automated server provisioning, and implemented infrastructure monitoring.",
         },
@@ -49,11 +49,11 @@ export const useTimeline = () => {
           title: "Full Stack Developer Intern",
           date: "Jul 2025 – Augst 2025",
           description:
-            "Engineered and deployed production-ready features. Optimized database queries and improved system latency.",
+            "Engineered backend services and optimized database queries to reduce system latency, ensuring the application foundation was ready for scalable deployment.",
         },
       ],
       isMain: false,
-      status: "ongoing",
+      status: "merged",
       color: "bg-emerald-500",
     },
     {
@@ -81,7 +81,7 @@ export const useTimeline = () => {
           title: "Full Stack Web Developer",
           date: "Jan 2025 – Apr 2025",
           description:
-            "Developed comprehensive full-stack applications, focusing on performance optimization and modern web standards.",
+            "Developed end-to-end applications with a strong emphasis on backend architecture, system performance optimization, and secure API integrations.",
         },
       ],
       isMain: false,
