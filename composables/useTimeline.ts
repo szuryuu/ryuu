@@ -41,7 +41,7 @@ export const useTimeline = () => {
       roles: [
         {
           title: "DevOps Engineer Intern",
-          date: "Nov 2025 - Apr 2026",
+          date: "Sep 2025 - Apr 2026",
           description:
             "Transitioned to DevOps. Managed CI/CD pipelines, automated server provisioning, and implemented infrastructure monitoring.",
         },
